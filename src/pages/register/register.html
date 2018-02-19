@@ -1,0 +1,36 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar hideBackButton>
+	<ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-back" color="secondary"></ion-icon>
+      </button>
+    </ion-buttons>
+ 
+   <ion-title>REGISTER</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div class="paddingtop"> 
+	<ion-list no-lines>
+
+			<button ion-item (click)="owner()">I am an owner</button>
+		</ion-list>
+		<ion-list no-lines>
+			<button ion-item (click)="renting()">I am renting</button>
+		</ion-list>
+		<ion-list no-lines>
+			<button ion-item (click)="business()">I am a local business</button>
+	</ion-list>
+</div>
+
+</ion-content>

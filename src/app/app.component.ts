@@ -1,22 +1,49 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, ModalController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { SplashPage } from '../pages/splash/splash';
+import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
+import * as firebase from 'firebase';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = TabsPage;
+  rootPage:any = SignupPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
-      splashScreen.hide();
+      // splashScreen.hide();
+      // navCtrl.setRoot(HomePage);
+       let splash = modalCtrl.create(SplashPage);
+            splash.present();
+    });
+  }
+
+  initializeFirebase(){
+      var config = {
+          apiKey: "AIzaSyCBSL955KUTWPvkJYNE-WzzFrN0UjidXMk",
+          authDomain: "aptapp-3b622.firebaseapp.com",
+          databaseURL: "https://aptapp-3b622.firebaseio.com",
+          projectId: "aptapp-3b622",
+          storageBucket: "aptapp-3b622.appspot.com",
+          messagingSenderId: "587368411111"
+    };
+  firebase.initializeApp(config);
+  const unsubscribe = firebase.auth().onAuthStateChanged( user => {
+      if(!user){
+        this.rootPage = SignupPage;
+        unsubscribe();
+      } else {
+        this.rootPage = SignupPage;
+        unsubscribe();
+      }
     });
   }
 }

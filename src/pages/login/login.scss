@@ -1,0 +1,25 @@
+page-login {
+	.scroll-content{
+		background-color: #EFEFF4;
+	}
+
+	.paddingtop{
+		margin-top: 2em !important;
+	}
+	.loginpadding{
+		margin-bottom: 5em !important;
+		padding-left: 1.5em;
+		padding-right: 1.5em;
+	}
+	ion-footer{
+		background-color: #EFEFF4;
+	}
+	.reset{
+		color:#0DACC8;
+		font-size: 12px;
+	}
+	.footer-md::before{
+		height: 0px;
+	}
+
+}
