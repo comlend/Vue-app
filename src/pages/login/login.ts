@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { FormBuilder, Validators  } from '@angular/forms';
-
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({

@@ -118,7 +118,7 @@ export class RegisterOwnerPage {
 			this.camera.getPicture(options).then((imageData) =>{
 				this.imageData = imageData;
 					this.firebase.uploadProfile(imageData).then((data) => {
-						this.profileurl = data;
+						// this.profileurl = data;
 						console.log(data);
 						
 					})
