@@ -62,5 +62,17 @@ export class LoginPage {
 		if(this.user.email == "" || this.user.password == "") {
 			this.returnInvalid = false;
 		}
-	}
+  }
+  
+  resetPass(){
+    console.log("pass reset", this.loginForm.value.email)
+    var auth = firebase.auth();
+    var emailAddress = this.loginForm.value.email;
+
+    auth.sendPasswordResetEmail(emailAddress).then(function() {
+    // Email sent.
+    }).catch(function(error) {
+    // An error happened.
+    });
+  }
 }
