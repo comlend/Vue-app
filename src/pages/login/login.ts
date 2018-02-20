@@ -69,10 +69,23 @@ export class LoginPage {
     var auth = firebase.auth();
     var emailAddress = this.loginForm.value.email;
 
-    auth.sendPasswordResetEmail(emailAddress).then(function() {
+    auth.sendPasswordResetEmail(emailAddress).then(()=> {
+      this.presentLoadingDefault()
     // Email sent.
     }).catch(function(error) {
     // An error happened.
     });
+  }
+
+  presentLoadingDefault() {
+    let loading = this.loadingCtrl.create({
+      content: 'Please check your email for reset..'
+    });
+  
+    loading.present();
+  
+    setTimeout(() => {
+      loading.dismiss();
+    }, 3000);
   }
 }
