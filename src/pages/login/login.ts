@@ -1,12 +1,9 @@
+import { TabsPage } from './../tabs/tabs';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
+import { FormBuilder, Validators  } from '@angular/forms';
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -14,10 +11,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  public loginForm;
+  returnInvalid: boolean = false;
+  user: {email?: any, password?: any} = {};
+  loading : any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private firebase:FirebaseProvider,  public formBuilder: FormBuilder, public loadingCtrl:LoadingController) {
+    this.initializeForm()
   }
 
+  initializeForm() {
+		this.loginForm = this.formBuilder.group({
+			email: ['', Validators.compose([Validators.required ])],
+			password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+		});
+  }
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
@@ -25,4 +34,33 @@ export class LoginPage {
   	this.navCtrl.pop();
   }
 
+
+
+  loginUser(): void {
+		// console.log(this.user);
+		// this.returnInvalid = true;
+		if (!this.loginForm.valid) {
+			console.log(this.loginForm.value);
+		} else {
+			this.firebase.loginData(this.loginForm.value.email, this.loginForm.value.password).then(authData => {
+				this.loading.dismiss().then(() => {
+					this.navCtrl.setRoot(TabsPage);
+								
+				});
+			}, error => {
+				this.loading.dismiss().then(() => {
+					this.returnInvalid = true;
+				});
+			});
+
+			this.loading = this.loadingCtrl.create({content: 'Logging you in...'});
+			this.loading.present();
+		}        
+	}
+
+  clearErrors() {
+		if(this.user.email == "" || this.user.password == "") {
+			this.returnInvalid = false;
+		}
+	}
 }

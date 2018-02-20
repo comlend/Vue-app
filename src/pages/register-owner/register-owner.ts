@@ -25,7 +25,7 @@ export class RegisterOwnerPage {
 	 loading: any;
 	 errormessage: any;
 	 returnInvalid: boolean;
-	 profileurl: any;
+	 profileurl: string = "http://i.ytimg.com/vi/MIGkfEK0-0k/mqdefault.jpg";
 	 imageData: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
@@ -54,6 +54,8 @@ export class RegisterOwnerPage {
   signupUser() {
 		this.formData = this.signupForm.value;
 		console.log('Run signupUser');
+		console.log( "data output",this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl)
+		
 		// this.returnInvalid = true;
 
 			var createdAt = moment().format();
@@ -62,7 +64,8 @@ export class RegisterOwnerPage {
 			this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl)
 				.then((data) => {
 					console.log('test', data);
-					this.loading.dismiss().then(() => {					
+					this.loading.dismiss().then(() => {	
+										
 						this.navCtrl.setRoot(TabsPage);
 					});
 				}, (error) => {
@@ -124,5 +127,11 @@ export class RegisterOwnerPage {
 					});
 			});
 	}
+	clearErrors(){
 
+	}
+
+	register(){
+
+	}
 }

@@ -15,7 +15,11 @@ export class MyApp {
   rootPage:any = SignupPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController) {
+    this.initializeFirebase();
+    
     platform.ready().then(() => {
+
+      // this.initializeApp();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();

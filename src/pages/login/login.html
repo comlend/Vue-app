@@ -21,24 +21,38 @@
 <ion-content text-center>
 
 <div class="paddingtop">
-		<ion-list>
+	
+<form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+		<div class="row responsive-md">
+			<div class="col col-50 col-offset-25">
+				<ion-item>
+					<ion-label floating>Email</ion-label>
+					<ion-input #email formControlName="email" [(ngModel)]="user.email" type="email"  
+				 (input)="clearErrors()"></ion-input>
+				</ion-item>
+				<div class="error-message" 
+					*ngIf="returnInvalid">
+					<p>Unable to Login</p>
+				</div>
 
-			<ion-item>
-			<ion-input type="text" value="" placeholder="Email Address"></ion-input>
-			</ion-item>
-
-			<ion-item>
-			<ion-input type="password" placeholder="Password"></ion-input>
-			</ion-item>
-
-		</ion-list>
+				<ion-item>
+					<ion-label floating>Password</ion-label>
+					<ion-input #password formControlName="password" [(ngModel)]="user.password" type="password" (input)="clearErrors()"></ion-input>
+				</ion-item>
+				
+			
+			</div>
+		</div>
+	</form>
+	
 </div>
 
 
 </ion-content>
 <ion-footer text-center>
 	<div class="loginpadding">
-		<button ion-button block (click)="login()">Log In</button>
+		<button ion-button block  type="submit" (click)="loginUser()">Log In</button>
 		<p class="reset">Reset Password</p>
 	</div>
 </ion-footer>
+
