@@ -7,55 +7,52 @@
 <ion-header>
 
     <ion-navbar hideBackButton>
-	<ion-buttons start>
-      <button ion-button icon-only (click)="back()">
+        <ion-buttons start>
+            <button ion-button icon-only (click)="back()">
         <ion-icon name="arrow-back" color="secondary"></ion-icon>
       </button>
-    </ion-buttons>
- 
-   <ion-title>LOGIN</ion-title>
-  </ion-navbar>
+        </ion-buttons>
+
+        <ion-title>LOGIN</ion-title>
+    </ion-navbar>
 </ion-header>
 
 
 <ion-content text-center>
 
-<div class="paddingtop">
-	
-<form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
-		<div class="row responsive-md">
-			<div class="col col-50 col-offset-25">
-				<ion-item>
-					<ion-label floating>Email</ion-label>
-					<ion-input #email formControlName="email" [(ngModel)]="user.email" type="email"  
-				 (input)="clearErrors()"></ion-input>
-				</ion-item>
-				<div class="error-message" 
-					*ngIf="returnInvalid">
-					<p>Unable to Login</p>
-				</div>
+    <div class="paddingtop">
 
-				<ion-item>
-					<ion-label floating>Password</ion-label>
-					<ion-input #password formControlName="password" [(ngModel)]="user.password" type="password" (input)="clearErrors()"></ion-input>
-				</ion-item>
-				
-			
-			</div>
-		</div>
-	</form>
-	
-</div>
+        <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+            <div class="row responsive-md">
+                <div class="col col-50 col-offset-25">
+                    <ion-item>
+                        <ion-label floating>Email</ion-label>
+                        <ion-input #email formControlName="email" [(ngModel)]="user.email" type="email" (input)="clearErrors()"></ion-input>
+                    </ion-item>
+                    <div class="error-message" *ngIf="returnInvalid">
+                        <p>Unable to Login</p>
+                    </div>
+
+                    <ion-item>
+                        <ion-label floating>Password</ion-label>
+                        <ion-input #password formControlName="password" [(ngModel)]="user.password" type="password" (input)="clearErrors()"></ion-input>
+                    </ion-item>
+
+
+                </div>
+            </div>
+        </form>
+
+    </div>
 
 
 </ion-content>
 <ion-footer text-center>
-	<div class="loginpadding">
-		<button ion-button block  type="submit" (click)="loginUser()">Log In</button>
-	</div>
-	<button ion-button block (click)="resetPass()">rEESETT</button>
-	
-	<p class="reset"  (click)="resetPass()">Reset Password</p>
-	
-</ion-footer>
+    <div class="loginpadding">
+        <button ion-button block type="submit" (click)="loginUser()">Log In</button>
+    </div>
+    <!-- <button ion-button block (click)="resetPass()">rEESETT</button> -->
 
+    <p class="reset" (click)="resetPass()">Reset Password</p>
+
+</ion-footer>
