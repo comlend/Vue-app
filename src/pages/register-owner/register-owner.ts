@@ -25,11 +25,15 @@ export class RegisterOwnerPage {
 	 loading: any;
 	 errormessage: any;
 	 returnInvalid: boolean;
-	 profileurl: string = "http://i.ytimg.com/vi/MIGkfEK0-0k/mqdefault.jpg";
+	 profileurl: any = '';
+  	
 	 imageData: any;
+	 userType: string = "owner";
+	 liveInProperty: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
   		this.initializeForm();
+  		this.profileurl = 'assets/imgs/imgPlaceholder.png';
   }
 
   initializeForm(): void {
@@ -53,15 +57,15 @@ export class RegisterOwnerPage {
 
   signupUser() {
 		this.formData = this.signupForm.value;
-		console.log('Run signupUser');
-		console.log( "data output",this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl)
+		// console.log('Run signupUser');
+		// console.log( "data output",this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl)
 		
 		// this.returnInvalid = true;
 
 			var createdAt = moment().format();
 			
 
-			this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl)
+			this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl, this.userType)
 				.then((data) => {
 					console.log('test', data);
 					this.loading.dismiss().then(() => {	
@@ -117,13 +121,14 @@ export class RegisterOwnerPage {
 
 			this.camera.getPicture(options).then((imageData) =>{
 				this.imageData = imageData;
+				// this.profileurl = imageData;
 					this.firebase.uploadProfile(imageData).then((data) => {
-						// this.profileurl = data;
-						console.log(data);
+						this.profileurl = data;
+						console.log('Camera Data ', data);
 						
 					})
 					.catch((err) => {
-						console.log(err);
+						console.log('Camera Error ', err);
 					});
 			});
 	}

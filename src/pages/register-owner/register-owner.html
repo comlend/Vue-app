@@ -22,7 +22,8 @@
 				<ion-col col-4>
 					<ion-item>
 						<ion-avatar item-start (click)="uploadImage()">
-					      <img src="assets/imgs/AptApp3.png">
+							<img [src]="profileurl">
+					      <!-- <img [src]='profileurl'> -->
 					   </ion-avatar>
 					</ion-item>
 				</ion-col>

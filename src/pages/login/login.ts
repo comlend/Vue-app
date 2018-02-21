@@ -79,7 +79,7 @@ export class LoginPage {
 
   presentLoadingDefault() {
     let loading = this.loadingCtrl.create({
-      content: 'Please check your email for reset..'
+      content: 'Please check your email for password reset instructions'
     });
   
     loading.present();

@@ -16,12 +16,14 @@ import { RegisterPage } from '../pages/register/register';
 import { RegisterBusinessPage } from '../pages/register-business/register-business';
 import { RegisterRentingPage } from '../pages/register-renting/register-renting';
 import { RegisterOwnerPage } from '../pages/register-owner/register-owner';
+import { FbprofilePage } from '../pages/fbprofile/fbprofile';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FirebaseProvider } from '../providers/firebase/firebase';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Facebook } from '@ionic-native/facebook'
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     RegisterPage,
     RegisterBusinessPage,
     RegisterRentingPage,
-    RegisterOwnerPage
+    RegisterOwnerPage,
+    FbprofilePage
   ],
   imports: [
     BrowserModule,
@@ -56,14 +59,16 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     RegisterPage,
     RegisterBusinessPage,
     RegisterRentingPage,
-    RegisterOwnerPage
+    RegisterOwnerPage,
+    FbprofilePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Camera,
-    FirebaseProvider
+    FirebaseProvider,
+    Facebook
   ]
 })
 export class AppModule {}

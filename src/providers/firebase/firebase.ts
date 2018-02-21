@@ -18,7 +18,7 @@ export class FirebaseProvider {
   }
 
 
-  signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any) {
+  signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string) {
 			return new Promise((resolve, reject) => { 
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 				
@@ -29,7 +29,7 @@ export class FirebaseProvider {
 					lastName: lastName,
 					createdAt: createdAt,
 					profileurl: profileurl,
-					
+					userType: userType
 					});
 					resolve(newUser);
 				// this.globals.userId = newUser.uid;
@@ -50,7 +50,7 @@ export class FirebaseProvider {
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
 	
-	 public  uploadProfile(data){
+	public  uploadProfile(data){
 			var filename = (new Date()).getTime() + '.jpg';
 			let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', {contentType: 'image/jpeg'});
 			return new Promise((resolve, reject) => {
