@@ -9,6 +9,7 @@ page-register-business {
     }
     ion-footer {
         background-color: #EFEFF4;
+        border-top-color: #EFEFF4;
     }
     img {
         min-height: 72px;
@@ -23,7 +24,7 @@ page-register-business {
         text-align: left;
         padding-left: 16px;
     }
-    textarea.text-input.text-input-ios{
-		height:60px;
-	}
+    textarea.text-input.text-input-ios {
+        height: 60px;
+    }
 }

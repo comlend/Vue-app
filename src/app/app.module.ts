@@ -24,6 +24,7 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Facebook } from '@ionic-native/facebook'
+import { GlobalsProvider } from '../providers/globals/globals';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { Facebook } from '@ionic-native/facebook'
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Camera,
     FirebaseProvider,
-    Facebook
+    Facebook,
+    GlobalsProvider
   ]
 })
 export class AppModule {}

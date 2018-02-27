@@ -1,6 +1,8 @@
 // import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
+import { GlobalsProvider } from '../globals/globals';
+import * as _ from 'lodash';
 
 /*
   Generated class for the FirebaseProvider provider.
@@ -13,7 +15,7 @@ export class FirebaseProvider {
 	firebaseUsers: any;
 	confirmationResult: any = undefined;
 
-  constructor() {
+  constructor(public globals: GlobalsProvider) {
     console.log('Hello FirebaseProvider Provider');
   }
 
@@ -89,18 +91,40 @@ export class FirebaseProvider {
 
 
 	getNeighbours(){
-	return new Promise((resolve, reject) => {
+	// return new Promise((resolve, reject) => {
+		// var userId = this.globals.userId;
 			
-			var dbRef = firebase.database().ref('users/');
+		// 	var dbRef = firebase.database().ref('users/');
 
-			var userData: any;
+		// 	var userData: any;
 
+		// 	dbRef.once('value', (data) => {
+		// 		console.log('USERDATA ', data.val());
+		// 		if (data.val()) {
+		// 			resolve({data: data.val()});
+		// 		} else {
+		// 			reject({msg: 'Data Not Found'});
+		// 		}
+		// 	});
+		// });
+
+
+		var userId = this.globals.userId;
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/users/');
+			var userArr = [];
 			dbRef.once('value', (data) => {
-				// console.log('USERDATA ', data.val());
-				if (data.val()) {
-					resolve({data: data.val()});
+
+				if (data.val() != 'default') {
+					userArr = _.toArray(data.val());
+					if (userArr.length > 0) {
+						// console.log('users Array ', userArr);
+						resolve(userArr);
+					} else {
+						reject({ msg: 'No users Found' });
+					}
 				} else {
-					reject({msg: 'Data Not Found'});
+					reject({ msg: 'No Users Found' });
 				}
 			});
 		});
