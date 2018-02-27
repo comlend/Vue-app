@@ -32,7 +32,8 @@ export class FirebaseProvider {
 					profileurl: profileurl,
 					userType: userType,
 					name: name,
-					details: details
+					details: details,
+					uid: newUser.uid
 				});
 				resolve(newUser);
 				}).catch((error) => {
@@ -55,7 +56,8 @@ export class FirebaseProvider {
 					createdAt: createdAt,
 					profileurl: profileurl,
 					userType: userType,
-					unit: unit
+					unit: unit,
+					uid: newUser.uid
 					});
 					resolve(newUser);
 				}).catch((error) => {
