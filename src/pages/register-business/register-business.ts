@@ -20,7 +20,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 })
 export class RegisterBusinessPage {
   public signupFormBiz;
-   user: {firstName?: any, lastName?: any, email?: any, password?: any} = {};
+   user: {firstName?: any, lastName?: any, email?: any, password?: any, unit?: any, details?: any} = {};
    formData: any;
    loading: any;
    errormessage: any;
@@ -38,10 +38,10 @@ export class RegisterBusinessPage {
       this.signupFormBiz = this.formBuilder.group({
         firstName: ['Divyanshu', Validators.compose([Validators.required])],
         lastName: ['', Validators.compose([Validators.required])],
-        unit: ['', Validators.compose([Validators.required])],
+        name: ['', Validators.compose([Validators.required])],
         email: ['', Validators.compose([Validators.required])],
-        password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
-        
+        password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
+        details: ['', Validators.compose([Validators.required])],
       });            
     
   }
@@ -63,7 +63,7 @@ export class RegisterBusinessPage {
       var createdAt = moment().format();
       
 
-      this.firebase.signupUser(this.signupFormBiz.value.email, this.signupFormBiz.value.password, this.signupFormBiz.value.firstName, this.signupFormBiz.value.lastName, createdAt, this.profileurl, this.userType)
+    this.firebase.signupBizUser(this.signupFormBiz.value.email, this.signupFormBiz.value.password, this.signupFormBiz.value.firstName, this.signupFormBiz.value.lastName, createdAt, this.profileurl, this.signupFormBiz.value.name, this.userType, this.signupFormBiz.value.details)
         .then((data) => {
           console.log('test', data);
           this.loading.dismiss().then(() => {  

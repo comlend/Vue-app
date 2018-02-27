@@ -5,9 +5,6 @@ import { MyApp } from './app.component';
 import { Http } from '@angular/http';
 import { HttpModule } from '@angular/http';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SplashPage } from '../pages/splash/splash';
 import { SignupPage } from '../pages/signup/signup';
@@ -17,6 +14,9 @@ import { RegisterBusinessPage } from '../pages/register-business/register-busine
 import { RegisterRentingPage } from '../pages/register-renting/register-renting';
 import { RegisterOwnerPage } from '../pages/register-owner/register-owner';
 import { FbprofilePage } from '../pages/fbprofile/fbprofile';
+import { MessagePage } from '../pages/message/message';
+import { NeighboursPage } from '../pages/neighbours/neighbours';
+import { NewsPage } from '../pages/news/news';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -28,9 +28,6 @@ import { Facebook } from '@ionic-native/facebook'
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
     TabsPage,
     SplashPage,
     SignupPage,
@@ -39,7 +36,10 @@ import { Facebook } from '@ionic-native/facebook'
     RegisterBusinessPage,
     RegisterRentingPage,
     RegisterOwnerPage,
-    FbprofilePage
+    FbprofilePage,
+    MessagePage,
+    NeighboursPage,
+    NewsPage
   ],
   imports: [
     BrowserModule,
@@ -49,9 +49,6 @@ import { Facebook } from '@ionic-native/facebook'
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
     TabsPage,
     SplashPage,
     SignupPage,
@@ -60,7 +57,10 @@ import { Facebook } from '@ionic-native/facebook'
     RegisterBusinessPage,
     RegisterRentingPage,
     RegisterOwnerPage,
-    FbprofilePage
+    FbprofilePage,
+    MessagePage,
+    NeighboursPage,
+    NewsPage
   ],
   providers: [
     StatusBar,

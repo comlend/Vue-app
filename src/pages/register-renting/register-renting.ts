@@ -64,7 +64,7 @@ export class RegisterRentingPage {
       var createdAt = moment().format();
       
 
-      this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl, this.userType)
+      this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl, this.userType, this.signupForm.value.unit)
         .then((data) => {
           console.log('test', data);
           this.loading.dismiss().then(() => {  

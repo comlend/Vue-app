@@ -17,8 +17,31 @@ export class FirebaseProvider {
     console.log('Hello FirebaseProvider Provider');
   }
 
+	signupBizUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, name:string, userType: string, details: string) {
+		return new Promise((resolve, reject) => {
+			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 
-  signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string) {
+				console.log("data output", email, firstName, lastName, createdAt, profileurl)
+				firebase.database().ref('/users').child(newUser.uid).set({
+					email: email,
+					firstName: firstName,
+					lastName: lastName,
+					createdAt: createdAt,
+					profileurl: profileurl,
+					userType: userType,
+					name: name,
+					details: details
+				});
+				resolve(newUser);
+				}).catch((error) => {
+				console.log('Error getting location', error);
+				reject(error);
+				// });
+			});
+
+		});
+	}
+  signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string, unit: string) {
 			return new Promise((resolve, reject) => { 
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 				
@@ -29,13 +52,10 @@ export class FirebaseProvider {
 					lastName: lastName,
 					createdAt: createdAt,
 					profileurl: profileurl,
-					userType: userType
+					userType: userType,
+					unit: unit
 					});
 					resolve(newUser);
-				// this.globals.userId = newUser.uid;
-				// this.globals.userType = type;
-
-				// this.sendEmailVerificationLink().then(success=> console.log(success)).catch(error=> console.log(error));
 				}).catch((error) => {
 					console.log('Error getting location', error);
 					reject(error);
@@ -65,6 +85,25 @@ export class FirebaseProvider {
 					 return;
 				});
 			});
+	}
+
+
+	getNeighbours(){
+	return new Promise((resolve, reject) => {
+			
+			var dbRef = firebase.database().ref('users/');
+
+			var userData: any;
+
+			dbRef.once('value', (data) => {
+				// console.log('USERDATA ', data.val());
+				if (data.val()) {
+					resolve({data: data.val()});
+				} else {
+					reject({msg: 'Data Not Found'});
+				}
+			});
+		});
 	}
 
 }
