@@ -45,7 +45,7 @@ export class MyApp {
         this.rootPage = SignupPage;
         unsubscribe();
       } else {
-        this.rootPage = SignupPage;
+        this.rootPage = TabsPage;
         unsubscribe();
       }
     });
