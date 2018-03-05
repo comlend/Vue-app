@@ -15,10 +15,10 @@
 
 <ion-content>
   <ion-list class="firstitem">
-    <button ion-item *ngFor="let user of users">
-      <div *ngIf="user.uid != userId">
+    <button ion-item *ngFor="let user of users" (click)="goToNeighbour(user)">
+      <!-- <div *ngIf="user.uid != userId"> -->
       {{user.firstName}} {{user.lastName}} <span class="spanclass">Unit {{user.unit}}</span>
-      </div>
+      <!-- </div> -->
     </button>
   </ion-list>
 

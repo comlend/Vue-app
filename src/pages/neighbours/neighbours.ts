@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
+import { MessagePage } from '../message/message';
 
 /**
  * Generated class for the NeighboursPage page.
@@ -33,6 +34,10 @@ export class NeighboursPage {
     }, error => {
       console.error(error);
     });
+  }
+
+  goToNeighbour(neighbour){
+    this.navCtrl.push(MessagePage, {'neighbour':neighbour});
   }
 
 }

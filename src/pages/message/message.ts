@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, NgZone } from '@angular/core';
+import { IonicPage, NavController, NavParams, Events} from 'ionic-angular';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 /**
  * Generated class for the MessagePage page.
@@ -14,12 +15,66 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'message.html',
 })
 export class MessagePage {
+  neighbourData: any;
+  chat: any = '';
+  chats: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events) {
+    
+    this.neighbourData = this.navParams.get('neighbour');
+
+    // if(this.neighbourData){
+    //   this.getAllMessages();
+      
+    // }
+    
+
+    this.events.subscribe('newmessage', () => {
+      this.zone.run(() => {
+        this.firebase.getneighbourmessages(this.neighbourData.uId).then(success => {
+          // this.chats = success;
+          console.warn(success);
+        }, error => {
+          console.error(error);
+        });;
+        console.log(this.chats);
+        this.scrollto();
+      });
+     
+    });
+    
+    
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MessagePage');
+  }
+
+  addnewmessage(){
+    console.log(this.chat, this.neighbourData.uId);
+    this.firebase.addnewmessage(this.chat, this.neighbourData.uId).then( success => {
+      // this.chats = userData;
+      console.warn(success);
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  getAllMessages() {
+   this.firebase.getneighbourmessages(this.neighbourData.uId).then(success => {
+      console.log(success);
+      console.warn(success);
+    }, error => {
+      console.error(error);
+    });;
+        console.log(this.chats);
+  
+  }
+
+  scrollto() {
+    setTimeout(() => {
+      this.chats.scrollToBottom();
+    }, 1000);
   }
 
 }

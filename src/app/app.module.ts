@@ -26,6 +26,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Facebook } from '@ionic-native/facebook'
 import { GlobalsProvider } from '../providers/globals/globals';
 
+
 @NgModule({
   declarations: [
     MyApp,

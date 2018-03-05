@@ -14,5 +14,22 @@
 
 
 <ion-content>
+  <ion-item *ngFor="let chat of chats; let i = index" text-wrap>
+    
+  </ion-item>
+  
 
 </ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col col-9>
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="chat"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col col-3>
+        <button ion-button clear (click)="addnewmessage()">Send</button>
+    </ion-col>
+  </ion-row>
+
+</ion-footer>
