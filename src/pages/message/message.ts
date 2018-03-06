@@ -2,13 +2,6 @@ import { Component, ViewChild, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, Content, Events} from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 
-/**
- * Generated class for the MessagePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-message',

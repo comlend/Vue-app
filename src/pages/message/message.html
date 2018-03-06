@@ -13,7 +13,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content #content>
   <ion-item *ngFor="let chat of chats; let i = index" text-wrap>
     {{chat.message}}
   </ion-item>
