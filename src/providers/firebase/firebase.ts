@@ -15,17 +15,17 @@ import * as _ from 'lodash';
 export class FirebaseProvider {
 	firebaseUsers: any;
 	confirmationResult: any = undefined;
-	
+
 	firemessagecounter = firebase.database().ref('/chats');
 	neighbour: any;
 	neighbourmessages = [];
 	msgcount = 0;
 
-constructor(public globals: GlobalsProvider, public events: Events) {
-    console.log('Hello FirebaseProvider Provider');
-  }
+	constructor(public globals: GlobalsProvider, public events: Events) {
+		console.log('Hello FirebaseProvider Provider');
+	}
 
-signupBizUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, name:string, userType: string, details: string) {
+	signupBizUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, name: string, userType: string, details: string) {
 		return new Promise((resolve, reject) => {
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 
@@ -42,7 +42,7 @@ signupBizUser(email: string, password: string, firstName: string, lastName: stri
 					uid: newUser.uid
 				});
 				resolve(newUser);
-				}).catch((error) => {
+			}).catch((error) => {
 				console.log('Error getting location', error);
 				reject(error);
 				// });
@@ -50,12 +50,12 @@ signupBizUser(email: string, password: string, firstName: string, lastName: stri
 
 		});
 	}
-signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string, unit: string) {
-			return new Promise((resolve, reject) => { 
+	signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string, unit: string) {
+		return new Promise((resolve, reject) => {
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
-				
-				console.log( "data output", email, firstName,lastName ,createdAt, profileurl)
-					firebase.database().ref('/users').child(newUser.uid).set({
+
+				console.log("data output", email, firstName, lastName, createdAt, profileurl)
+				firebase.database().ref('/users').child(newUser.uid).set({
 					email: email,
 					firstName: firstName,
 					lastName: lastName,
@@ -64,43 +64,41 @@ signupUser(email: string, password: string, firstName: string, lastName: string,
 					userType: userType,
 					unit: unit,
 					uid: newUser.uid
-					});
-					resolve(newUser);
-				}).catch((error) => {
-					console.log('Error getting location', error);
-					reject(error);
+				});
+				resolve(newUser);
+			}).catch((error) => {
+				console.log('Error getting location', error);
+				reject(error);
 				// });
-					});
-
 			});
+
+		});
 	}
 
 
-loginData(email : string,password : string){
+	loginData(email: string, password: string) {
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
-	
-public  uploadProfile(data){
-			var filename = (new Date()).getTime() + '.jpg';
-			let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', {contentType: 'image/jpeg'});
-			return new Promise((resolve, reject) => {
-				uploadTask.on('state_changed', (snapshot)=>{
 
-				}, (err) => {
-						reject(false);
-				}, () =>{
-					 console.log( uploadTask.snapshot.downloadURL);
+	public uploadProfile(data) {
+		var filename = (new Date()).getTime() + '.jpg';
+		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		return new Promise((resolve, reject) => {
+			uploadTask.on('state_changed', (snapshot) => {
 
-					 resolve(uploadTask.snapshot.downloadURL);
-					 return;
-				});
+			}, (err) => {
+				reject(false);
+			}, () => {
+				console.log(uploadTask.snapshot.downloadURL);
+
+				resolve(uploadTask.snapshot.downloadURL);
+				return;
 			});
+		});
 	}
 
 
-getNeighbours(){
-
-
+	getNeighbours() {
 		var userId = this.globals.userId;
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/users/');
@@ -109,6 +107,8 @@ getNeighbours(){
 
 				if (data.val() != 'default') {
 					userArr = _.toArray(data.val());
+					this.removeSelfFromNeighbours(userArr);
+					console.log('All Neighbours ', userArr);
 					if (userArr.length > 0) {
 						// console.log('users Array ', userArr);
 						resolve(userArr);
@@ -122,8 +122,14 @@ getNeighbours(){
 		});
 	}
 
+	removeSelfFromNeighbours(neighboursArr) {
+		var userId = this.globals.userId;
 
-formatAMPM(date) {
+		_.remove(neighboursArr, { 'uId': userId});
+		return neighboursArr;
+	}
+
+	formatAMPM(date) {
 		var hours = date.getHours();
 		var minutes = date.getMinutes();
 		var ampm = hours >= 12 ? 'pm' : 'am';
@@ -133,7 +139,7 @@ formatAMPM(date) {
 		var strTime = hours + ':' + minutes + ' ' + ampm;
 		return strTime;
 	}
-formatDate(date) {
+	formatDate(date) {
 		var dd = date.getDate();
 		var mm = date.getMonth() + 1;
 		var yyyy = date.getFullYear();
@@ -143,7 +149,8 @@ formatDate(date) {
 			mm = '0' + mm;
 		return dd + '/' + mm + '/' + yyyy;
 	}
-addnewmessage(msg, neighbourId) {
+
+	addnewmessage(msg, neighbourId) {
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		// console.log('chat message>>>', msg);
@@ -172,11 +179,11 @@ addnewmessage(msg, neighbourId) {
 						dateofmsg: date
 					}).then(() => {
 						resolve(true);
-						this.events.publish('newmessage');
+						// this.events.publish('newmessage');
 					}), (err) => {
-							reject(false);
-					// .catch((err) => {
-					//   reject(err);
+						reject(false);
+						// .catch((err) => {
+						//   reject(err);
 					}
 				})
 			})
@@ -184,29 +191,29 @@ addnewmessage(msg, neighbourId) {
 			return promise;
 		}
 	}
+
 	getneighbourmessages(neighbourId) {
 		var userId = this.globals.userId;
-		var firechats = firebase.database().ref('/chats/');
+		var firechats = firebase.database().ref('/chats/' + userId);
 		let temp;
 		this.neighbourmessages = [];
-		
-		
-			firechats.child(userId).child(neighbourId).on('value', resp => {
-				temp = resp.val();
 
-				console.log('counter Message ', temp)
-				
-					for (var tempkey in temp) {
-						this.neighbourmessages.push(temp[tempkey]);
-					}
-					this.events.publish('newmessage');
-				
-				
-				// console.log(this.neighbourmessages);
 
-				
-			});
-				
+		firechats.child(neighbourId).on('value', resp => {
+			temp = resp.val();
+
+			console.log('counter Message ', temp)
+
+			for (var tempkey in temp) {
+				this.neighbourmessages.push(temp[tempkey]);
+			}
+			// this.events.publish('newmessage');
+
+
+			// console.log(this.neighbourmessages);
+
+
+		});
+
 	}
-
 }
