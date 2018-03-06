@@ -5,10 +5,16 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
+  <ion-navbar hideBackButton>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-back" color="secondary"></ion-icon>
+      </button>
+    </ion-buttons>
+  
     <ion-title>{{neighbourData.firstName}}</ion-title>
   </ion-navbar>
+
 
 </ion-header>
 
@@ -26,7 +32,7 @@
 
     <div class="userchatmsg" *ngIf="chat.sentby == userId" style="float: right;">
       <ion-avatar item-end style="display: inline-block;float: right;">
-        <img src="assets/imgs/AptApp2.png">
+        <img [src]="userProfile">
       </ion-avatar>
     <div class="userchatmsg right-msg">
       {{chat.message}}</div>

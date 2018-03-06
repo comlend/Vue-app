@@ -18,6 +18,7 @@ import { MessagePage } from '../pages/message/message';
 import { MessagesListPage } from '../pages/messages-list/messages-list';
 import { NeighboursPage } from '../pages/neighbours/neighbours';
 import { NewsPage } from '../pages/news/news';
+import { BusinessDetailsPage } from '../pages/business-details/business-details';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,7 +27,6 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Facebook } from '@ionic-native/facebook'
 import { GlobalsProvider } from '../providers/globals/globals';
-
 
 @NgModule({
   declarations: [
@@ -43,7 +43,8 @@ import { GlobalsProvider } from '../providers/globals/globals';
     MessagePage,
     NeighboursPage,
     NewsPage,
-    MessagesListPage
+    MessagesListPage,
+    BusinessDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -65,7 +66,8 @@ import { GlobalsProvider } from '../providers/globals/globals';
     MessagePage,
     NeighboursPage,
     NewsPage,
-    MessagesListPage
+    MessagesListPage,
+    BusinessDetailsPage
   ],
   providers: [
     StatusBar,

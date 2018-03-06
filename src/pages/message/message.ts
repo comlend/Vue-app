@@ -13,13 +13,16 @@ export class MessagePage {
 	neighbourData: any;
 	chat: any = '';
 	chats: any;
-	 userId: string;
+	userId: string;
+	userProfile: any;
 
 	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider) {
 		 
 		this.userId = this.globals.userId;
+		this.userProfile = this.globals.userData.profileurl;
 
 		this.neighbourData = this.navParams.get('neighbour');
+		console.log(this.neighbourData);
 		this.scrollto();
 		
 		this.firebase.getnewMsg(this.neighbourData.uId).then((messages) => {
@@ -62,6 +65,10 @@ export class MessagePage {
 		}).catch((err) => {
 			console.log('Error ', err);
 		});		
+	}
+
+	back(){
+		this.navCtrl.pop();
 	}
 
 	addnewmessage() {

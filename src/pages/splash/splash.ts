@@ -27,13 +27,13 @@ export class SplashPage {
  
     this.splashScreen.hide();
 
-    // setTimeout(() => {
-    //   this.viewCtrl.dismiss();
-    // }, 5000);
-
-     setTimeout(() => {
+    setTimeout(() => {
       this.viewCtrl.dismiss();
-    }, 100);
+    }, 5000);
+
+    //  setTimeout(() => {
+    //   this.viewCtrl.dismiss();
+    // }, 100);
  
   }
 

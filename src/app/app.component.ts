@@ -17,7 +17,6 @@ export class MyApp {
 
 	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider) {
 		this.initializeFirebase();
-
 		platform.ready().then(() => {
 
 			// this.initializeApp();
@@ -47,10 +46,13 @@ export class MyApp {
 				// unsubscribe();
 			} else {
 				this.global.userId = user.uid;
-				console.log(this.global.userId);
+				console.log('user',user);
+				// this.global.loadUserDatatoGloabls();
 				this.rootPage = TabsPage;
 				// unsubscribe();
 			}
 		});
 	}
+
+	
 }

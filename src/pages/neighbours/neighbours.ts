@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
-import { MessagePage } from '../message/message';
+import { MessagePage } from '../message/message'; 
+import { BusinessDetailsPage } from '../business-details/business-details';
 
 /**
  * Generated class for the NeighboursPage page.
@@ -39,6 +40,9 @@ export class NeighboursPage {
   goToNeighbour(neighbour){
     this.app.getRootNav().push(MessagePage, { 'neighbour': neighbour });
     // this.navCtrl.push();
+  }
+  goToBusiness(business){
+    this.app.getRootNav().push(BusinessDetailsPage, { 'business': business });
   }
 
 }

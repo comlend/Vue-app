@@ -39,7 +39,7 @@ export class FirebaseProvider {
 					userType: userType,
 					name: name,
 					details: details,
-					uid: newUser.uid
+					uId: newUser.uid
 				});
 				resolve(newUser);
 			}).catch((error) => {
@@ -63,7 +63,7 @@ export class FirebaseProvider {
 					profileurl: profileurl,
 					userType: userType,
 					unit: unit,
-					uid: newUser.uid
+					uId: newUser.uid
 				});
 				resolve(newUser);
 			}).catch((error) => {
@@ -115,6 +115,23 @@ export class FirebaseProvider {
 					} else {
 						reject({ msg: 'No users Found' });
 					}
+				} else {
+					reject({ msg: 'No Users Found' });
+				}
+			});
+		});
+	}
+
+	getUserData(){
+		var userId = this.globals.userId;
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/users/'+userId);
+			var userArr = [];
+			dbRef.once('value', (data) => {
+					
+				if (data.val() != 'default') {
+					userArr = data.val();
+						resolve(userArr);
 				} else {
 					reject({ msg: 'No Users Found' });
 				}
