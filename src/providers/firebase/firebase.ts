@@ -178,8 +178,9 @@ export class FirebaseProvider {
 						timeofmsg: time,
 						dateofmsg: date
 					}).then(() => {
+						this.events.publish('newmessage');		
+
 						resolve(true);
-						// this.events.publish('newmessage');
 					}), (err) => {
 						reject(false);
 						// .catch((err) => {
@@ -192,28 +193,54 @@ export class FirebaseProvider {
 		}
 	}
 
-	getneighbourmessages(neighbourId) {
-		var userId = this.globals.userId;
-		var firechats = firebase.database().ref('/chats/' + userId);
-		let temp;
-		this.neighbourmessages = [];
+	getnewMsg(neighbourId) {
+		return new Promise((resolve) => {
+			var userId = this.globals.userId;
+			var firechats = firebase.database().ref('/chats/' + userId);
+			let temp;
 
+			firechats.child(neighbourId).limitToLast(1).on('child_added', (resp) => {
+				temp = resp.val();
 
-		firechats.child(neighbourId).on('value', resp => {
-			temp = resp.val();
+				// Convert Message Obj to Array
+				this.neighbourmessages.push(temp);
+				console.log('counter Message Arr', this.neighbourmessages)
 
-			console.log('counter Message ', temp)
+				resolve(this.neighbourmessages);
+				// this.events.publish('newmessage');
 
-			for (var tempkey in temp) {
-				this.neighbourmessages.push(temp[tempkey]);
-			}
-			// this.events.publish('newmessage');
-
-
-			// console.log(this.neighbourmessages);
-
-
+			});
 		});
+	}
 
+	getneighbourmessages(neighbourId) {
+		return new Promise((resolve, reject) => {
+			var userId = this.globals.userId;
+			var firechats = firebase.database().ref('/chats/' + userId);
+			let temp;
+			this.neighbourmessages = [];
+
+
+			firechats.child(neighbourId).on('value', resp => {
+				temp = resp.val();
+
+				// console.log('counter Message ', temp)
+
+				// Convert Message Obj to Array
+				this.neighbourmessages = _.toArray(temp);
+				// console.log('counter Message Arr', this.neighbourmessages)
+
+				resolve(this.neighbourmessages);
+				/* for (var tempkey in temp) {
+					this.neighbourmessages.push(temp[tempkey]);
+				} */
+				// this.events.publish('newmessage');
+
+
+				// console.log(this.neighbourmessages);
+
+
+			});
+		});
 	}
 }
