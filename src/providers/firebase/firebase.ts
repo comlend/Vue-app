@@ -188,45 +188,25 @@ addnewmessage(msg, neighbourId) {
 		var userId = this.globals.userId;
 		var firechats = firebase.database().ref('/chats/');
 		let temp;
-
+		this.neighbourmessages = [];
 		
-
-		// var userId = this.globals.userId;
-		// var firechats = firebase.database().ref('/chats/');
-		// let temp;
-		// firechats.child(userId).child(neighbourId).on('value', (snapshot) => {
-			this.neighbourmessages = [];
-		// 	temp = snapshot.val();
-
-		// 	// console.log('counter Message ', temp)
-		// 	for (var tempkey in temp) {
-		// 		this.neighbourmessages.push(temp[tempkey]);
-		// 	}
-		// 	this.events.publish('newmessage');
-		// })
-		// console.log('ne id for chats',neighbourId);
-		return new Promise((resolve, reject) => {
+		
 			firechats.child(userId).child(neighbourId).on('value', resp => {
 				temp = resp.val();
 
-				// console.log('counter Message ', temp)
+				console.log('counter Message ', temp)
 				
-					// for (var tempkey in temp) {
-					// 	this.neighbourmessages.push(temp[tempkey]);
-					// }
+					for (var tempkey in temp) {
+						this.neighbourmessages.push(temp[tempkey]);
+					}
 					this.events.publish('newmessage');
 				
 				
 				// console.log(this.neighbourmessages);
 
-				resolve(temp);
-
-			// });
-
-			}, (err: any) => {
-				reject(err);
+				
 			});
-		});		
+				
 	}
 
 }

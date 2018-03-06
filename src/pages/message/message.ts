@@ -23,16 +23,12 @@ export class MessagePage {
   constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events) {
     
     this.neighbourData = this.navParams.get('neighbour');
-    // console.log(this.neighbourData);
-    // if(this.neighbourData){
-    //   this.getAllMessages();
-      
-    // }
     this.scrollto();
     this.events.subscribe('newmessage', () => {
       this.chats = [];
       this.zone.run(() => {
-        this.chats = this.firebase.getneighbourmessages(this.neighbourData.uId);
+        this.firebase.getneighbourmessages(this.neighbourData.uId);
+        this.chats = this.firebase.neighbourmessages;
       })
     })
 
@@ -55,7 +51,8 @@ export class MessagePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MessagePage');
-    this.getAllMessages();
+    this.firebase.getneighbourmessages(this.neighbourData.uId);
+    this.chats = this.firebase.neighbourmessages;
   }
 
   addnewmessage(){
@@ -68,16 +65,16 @@ export class MessagePage {
     });
   }
 
-  getAllMessages() {
-   this.firebase.getneighbourmessages(this.neighbourData.uId).then(success => {
-      // console.log(success);
-      console.warn(success);
-    }, error => {
-      console.error(error);
-    });;
-        console.log(this.chats);
+  // getAllMessages() {
+  //  this.firebase.getneighbourmessages(this.neighbourData.uId).then(success => {
+  //     // console.log(success);
+  //     console.warn(success);
+  //   }, error => {
+  //     console.error(error);
+  //   });;
+  //       console.log(this.chats);
   
-  }
+  // }
 
   scrollto() {
     setTimeout(() => {
