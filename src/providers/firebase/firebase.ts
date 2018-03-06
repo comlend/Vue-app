@@ -172,6 +172,7 @@ addnewmessage(msg, neighbourId) {
 						dateofmsg: date
 					}).then(() => {
 						resolve(true);
+						this.events.publish('newmessage');
 					}), (err) => {
 							reject(false);
 					// .catch((err) => {
@@ -203,19 +204,22 @@ addnewmessage(msg, neighbourId) {
 		// 	}
 		// 	this.events.publish('newmessage');
 		// })
-		console.log('ne id for chats',neighbourId);
+		// console.log('ne id for chats',neighbourId);
 		return new Promise((resolve, reject) => {
 			firechats.child(userId).child(neighbourId).on('value', resp => {
 				temp = resp.val();
 
 				// console.log('counter Message ', temp)
-				for (var tempkey in temp) {
-					this.neighbourmessages.push(temp[tempkey]);
-				}
-				this.events.publish('newmessage');
-				console.log(this.neighbourmessages);
+				
+					// for (var tempkey in temp) {
+					// 	this.neighbourmessages.push(temp[tempkey]);
+					// }
+					this.events.publish('newmessage');
+				
+				
+				// console.log(this.neighbourmessages);
 
-				resolve(this.neighbourmessages);
+				resolve(temp);
 
 			// });
 

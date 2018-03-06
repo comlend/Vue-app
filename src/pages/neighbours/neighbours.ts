@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { MessagePage } from '../message/message';
@@ -19,7 +19,7 @@ import { MessagePage } from '../message/message';
 export class NeighboursPage {
   users: any;
   userId: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public globals: GlobalsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public globals: GlobalsProvider, private app: App) {
     this.userId = this.globals.userId;
     this.getAllNeighbours()
   }
@@ -37,7 +37,8 @@ export class NeighboursPage {
   }
 
   goToNeighbour(neighbour){
-    this.navCtrl.push(MessagePage, {'neighbour':neighbour});
+    this.app.getRootNav().push(MessagePage, { 'neighbour': neighbour });
+    // this.navCtrl.push();
   }
 
 }

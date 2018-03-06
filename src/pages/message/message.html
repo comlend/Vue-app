@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>MESSAGES</ion-title>
+    <ion-title>{{neighbourData.firstName}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-item *ngFor="let chat of chats; let i = index" text-wrap>
-    
+    {{chat.message}}
   </ion-item>
   
 
@@ -24,7 +24,7 @@
   <ion-row>
     <ion-col col-9>
       <ion-item>
-        <ion-input type="text" [(ngModel)]="chat"></ion-input>
+        <ion-input type="text" [(ngModel)]="chat" placeholder="New Message"></ion-input>
       </ion-item>
     </ion-col>
     <ion-col col-3>

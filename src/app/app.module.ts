@@ -15,6 +15,7 @@ import { RegisterRentingPage } from '../pages/register-renting/register-renting'
 import { RegisterOwnerPage } from '../pages/register-owner/register-owner';
 import { FbprofilePage } from '../pages/fbprofile/fbprofile';
 import { MessagePage } from '../pages/message/message';
+import { MessagesListPage } from '../pages/messages-list/messages-list';
 import { NeighboursPage } from '../pages/neighbours/neighbours';
 import { NewsPage } from '../pages/news/news';
 
@@ -41,7 +42,8 @@ import { GlobalsProvider } from '../providers/globals/globals';
     FbprofilePage,
     MessagePage,
     NeighboursPage,
-    NewsPage
+    NewsPage,
+    MessagesListPage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ import { GlobalsProvider } from '../providers/globals/globals';
     FbprofilePage,
     MessagePage,
     NeighboursPage,
-    NewsPage
+    NewsPage,
+    MessagesListPage
   ],
   providers: [
     StatusBar,
