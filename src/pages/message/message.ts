@@ -68,6 +68,7 @@ export class MessagePage {
 		console.log(this.chat, this.neighbourData.uId);
 		this.firebase.addnewmessage(this.chat, this.neighbourData.uId).then(success => {
 			// this.chats = userData;
+			this.chat = '';
 			console.warn(success);
 		}, error => {
 			console.error(error);
