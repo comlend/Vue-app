@@ -14,16 +14,34 @@
 
 
 <ion-content #content>
-  <ion-item *ngFor="let chat of chats; let i = index" text-wrap>
-    {{chat.message}}
+  <ion-item no-lines *ngFor="let chat of chats; let i = index" text-wrap>
+    <div class= "userchatmsg"  *ngIf="chat.sentby == neighbourData.uId">
+        <ion-avatar item-start style="display: inline-block;float: left;">
+          <img [src]="neighbourData.profileurl">
+        </ion-avatar>
+        <span class="userchatmsg left-msg">
+          {{chat.message}}
+        </span>
+    </div>
+
+    <div class="userchatmsg" *ngIf="chat.sentby == userId" style="float: right;">
+      <ion-avatar item-end style="display: inline-block;float: right;">
+        <img src="assets/imgs/AptApp2.png">
+      </ion-avatar>
+    <div class="userchatmsg right-msg">
+      {{chat.message}}</div>
+    </div>
   </ion-item>
   
 
 </ion-content>
 <ion-footer>
-  <ion-row>
-    <ion-col col-9>
-      <ion-item>
+  <ion-row align-items-center>
+    <ion-col col-1 style="text-align:center">
+      <ion-icon class="attachicon" name="attach"></ion-icon>
+    </ion-col>
+    <ion-col col-8>
+      <ion-item no-lines class="footer">
         <ion-input type="text" [(ngModel)]="chat" placeholder="New Message"></ion-input>
       </ion-item>
     </ion-col>

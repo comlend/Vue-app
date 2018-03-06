@@ -1,6 +1,7 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, Content, Events} from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
+import { GlobalsProvider } from '../../providers/globals/globals';
 
 @IonicPage()
 @Component({
@@ -12,8 +13,11 @@ export class MessagePage {
   neighbourData: any;
   chat: any = '';
   chats: any;
+  userId: string;
 
-  constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events) {
+  constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider) {
+    this.userId = this.globals.userId;
+    console.log('userId from globals',this.userId);
     
     this.neighbourData = this.navParams.get('neighbour');
     this.scrollto();
