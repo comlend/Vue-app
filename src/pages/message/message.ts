@@ -17,7 +17,7 @@ export class MessagePage {
 	userId: string;
 	userProfile: any;
 	imageData: any;
-	imgornot: any = '';
+	// imgornot: any = '';
 
 	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, private camera: Camera) {
 		 
@@ -35,6 +35,18 @@ export class MessagePage {
 				// console.log('Remember me ')
 				// console.log(message);
 				this.chats = message;
+				// console.log('this chat',this.chats);
+				// for (let key = 0; key < this.chats.length; key++) {
+				// 	if (this.chats.message.substr(0, 4) == 'http') {
+				// 		this.imgornot[key].push(true);
+				// 		console.log('is it an image - ', this.imgornot[key]);
+				// 	}
+				// 	else {
+				// 		this.imgornot.push(false);
+				// 		console.log('is it an image - ', this.imgornot[key]);
+				// 	} 
+					
+				// }
 				// for (var key in this.chats) {
 				// 	if (this.chats.message.substring(0, 4) == 'http') {
 				// 		this.imgornot[key].push(true);
@@ -89,9 +101,9 @@ export class MessagePage {
 		this.navCtrl.pop();
 	}
 
-	addnewmessage(chat) {
+	addnewmessage(chat, type) {
 		console.log(chat, this.neighbourData.uId);
-		this.firebase.addnewmessage(chat, this.neighbourData.uId).then(success => {
+		this.firebase.addnewmessage(chat, this.neighbourData.uId, type).then(success => {
 			// this.chats = userData;
 			this.chat = '';
 			console.warn(success);
@@ -176,7 +188,8 @@ export class MessagePage {
 			this.firebase.uploadProfile(imageData).then((data) => {
 				// this.profileurl = data;
 				// this.chat = data;
-				this.addnewmessage(data);
+				var type = 'image';
+				this.addnewmessage(data,type);
 				console.log(data);
 
 			})

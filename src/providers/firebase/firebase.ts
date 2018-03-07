@@ -167,12 +167,12 @@ export class FirebaseProvider {
 		return dd + '/' + mm + '/' + yyyy;
 	}
 
-	addnewmessage(msg, neighbourId) {
+	addnewmessage(msg, neighbourId, type) {
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		// console.log('chat message>>>', msg);
 		// console.log('neighbour >>>', neighbourId);
-
+		console.log('type - ',type);
 		var userId = this.globals.userId;
 		// console.log(userId);
 		var firechats = firebase.database().ref('/chats/');
@@ -186,14 +186,16 @@ export class FirebaseProvider {
 					message: msg,
 					timestamp: firebase.database.ServerValue.TIMESTAMP,
 					timeofmsg: time,
-					dateofmsg: date
+					dateofmsg: date,
+					type: type
 				}).then(() => {
 					firechats.child(neighbourId).child(userId).push({
 						sentby: userId,
 						message: msg,
 						timestamp: firebase.database.ServerValue.TIMESTAMP,
 						timeofmsg: time,
-						dateofmsg: date
+						dateofmsg: date,
+						type: type
 					}).then(() => {
 						// this.events.publish('newmessage');		
 

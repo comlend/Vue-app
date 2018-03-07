@@ -25,10 +25,10 @@
         <ion-avatar item-start style="display: inline-block;float: left;">
           <img [src]="neighbourData.profileurl">
         </ion-avatar>
-        <span *ngIf="!imgornot[i]" class="userchatmsg left-msg">
+        <span *ngIf="chat.type == 'text'" class="userchatmsg left-msg">
           {{chat.message}}
         </span>
-        <img src="{{chat.message}}" *ngIf="imgornot[i]">
+        <img class="chatimage" src="{{chat.message}}" *ngIf="chat.type == 'image'">
         
     </div>
 
@@ -36,9 +36,9 @@
       <ion-avatar item-end style="display: inline-block;float: right;">
         <img [src]="userProfile">
       </ion-avatar>
-    <span *ngIf="!imgornot[i]" class="userchatmsg right-msg">
+    <span *ngIf="chat.type == 'text'" class="userchatmsg right-msg">
       {{chat.message}}</span>
-    <img src="{{chat.message}}" *ngIf="imgornot[i]">
+    <img class="chatimage" src="{{chat.message}}" *ngIf="chat.type == 'image'">
     </div>
   </ion-item>
   
@@ -55,7 +55,7 @@
       </ion-item>
     </ion-col>
     <ion-col col-3>
-        <button ion-button clear (click)="addnewmessage(chat)">Send</button>
+        <button ion-button clear (click)="addnewmessage(chat,'text')">Send</button>
     </ion-col>
   </ion-row>
 
