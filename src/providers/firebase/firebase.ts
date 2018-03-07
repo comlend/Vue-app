@@ -183,6 +183,7 @@ export class FirebaseProvider {
 				//   let msgstatus = statuss.val();
 				firechats.child(userId).child(neighbourId).push({
 					sentby: userId,
+					sentTo: neighbourId,
 					message: msg,
 					timestamp: firebase.database.ServerValue.TIMESTAMP,
 					timeofmsg: time,
@@ -191,6 +192,7 @@ export class FirebaseProvider {
 				}).then(() => {
 					firechats.child(neighbourId).child(userId).push({
 						sentby: userId,
+						sentTo: neighbourId,
 						message: msg,
 						timestamp: firebase.database.ServerValue.TIMESTAMP,
 						timeofmsg: time,
