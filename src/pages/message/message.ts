@@ -1,7 +1,8 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, Events, ActionSheetController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @IonicPage()
 @Component({
@@ -15,8 +16,10 @@ export class MessagePage {
 	chats: any;
 	userId: string;
 	userProfile: any;
+	imageData: any;
+	imgornot: any = '';
 
-	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider) {
+	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, private camera: Camera) {
 		 
 		this.userId = this.globals.userId;
 		this.userProfile = this.globals.userData.profileurl;
@@ -26,10 +29,23 @@ export class MessagePage {
 		this.scrollto();
 		
 		this.firebase.getnewMsg(this.neighbourData.uId).then((message) => {
-			console.log('Why i am not running');
+			// console.log('Why i am not running');
+			// this.imgornot = [];
 			this.zone.run(() => {
-				console.log('Remember me ', message);
-				this.chats = message;	
+				// console.log('Remember me ')
+				// console.log(message);
+				this.chats = message;
+				// for (var key in this.chats) {
+				// 	if (this.chats.message.substring(0, 4) == 'http') {
+				// 		this.imgornot[key].push(true);
+				// 		console.log('is it an image - ',this.imgornot[key]);
+				// 	}	
+				// 	else{
+				// 		this.imgornot.push(false);
+				// 		console.log('is it an image - ', this.imgornot[key]);
+				// 	} 
+						
+				// }
 			});
 			this.scrollto();							
 		});		
@@ -73,9 +89,9 @@ export class MessagePage {
 		this.navCtrl.pop();
 	}
 
-	addnewmessage() {
-		console.log(this.chat, this.neighbourData.uId);
-		this.firebase.addnewmessage(this.chat, this.neighbourData.uId).then(success => {
+	addnewmessage(chat) {
+		console.log(chat, this.neighbourData.uId);
+		this.firebase.addnewmessage(chat, this.neighbourData.uId).then(success => {
 			// this.chats = userData;
 			this.chat = '';
 			console.warn(success);
@@ -108,7 +124,7 @@ export class MessagePage {
 			this.firebase.getneighbourmessages(this.neighbourData.uId).then((data) => {
 				this.zone.run(() => {
 					console.log('counter Message Arr', data);
-					this.chats = data;		
+					this.chats = data;	
 					
 				});				
 				this.scrollto();
@@ -117,6 +133,56 @@ export class MessagePage {
 			}).catch((err) => {
 				console.log('Error ', err);
 			});
+		});
+	}
+
+	uploadPic(){
+		let actionSheet = this.actionSheetCtrl.create({
+			buttons: [
+				{
+					text: 'Take Photo',
+					handler: () => {
+						this.selectImage(0);
+					}
+				},
+				{
+					text: 'Choose from Library',
+					handler: () => {
+						this.selectImage(1);
+					}
+				},
+				{
+					text: 'Cancel',
+					role: 'cancel'
+				}
+			]
+		});
+		actionSheet.present();
+	}
+	selectImage(type) {
+		let options: CameraOptions = {
+			quality: 90,
+			targetWidth: 300,
+			targetHeight: 300,
+			allowEdit: true,
+			destinationType: this.camera.DestinationType.DATA_URL,
+			encodingType: this.camera.EncodingType.JPEG,
+			mediaType: this.camera.MediaType.PICTURE,
+			sourceType: (type == 0) ? this.camera.PictureSourceType.CAMERA : this.camera.PictureSourceType.PHOTOLIBRARY
+		};
+
+		this.camera.getPicture(options).then((imageData) => {
+			this.imageData = imageData;
+			this.firebase.uploadProfile(imageData).then((data) => {
+				// this.profileurl = data;
+				// this.chat = data;
+				this.addnewmessage(data);
+				console.log(data);
+
+			})
+				.catch((err) => {
+					console.log(err);
+				});
 		});
 	}
 }

@@ -25,17 +25,20 @@
         <ion-avatar item-start style="display: inline-block;float: left;">
           <img [src]="neighbourData.profileurl">
         </ion-avatar>
-        <span class="userchatmsg left-msg">
+        <span *ngIf="!imgornot[i]" class="userchatmsg left-msg">
           {{chat.message}}
         </span>
+        <img src="{{chat.message}}" *ngIf="imgornot[i]">
+        
     </div>
 
     <div class="userchatmsg" *ngIf="chat.sentby == userId" style="float: right;">
       <ion-avatar item-end style="display: inline-block;float: right;">
         <img [src]="userProfile">
       </ion-avatar>
-    <div class="userchatmsg right-msg">
-      {{chat.message}}</div>
+    <span *ngIf="!imgornot[i]" class="userchatmsg right-msg">
+      {{chat.message}}</span>
+    <img src="{{chat.message}}" *ngIf="imgornot[i]">
     </div>
   </ion-item>
   
@@ -43,7 +46,7 @@
 </ion-content>
 <ion-footer>
   <ion-row align-items-center>
-    <ion-col col-1 style="text-align:center">
+    <ion-col col-1 style="text-align:center" (click)="uploadPic()">
       <ion-icon class="attachicon" name="attach"></ion-icon>
     </ion-col>
     <ion-col col-8>
@@ -52,7 +55,7 @@
       </ion-item>
     </ion-col>
     <ion-col col-3>
-        <button ion-button clear (click)="addnewmessage()">Send</button>
+        <button ion-button clear (click)="addnewmessage(chat)">Send</button>
     </ion-col>
   </ion-row>
 
