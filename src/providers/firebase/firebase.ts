@@ -195,7 +195,7 @@ export class FirebaseProvider {
 						timeofmsg: time,
 						dateofmsg: date
 					}).then(() => {
-						this.events.publish('newmessage');		
+						// this.events.publish('newmessage');		
 
 						resolve(true);
 					}), (err) => {
@@ -224,7 +224,7 @@ export class FirebaseProvider {
 				console.log('counter Message Arr', this.neighbourmessages)
 
 				resolve(this.neighbourmessages);
-				// this.events.publish('newmessage');
+				this.events.publish('newmessage');
 
 			});
 		});

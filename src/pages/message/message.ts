@@ -25,9 +25,11 @@ export class MessagePage {
 		console.log(this.neighbourData);
 		this.scrollto();
 		
-		this.firebase.getnewMsg(this.neighbourData.uId).then((messages) => {
+		this.firebase.getnewMsg(this.neighbourData.uId).then((message) => {
+			console.log('Why i am not running');
 			this.zone.run(() => {
-				this.chats = messages;	
+				console.log('Remember me ', message);
+				this.chats = message;	
 			});
 			this.scrollto();							
 		});		
