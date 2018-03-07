@@ -1,25 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the MessagesListPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { GlobalsProvider } from '../../providers/globals/globals';
 
 @IonicPage()
 @Component({
-  selector: 'page-messages-list',
-  templateUrl: 'messages-list.html',
+	selector: 'page-messages-list',
+	templateUrl: 'messages-list.html',
 })
 export class MessagesListPage {
+	chats = [];
+	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone) {
+	}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	ionViewWillLoad() {
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MessagesListPage');
-  }
+	}
+
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad MessagesListPage');
+	}
 
 }
