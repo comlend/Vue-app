@@ -9,28 +9,14 @@
 
 <ion-content padding>
 	<div *ngIf="chats.length > 0">
-		<ion-card *ngFor="let chat of chats">
-			<ion-item>
+		<ion-list>
+			<ion-item *ngFor="let chat of chats" (click)="goToChatPage(chat)">
 				<ion-avatar item-start>
-					<!-- <img src="img/marty-avatar.png"> -->
+					<img src="{{ chat.receiverData.profileurl }}">
 				</ion-avatar>
-				<h2>Marty McFly</h2>
-				<p>November 5, 1955</p>
+				<h2>{{ chat.receiverData.firstName }} {{ chat.receiverData.lastName }}</h2>
+				<p>{{ chat.lastMsg }}</p>
 			</ion-item>
-		
-			<ion-card-content>
-				{{ chat.messages.length-1 }}
-				<p>{{ chat.messages[chat.messages.length-1].message }}</p>
-			</ion-card-content>
-		
-			<ion-row>
-				<ion-col>
-					<button ion-button icon-left clear small>
-						<ion-icon name="thumbs-up"></ion-icon>
-						<div>12 Likes</div>
-					</button>
-				</ion-col>
-			</ion-row>
-		</ion-card>
+		</ion-list>
 	</div>	
 </ion-content>

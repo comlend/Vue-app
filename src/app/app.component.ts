@@ -48,18 +48,28 @@ export class MyApp {
 			} else {
 				this.global.userId = user.uid;
 				// console.log('user',user);
-				this.getNeighbours().then(() => {
+
+				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
+				Promise.all(promises).then((values) => {
+					this.extractNeighbourData();
+					this.rootPage = TabsPage;
+					console.log('Promise.all resolved');
+				}).catch((err) => {
+					console.log('Promise.all ', err);
+				});
+			/* 	this.getNeighbours().then(() => {
 				this.getAllChats().then(() => {
 					this.rootPage = TabsPage;
 					this.getUserData();
 					
 				});
-				});
+				}); */
 				// this.global.loadUserDatatoGloabls();
 				// unsubscribe();
 			}
 		});
 	}
+
 	getUserData(){
 		var userId = this.global.userId;
 		return new Promise((resolve, reject) => {
@@ -89,16 +99,10 @@ export class MyApp {
 					neighboursArr = _.toArray(data.val());
 					_.remove(neighboursArr, { 'uId': userId });
 					
-					// return neighboursArr;
+					// console.log('neighboursArray ', neighboursArr);
+					this.global.neighboursData = neighboursArr;
+					resolve();
 					
-					// console.log('All Neighbours ', neighboursArr);
-					// if (neighboursArr.length > 0) {
-						console.log('neighboursArray ', neighboursArr);
-						this.global.neighboursData = neighboursArr;
-						resolve(neighboursArr);
-					// } else {
-					// 	reject({ msg: 'No users Found' });
-					// }
 				} else {
 					reject({ msg: 'No Users Found' });
 				}
@@ -130,8 +134,30 @@ export class MyApp {
 
 				this.global.chats = chatArr;
 				resolve();
-				console.log('Chat Arr ', chatArr);
+				// console.log('Chat Arr ', chatArr);
 			});
 		});
-	}	
+	}
+	
+	extractNeighbourData() {
+		this.global.neighboursData
+		this.global.chats
+
+		for (let i = 0; i < this.global.chats.length; i++) {
+			let chat = this.global.chats[i];
+			let receiver = chat.receiver;
+			
+			for (let j = 0; j < this.global.neighboursData.length; j++) {
+				let eachNeighbour = this.global.neighboursData[j];
+				let neighbourId = eachNeighbour.uId;
+				if (receiver == neighbourId) {
+					chat.receiverData = eachNeighbour; 
+
+					break;
+				}				
+			}
+
+			// console.log('All Chats Modified ', this.global.chats);
+		}
+	}
 }
