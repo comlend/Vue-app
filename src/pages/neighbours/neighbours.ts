@@ -23,10 +23,10 @@ export class NeighboursPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public globals: GlobalsProvider, private app: App) {
     this.userId = this.globals.userId;
     // this.getAllNeighbours()
-    // if (this.globals.neighboursData != '') {
+    if (this.globals.neighboursData) {
       this.users = this.globals.neighboursData;
       console.log(this.users)
-    // }
+    }
     
   }
 
