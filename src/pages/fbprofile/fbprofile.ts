@@ -3,6 +3,7 @@ import { IonicPage, NavController, LoadingController, NavParams } from 'ionic-an
 import * as firebase from 'firebase';
 import * as moment from 'moment';
 import { TabsPage } from '../tabs/tabs';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the FbprofilePage page.
@@ -21,11 +22,21 @@ export class FbprofilePage {
 	unit: string;
 	userType: any;
   loading: any;
+  firstName: any;
+  lastName: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public storage: Storage) {
   	this.fbData = this.navParams.get('fbdata');
     console.log("fbdata",this.fbData.uid);
-  	// this.userProfile = this.fbData.photoURL;
+    // this.userProfile = this.fbData.photoURL;
+    var fullname = this.fbData.displayName;
+    if (!(fullname.indexOf(' ') >= 0)) {
+      this.firstName = fullname.substr(fullname.indexOf(' ') + 1);
+      this.lastName = " ";
+    } else {
+      this.firstName = fullname.substr(0, fullname.indexOf(' '));
+      this.lastName = fullname.substr(fullname.indexOf(' ') + 1);
+    }
   }
 
   ionViewDidLoad() {
@@ -41,8 +52,9 @@ export class FbprofilePage {
 
     firebase.database().ref('/users').child(this.fbData.uid).set({
           email: this.fbData.email,
-          firstName: this.fbData.displayName,
-          // lastName: lastName,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          displayName: this.fbData.displayName,
           createdAt: createdAt,
           profileurl: this.fbData.photoURL,
           uId: this.fbData.uid,
@@ -51,7 +63,8 @@ export class FbprofilePage {
           
           }, () => {
             console.log('Success');
-            this.loading.dismiss().then(() => {          
+            this.loading.dismiss().then(() => { 
+              this.storage.set('FbLoginComplete', true);         
             this.navCtrl.setRoot(TabsPage);
             });
            

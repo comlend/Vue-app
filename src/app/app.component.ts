@@ -8,6 +8,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import * as firebase from 'firebase';
 import { GlobalsProvider } from '../providers/globals/globals';
+import { Storage } from '@ionic/storage';
 
 import * as _ from 'lodash';
 
@@ -16,9 +17,13 @@ import * as _ from 'lodash';
 })
 export class MyApp {
 	rootPage: any = '';
+	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider) {
+	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage) {
 		this.initializeFirebase();
+		storage.get('FbLoginComplete').then((val) => {
+			this.fbLoginComplete = val;
+		});
 		platform.ready().then(() => {
 			// this.initializeApp();
 			// Okay, so the platform is ready and our plugins are available.
@@ -46,15 +51,21 @@ export class MyApp {
 				this.rootPage = SignupPage;
 				// unsubscribe();
 			} else {
-				this.global.userId = user.uid;
-				// console.log('user',user);
-				this.getNeighbours().then(() => {
-				this.getAllChats().then(() => {
-					this.rootPage = TabsPage;
-					this.getUserData();
+				if (!this.fbLoginComplete) {
 					
-				});
-				});
+				}
+				else if (this.fbLoginComplete) {
+					this.global.userId = user.uid;
+					// console.log('user',user);
+					this.getNeighbours().then(() => {
+						this.getAllChats().then(() => {
+							this.rootPage = TabsPage;
+							this.getUserData();
+
+						});
+					});
+				}
+				
 				// this.global.loadUserDatatoGloabls();
 				// unsubscribe();
 			}
