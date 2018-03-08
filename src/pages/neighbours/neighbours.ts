@@ -22,7 +22,12 @@ export class NeighboursPage {
   userId: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public globals: GlobalsProvider, private app: App) {
     this.userId = this.globals.userId;
-    this.getAllNeighbours()
+    // this.getAllNeighbours()
+    if (this.globals.neighboursData) {
+      this.users = this.globals.neighboursData;
+      console.log(this.users)
+    }
+    
   }
 
   ionViewDidLoad() {

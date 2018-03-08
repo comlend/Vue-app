@@ -48,11 +48,13 @@ export class MyApp {
 			} else {
 				this.global.userId = user.uid;
 				// console.log('user',user);
+				this.getNeighbours().then(() => {
 				this.getAllChats().then(() => {
 					this.rootPage = TabsPage;
 					this.getUserData();
+					
 				});
-				
+				});
 				// this.global.loadUserDatatoGloabls();
 				// unsubscribe();
 			}
@@ -70,6 +72,33 @@ export class MyApp {
 					this.global.userData = userArr;
 					// console.warn(this.global.userData);
 					resolve(userArr);
+				} else {
+					reject({ msg: 'No Users Found' });
+				}
+			});
+		});
+	}
+	getNeighbours(){
+		var userId = this.global.userId;
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/users/');
+			var neighboursArr = [];
+			dbRef.once('value', (data) => {
+
+				if (data.val() != 'default') {
+					neighboursArr = _.toArray(data.val());
+					_.remove(neighboursArr, { 'uId': userId });
+					
+					// return neighboursArr;
+					
+					// console.log('All Neighbours ', neighboursArr);
+					// if (neighboursArr.length > 0) {
+						console.log('neighboursArray ', neighboursArr);
+						this.global.neighboursData = neighboursArr;
+						resolve(neighboursArr);
+					// } else {
+					// 	reject({ msg: 'No users Found' });
+					// }
 				} else {
 					reject({ msg: 'No Users Found' });
 				}
