@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 export class GlobalsProvider {
   userId: any;
   userData: any;
+  neighboursData: any;
 
   chats = [];
 
@@ -16,6 +17,7 @@ export class GlobalsProvider {
     this.userId = undefined;
     this.userData = undefined;
     this.chats = undefined;
+    this.neighboursData = undefined;
   }
 
 }

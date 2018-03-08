@@ -6,13 +6,27 @@
 -->
 <ion-header>
   <ion-navbar hideBackButton>
+    <ion-row align-items-center>
+      <ion-col col-2>
     <ion-buttons start>
       <button ion-button icon-only (click)="back()">
         <ion-icon name="arrow-back" color="secondary"></ion-icon>
       </button>
     </ion-buttons>
-  
-    <ion-title>{{neighbourData.firstName}}</ion-title>
+    </ion-col>
+    <ion-col col-8 style="text-align:center">
+       <h3>{{neighbourData.firstName}}</h3>
+    <!-- <ion-title>{{neighbourData.firstName}}</ion-title> -->
+    </ion-col>
+    <ion-col col-2>
+      <ion-item no-lines style="padding:0px;background-color:transparent !important">
+      <ion-avatar item-end style="display: inline-block;float:right;">
+        <img [src]="neighbourData.profileurl">
+      </ion-avatar>
+      </ion-item>
+    </ion-col>
+    </ion-row>
+    
   </ion-navbar>
 
 
