@@ -85,20 +85,23 @@ export class MyApp {
 			dbRef.on('value', (chats) => {
 				var chatObj = chats.val();
 				for (let chat in chatObj) {
-					chatArr['receiver'] = chat;
-					chatArr['messages'] = [];
+					var chatObjTemp = {};
+
+					chatObjTemp['receiver'] = chat;
+					chatObjTemp['messages'] = [];
 					if (chatObj.hasOwnProperty(chat)) {
 						let chatElement = chatObj[chat];
-						console.log('Chat Eele ', chat, _.toArray(chatElement));
+						// console.log('Chat Eele ', chat, _.toArray(chatElement));
 
-						chatArr['messages'] = _.toArray(chatElement);
-						
+						chatObjTemp['messages'] = _.toArray(chatElement);						
 					}
+
+					chatArr.push(chatObjTemp);
 				}
 
 				this.global.chats = chatArr;
 				resolve();
-				// console.log('Chat Arr ', chatArr);
+				console.log('Chat Arr ', chatArr);
 			});
 		});
 	}	

@@ -10,6 +10,8 @@ import { GlobalsProvider } from '../../providers/globals/globals';
 export class MessagesListPage {
 	chats = [];
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone) {
+		this.chats = this.globals.chats;
+		console.log('Chats Available ', this.globals.chats);
 	}
 
 	ionViewWillLoad() {
