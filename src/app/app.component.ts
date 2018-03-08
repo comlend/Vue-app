@@ -50,24 +50,27 @@ export class MyApp {
 			if (!user) {
 				this.rootPage = SignupPage;
 				// unsubscribe();
-			} else {
+			} 
+			
+			else {
 
-        if (!this.fbLoginComplete) {
+        /* if (!this.fbLoginComplete) {
 					
 				}
-				else if (this.fbLoginComplete) {
+		else if (this.fbLoginComplete) { */
 				this.global.userId = user.uid;
 				// console.log('user',user);
 
 				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
 				Promise.all(promises).then((values) => {
 					this.extractNeighbourData();
+					this.getUserData();
 					this.rootPage = TabsPage;
 					console.log('Promise.all resolved');
 				}).catch((err) => {
 					console.log('Promise.all ', err);
 				});
-        }
+        /* } */
         
 			/* 	this.getNeighbours().then(() => {
 				this.getAllChats().then(() => {
