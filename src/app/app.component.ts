@@ -22,7 +22,11 @@ export class MyApp {
 	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events) {
 		this.initializeFirebase();
 		storage.get('FbLoginComplete').then((val) => {
-			this.fbLoginComplete = val;
+			if (val) {
+				console.log('fblogin is complete?',val);
+				this.fbLoginComplete = val;
+			}
+			
 		});
 		platform.ready().then(() => {
 			// this.initializeApp();
@@ -54,34 +58,41 @@ export class MyApp {
 			
 			else {
 
-			if (!this.fbLoginComplete) {
 				this.global.userId = user.uid;
 				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
 				Promise.all(promises).then((values) => {
 					this.extractNeighbourData();
-					this.getUserData();
-					//    this.rootPage = TabsPage;
+					
+					// this.getUserData();
+					//    
 					console.log('Promise.all resolved');
+					if (this.fbLoginComplete) {
+						this.rootPage = TabsPage;
+						// return;
+					}
+					else if (!this.fbLoginComplete) { 
+						
+						return;
+					}
+					
 				}).catch((err) => {
 					console.log('Promise.all ', err);
 				});
-				return; 		
-			}
-			
-			else if (this.fbLoginComplete) { 
 				
-				this.global.userId = user.uid;
-				promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
-				Promise.all(promises).then((values) => {
-					this.extractNeighbourData();
-					this.getUserData();
-					this.rootPage = TabsPage;
-					console.log('Promise.all resolved');
-				}).catch((err) => {
-					console.log('Promise.all ', err);
-				});
-				return; 
-			}
+			
+			
+				
+				// this.global.userId = user.uid;
+				// promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
+				// Promise.all(promises).then((values) => {
+				// 	this.extractNeighbourData();
+				// 	this.getUserData();
+				// 	this.rootPage = TabsPage;
+				// 	console.log('Promise.all resolved');
+				// }).catch((err) => {
+				// 	console.log('Promise.all ', err);
+				// });
+				
 		}
 	
 		});

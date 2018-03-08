@@ -49,7 +49,7 @@ import { GlobalsProvider } from '../providers/globals/globals';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, { mode: 'ios' }),
     HttpModule,
     IonicStorageModule.forRoot()
   ],
