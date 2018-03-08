@@ -37,19 +37,21 @@ page-message {
         //     border: solid 0.5px #b2b2b2 !important;
         // }
     }
-    .chatimage {
+    .chatimageright {
         border-radius: 20px;
         display: inline-block;
         position: relative;
         width: 70%;
-        .right {
-            float: right;
-            padding-right: 10px;
-        }
-        .left {
-            float: left;
-            padding-left: 10px;
-        }
+        float: right !important;
+        padding-right: 10px;
+    }
+    .chatimageleft {
+        border-radius: 20px;
+        display: inline-block;
+        position: relative;
+        width: 70%;
+        float: left !important;
+        padding-left: 10px;
     }
     .spanclass {
         padding-left: 7em;

@@ -122,23 +122,6 @@ export class FirebaseProvider {
 		});
 	}
 
-	getUserData(){
-		var userId = this.globals.userId;
-		return new Promise((resolve, reject) => {
-			var dbRef = firebase.database().ref('/users/'+userId);
-			var userArr = [];
-			dbRef.once('value', (data) => {
-					
-				if (data.val() != 'default') {
-					userArr = data.val();
-						resolve(userArr);
-				} else {
-					reject({ msg: 'No Users Found' });
-				}
-			});
-		});
-	}
-
 	removeSelfFromNeighbours(neighboursArr) {
 		var userId = this.globals.userId;
 

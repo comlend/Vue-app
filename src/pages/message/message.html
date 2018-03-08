@@ -30,7 +30,7 @@
         <span *ngIf="chat.type == 'text'" class="userchatmsg left-msg">
           {{chat.message}}
         </span>
-        <img class="chatimage left" src="{{chat.message}}" *ngIf="chat.type == 'image'">
+        <img class="chatimageleft" src="{{chat.message}}" *ngIf="chat.type == 'image'">
         
     </div>
 
@@ -40,7 +40,7 @@
       </ion-avatar>
     <span *ngIf="chat.type == 'text'" class="userchatmsg right-msg">
       {{chat.message}}</span>
-    <img class="chatimage right" src="{{chat.message}}" *ngIf="chat.type == 'image'">
+    <img class="chatimageright" src="{{chat.message}}" *ngIf="chat.type == 'image'">
     </div>
   </ion-item>
   

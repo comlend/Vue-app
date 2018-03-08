@@ -50,6 +50,7 @@ export class MyApp {
 				// console.log('user',user);
 				this.getAllChats().then(() => {
 					this.rootPage = TabsPage;
+					this.getUserData();
 				});
 				
 				// this.global.loadUserDatatoGloabls();
@@ -57,7 +58,24 @@ export class MyApp {
 			}
 		});
 	}
+	getUserData(){
+		var userId = this.global.userId;
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/users/' + userId);
+			var userArr = [];
+			dbRef.once('value', (data) => {
 
+				if (data.val() != 'default') {
+					userArr = data.val();
+					this.global.userData = userArr;
+					// console.warn(this.global.userData);
+					resolve(userArr);
+				} else {
+					reject({ msg: 'No Users Found' });
+				}
+			});
+		});
+	}
 	getAllChats() {
 		return new Promise((resolve, reject) => {
 			var userId = this.global.userId;
@@ -71,7 +89,7 @@ export class MyApp {
 					chatArr['messages'] = [];
 					if (chatObj.hasOwnProperty(chat)) {
 						let chatElement = chatObj[chat];
-						// console.log('Chat Eele ', chat, _.toArray(chatElement));
+						console.log('Chat Eele ', chat, _.toArray(chatElement));
 
 						chatArr['messages'] = _.toArray(chatElement);
 						

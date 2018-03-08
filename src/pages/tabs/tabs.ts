@@ -18,15 +18,6 @@ export class TabsPage {
   tab4Root = NewsPage;
 
   constructor(private firebase: FirebaseProvider, private globals: GlobalsProvider) {
-    this.loadUserData();
   }
 
-  loadUserData(){
-    this.firebase.getUserData().then((userData) => {
-      this.globals.userData = userData;
-      console.warn(userData);
-    }, error => {
-      console.error(error);
-    });
-  }
 }
