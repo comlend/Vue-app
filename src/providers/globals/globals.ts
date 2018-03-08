@@ -6,6 +6,7 @@ export class GlobalsProvider {
   userId: any;
   userData: any;
   neighboursData: any;
+  FbLoginComplete: boolean = true;
 
   chats = [];
 

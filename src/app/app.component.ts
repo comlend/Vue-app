@@ -21,13 +21,15 @@ export class MyApp {
 
 	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events) {
 		this.initializeFirebase();
-		storage.get('FbLoginComplete').then((val) => {
-			if (val) {
-				console.log('fblogin is complete?',val);
-				this.fbLoginComplete = val;
-			}
+		this.fbLoginComplete = this.global.FbLoginComplete;
+		// storage.get('FbLoginComplete').then((val) => {
+		// 	console.log('fblogin is complete?', val);
+		// 	if (val) {
+		// 		console.log('fblogin is complete?',val);
+		// 		this.fbLoginComplete = val;
+		// 	}
 			
-		});
+		// });
 		platform.ready().then(() => {
 			// this.initializeApp();
 			// Okay, so the platform is ready and our plugins are available.
@@ -66,11 +68,12 @@ export class MyApp {
 					// this.getUserData();
 					//    
 					console.log('Promise.all resolved');
-					if (this.fbLoginComplete) {
+					if (this.global.FbLoginComplete) {
 						this.rootPage = TabsPage;
 						// return;
+						unsubscribe();
 					}
-					else if (!this.fbLoginComplete) { 
+					else if (!this.global.FbLoginComplete) { 
 						
 						return;
 					}

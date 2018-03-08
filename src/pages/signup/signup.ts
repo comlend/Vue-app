@@ -6,7 +6,7 @@ import { Facebook } from '@ionic-native/facebook';
 import * as firebase from 'firebase';
 import { FbprofilePage } from '../fbprofile/fbprofile';
 import { TabsPage } from '../tabs/tabs';
-import { Storage } from '@ionic/storage';
+import { GlobalsProvider } from '../../providers/globals/globals';
 
 /**
  * Generated class for the SignupPage page.
@@ -24,7 +24,7 @@ export class SignupPage {
   userProfile: any = null;
   loading: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public storage: Storage, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public events: Events, public globals: GlobalsProvider) {
   }
 
   ionViewDidLoad() {
@@ -57,14 +57,14 @@ export class SignupPage {
               if (data.child(this.userProfile.uid).exists() == true) {
                 this.navCtrl.setRoot(TabsPage);
                 // this.events.publish('fbloggedin',true);
-                this.storage.set('FbLoginComplete', true);
+                // this.storage.set('FbLoginComplete', true);
               }
               else if (data.child(this.userProfile.uid).exists() == false) {
                 // this.events.publish('fbloggedin', false);
 
                 this.navCtrl.push(FbprofilePage, { 'fbdata': this.userProfile });
-                
-                // this.storage.set('FbLoginComplete', false);
+                this.globals.FbLoginComplete = false;
+               
               }
 
 

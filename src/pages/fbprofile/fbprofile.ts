@@ -3,7 +3,7 @@ import { IonicPage, NavController, LoadingController, NavParams, Events } from '
 import * as firebase from 'firebase';
 import * as moment from 'moment';
 import { TabsPage } from '../tabs/tabs';
-import { Storage } from '@ionic/storage';
+// import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the FbprofilePage page.
@@ -25,7 +25,7 @@ export class FbprofilePage {
   firstName: any;
   lastName: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public storage: Storage, public event: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public event: Events) {
   	this.fbData = this.navParams.get('fbdata');
     console.log("fbdata",this.fbData.uid);
     // this.userProfile = this.fbData.photoURL;
@@ -66,7 +66,7 @@ export class FbprofilePage {
             this.loading.dismiss().then(() => { 
 
               console.log('Dismiss Work');
-              this.storage.set('FbLoginComplete', true);
+              // this.storage.set('FbLoginComplete', true);
               // this.event.publish('fbloggedin',true);
             this.navCtrl.setRoot(TabsPage);
             });
