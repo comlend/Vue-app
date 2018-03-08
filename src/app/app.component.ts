@@ -9,6 +9,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import * as firebase from 'firebase';
 import { GlobalsProvider } from '../providers/globals/globals';
 
+import * as _ from 'lodash';
+
 @Component({
 	templateUrl: 'app.html'
 })
@@ -18,7 +20,6 @@ export class MyApp {
 	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider) {
 		this.initializeFirebase();
 		platform.ready().then(() => {
-
 			// this.initializeApp();
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.
@@ -46,13 +47,41 @@ export class MyApp {
 				// unsubscribe();
 			} else {
 				this.global.userId = user.uid;
-				console.log('user',user);
+				// console.log('user',user);
+				this.getAllChats().then(() => {
+					this.rootPage = TabsPage;
+				});
+				
 				// this.global.loadUserDatatoGloabls();
-				this.rootPage = TabsPage;
 				// unsubscribe();
 			}
 		});
 	}
 
-	
+	getAllChats() {
+		return new Promise((resolve, reject) => {
+			var userId = this.global.userId;
+			// console.log('User ID ', userId);
+			var dbRef = firebase.database().ref('chats').child(userId);
+			var chatArr = [];
+			dbRef.on('value', (chats) => {
+				var chatObj = chats.val();
+				for (let chat in chatObj) {
+					chatArr['receiver'] = chat;
+					chatArr['messages'] = [];
+					if (chatObj.hasOwnProperty(chat)) {
+						let chatElement = chatObj[chat];
+						// console.log('Chat Eele ', chat, _.toArray(chatElement));
+
+						chatArr['messages'] = _.toArray(chatElement);
+						
+					}
+				}
+
+				this.global.chats = chatArr;
+				resolve();
+				// console.log('Chat Arr ', chatArr);
+			});
+		});
+	}	
 }
