@@ -21,14 +21,16 @@
 
 <ion-content #content>
   <ion-item no-lines *ngFor="let chat of chats; let i = index" text-wrap>
+    <div class="spanclass" *ngIf="chat.sentby == neighbourData.uId">{{neighbourData.firstName}} {{neighbourData.lastName}}</div>
     <div class= "userchatmsg"  *ngIf="chat.sentby == neighbourData.uId">
+      
         <ion-avatar item-start style="display: inline-block;float: left;">
           <img [src]="neighbourData.profileurl">
         </ion-avatar>
         <span *ngIf="chat.type == 'text'" class="userchatmsg left-msg">
           {{chat.message}}
         </span>
-        <img class="chatimage" src="{{chat.message}}" *ngIf="chat.type == 'image'">
+        <img class="chatimage left" src="{{chat.message}}" *ngIf="chat.type == 'image'">
         
     </div>
 
@@ -38,7 +40,7 @@
       </ion-avatar>
     <span *ngIf="chat.type == 'text'" class="userchatmsg right-msg">
       {{chat.message}}</span>
-    <img class="chatimage" src="{{chat.message}}" *ngIf="chat.type == 'image'">
+    <img class="chatimage right" src="{{chat.message}}" *ngIf="chat.type == 'image'">
     </div>
   </ion-item>
   

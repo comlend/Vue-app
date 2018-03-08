@@ -35,29 +35,7 @@ export class MessagePage {
 				// console.log('Remember me ')
 				// console.log(message);
 				this.chats = message;
-				// console.log('this chat',this.chats);
-				// for (let key = 0; key < this.chats.length; key++) {
-				// 	if (this.chats.message.substr(0, 4) == 'http') {
-				// 		this.imgornot[key].push(true);
-				// 		console.log('is it an image - ', this.imgornot[key]);
-				// 	}
-				// 	else {
-				// 		this.imgornot.push(false);
-				// 		console.log('is it an image - ', this.imgornot[key]);
-				// 	} 
-					
-				// }
-				// for (var key in this.chats) {
-				// 	if (this.chats.message.substring(0, 4) == 'http') {
-				// 		this.imgornot[key].push(true);
-				// 		console.log('is it an image - ',this.imgornot[key]);
-				// 	}	
-				// 	else{
-				// 		this.imgornot.push(false);
-				// 		console.log('is it an image - ', this.imgornot[key]);
-				// 	} 
-						
-				// }
+				
 			});
 			this.scrollto();							
 		});		

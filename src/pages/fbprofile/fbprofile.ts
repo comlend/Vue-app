@@ -45,10 +45,9 @@ export class FbprofilePage {
           // lastName: lastName,
           createdAt: createdAt,
           profileurl: this.fbData.photoURL,
-          userType: {
-                userType: this.userType,
-                unit: this.unit
-              }
+          uId: this.fbData.uid,
+          userType: this.userType,
+          unit: this.unit
           
           }, () => {
             console.log('Success');

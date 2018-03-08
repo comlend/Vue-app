@@ -37,7 +37,25 @@ page-message {
         //     border: solid 0.5px #b2b2b2 !important;
         // }
     }
-    .chatimage{
-        
+    .chatimage {
+        border-radius: 20px;
+        display: inline-block;
+        position: relative;
+        width: 70%;
+        .right {
+            float: right;
+            padding-right: 10px;
+        }
+        .left {
+            float: left;
+            padding-left: 10px;
+        }
+    }
+    .spanclass {
+        padding-left: 7em;
+        font-size: 1rem;
+        line-height: normal;
+        text-overflow: inherit;
+        color: #8e9093;
     }
 }
