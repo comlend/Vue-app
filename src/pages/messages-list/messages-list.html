@@ -8,10 +8,15 @@
 
 
 <ion-content padding>
-
-	{{chats}}
-	<div *ngFor="let chat of chats">
-		 {{ chat }}
-	</div>
-	
+	<div *ngIf="chats.length > 0">
+		<ion-list>
+			<ion-item *ngFor="let chat of chats" (click)="goToChatPage(chat)">
+				<ion-avatar item-start>
+					<img src="{{ chat.receiverData.profileurl }}">
+				</ion-avatar>
+				<h2>{{ chat.receiverData.firstName }} {{ chat.receiverData.lastName }}</h2>
+				<p>{{ chat.lastMsg }}</p>
+			</ion-item>
+		</ion-list>
+	</div>	
 </ion-content>
