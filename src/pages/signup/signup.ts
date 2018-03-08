@@ -5,6 +5,8 @@ import { RegisterPage } from '../register/register';
 import { Facebook } from '@ionic-native/facebook';
 import * as firebase from 'firebase';
 import { FbprofilePage } from '../fbprofile/fbprofile';
+import { TabsPage } from '../tabs/tabs';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the SignupPage page.
@@ -22,7 +24,7 @@ export class SignupPage {
    userProfile: any = null;
    loading: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public storage: Storage) {
   }
 
   ionViewDidLoad() {
@@ -43,14 +45,29 @@ export class SignupPage {
 
         firebase.auth().signInWithCredential(facebookCredential)
         .then((success) => {
-            console.log("Firebase success: " + JSON.stringify(success));
+            // console.log("Firebase success: " + JSON.stringify(success));
             this.userProfile = success;
             console.log(this.userProfile);
-            this.loading.dismiss().then(() => {          
-            this.navCtrl.push(FbprofilePage, {'fbdata':this.userProfile});
-            });
+            this.loading.dismiss().then(() => {  
+              // this.navCtrl.push(FbprofilePage, { 'fbdata': this.userProfile });
            
-            
+              firebase.database().ref('/users/').once('value', (data) => {
+                if (data.child(this.userProfile.id).exists()) {
+                  this.navCtrl.setRoot(TabsPage);
+                  this.storage.set('FbLoginComplete', true);
+                  // console.log('facebook id check');
+                  // console.log(data.val());
+                }
+                else {
+                  this.navCtrl.push(FbprofilePage, { 'fbdata': this.userProfile });
+                  this.storage.set('FbLoginComplete', false);
+                }
+                  
+               
+              });
+
+            });
+  
         })
         .catch((error) => {
           this.loading.dismiss().then(() => {          
