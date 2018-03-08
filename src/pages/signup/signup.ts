@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, LoadingController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController, NavParams, Events } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
 import { Facebook } from '@ionic-native/facebook';
@@ -24,7 +24,7 @@ export class SignupPage {
   userProfile: any = null;
   loading: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public storage: Storage, public events: Events) {
   }
 
   ionViewDidLoad() {
@@ -52,15 +52,19 @@ export class SignupPage {
             // this.navCtrl.push(FbprofilePage, { 'fbdata': this.userProfile });
 
             firebase.database().ref('/users/').once('value', (data) => {
+
+              console.log('User Exists ', data.child(this.userProfile.uid).exists());
               if (data.child(this.userProfile.uid).exists() == true) {
                 this.navCtrl.setRoot(TabsPage);
+                // this.events.publish('fbloggedin',true);
                 this.storage.set('FbLoginComplete', true);
-                // console.log('facebook id check');
-                // console.log(data.val());
               }
               else if (data.child(this.userProfile.uid).exists() == false) {
+                // this.events.publish('fbloggedin', false);
+
                 this.navCtrl.push(FbprofilePage, { 'fbdata': this.userProfile });
-                this.storage.set('FbLoginComplete', false);
+                
+                // this.storage.set('FbLoginComplete', false);
               }
 
 

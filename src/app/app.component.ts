@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, ModalController } from 'ionic-angular';
+import { Platform, ModalController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -19,7 +19,7 @@ export class MyApp {
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage) {
+	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events) {
 		this.initializeFirebase();
 		storage.get('FbLoginComplete').then((val) => {
 			this.fbLoginComplete = val;
@@ -54,14 +54,24 @@ export class MyApp {
 			
 			else {
 
-        /* if (!this.fbLoginComplete) {
-					
-				}
-		else if (this.fbLoginComplete) { */
+			if (!this.fbLoginComplete) {
 				this.global.userId = user.uid;
-				// console.log('user',user);
-
 				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
+				Promise.all(promises).then((values) => {
+					this.extractNeighbourData();
+					this.getUserData();
+					//    this.rootPage = TabsPage;
+					console.log('Promise.all resolved');
+				}).catch((err) => {
+					console.log('Promise.all ', err);
+				});
+				return; 		
+			}
+			
+			else if (this.fbLoginComplete) { 
+				
+				this.global.userId = user.uid;
+				promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
 				Promise.all(promises).then((values) => {
 					this.extractNeighbourData();
 					this.getUserData();
@@ -70,19 +80,10 @@ export class MyApp {
 				}).catch((err) => {
 					console.log('Promise.all ', err);
 				});
-        /* } */
-        
-			/* 	this.getNeighbours().then(() => {
-				this.getAllChats().then(() => {
-					this.rootPage = TabsPage;
-					this.getUserData();
-					
-				});
-				}); */
-
-				// this.global.loadUserDatatoGloabls();
-				// unsubscribe();
+				return; 
 			}
+		}
+	
 		});
 	}
 

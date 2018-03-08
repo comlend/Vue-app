@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, LoadingController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController, NavParams, Events } from 'ionic-angular';
 import * as firebase from 'firebase';
 import * as moment from 'moment';
 import { TabsPage } from '../tabs/tabs';
@@ -25,7 +25,7 @@ export class FbprofilePage {
   firstName: any;
   lastName: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public storage: Storage, public event: Events) {
   	this.fbData = this.navParams.get('fbdata');
     console.log("fbdata",this.fbData.uid);
     // this.userProfile = this.fbData.photoURL;
@@ -64,7 +64,10 @@ export class FbprofilePage {
           }, () => {
             console.log('Success');
             this.loading.dismiss().then(() => { 
-              this.storage.set('FbLoginComplete', true);         
+
+              console.log('Dismiss Work');
+              this.storage.set('FbLoginComplete', true);
+              // this.event.publish('fbloggedin',true);
             this.navCtrl.setRoot(TabsPage);
             });
            
