@@ -250,4 +250,34 @@ export class FirebaseProvider {
 			});
 		});
 	}
+
+	updateChatMsgStatus(userId, neighbourId, chat) {
+		var updateSenderRef = firebase.database().ref('/chats').child(userId).child(neighbourId).child(chat.id);
+		updateSenderRef.update({
+			status: 'Read'
+		}).then(() => {
+			var updateReceiverRef = firebase.database().ref('/chats').child(neighbourId).child(userId).child(chat.id);
+			updateReceiverRef.update({
+				status: 'Read'
+			}).then(() => {
+				// Update msg status event
+				return({success: true, msg: 'Chat Message Status Updated'});
+			});
+		});
+	}
+
+	chatMsgStatusUpdate(userId, neighbourId/* , chat */) {
+		var updatedSenderRef = firebase.database().ref('/chats').child(userId).child(neighbourId)/* .child(chat.id) */;
+		updatedSenderRef.on('child_changed', (data: any) => {
+			var updatedData = data.val();
+			// console.log('Updated Data ', updatedData);				
+			
+			// console.log(userId + ' == ' + updatedData.sentby + ' && ' + updatedData.status + ' == Read');
+			if (userId == updatedData.sentby && updatedData.status == 'Read') {
+				this.events.publish('chatstatus:updated');
+				// console.log('Updated Data ', updatedData);				
+			}
+			// alert('Hey Neighbour read your message');
+		});		
+	}
 }
