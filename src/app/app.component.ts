@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, ModalController } from 'ionic-angular';
+import { Platform, ModalController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -8,6 +8,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import * as firebase from 'firebase';
 import { GlobalsProvider } from '../providers/globals/globals';
+import { Storage } from '@ionic/storage';
 
 import * as _ from 'lodash';
 
@@ -16,9 +17,19 @@ import * as _ from 'lodash';
 })
 export class MyApp {
 	rootPage: any = '';
+	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider) {
+	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events) {
 		this.initializeFirebase();
+		this.fbLoginComplete = this.global.FbLoginComplete;
+		// storage.get('FbLoginComplete').then((val) => {
+		// 	console.log('fblogin is complete?', val);
+		// 	if (val) {
+		// 		console.log('fblogin is complete?',val);
+		// 		this.fbLoginComplete = val;
+		// 	}
+			
+		// });
 		platform.ready().then(() => {
 			// this.initializeApp();
 			// Okay, so the platform is ready and our plugins are available.
@@ -45,28 +56,48 @@ export class MyApp {
 			if (!user) {
 				this.rootPage = SignupPage;
 				// unsubscribe();
-			} else {
-				this.global.userId = user.uid;
-				// console.log('user',user);
+			} 
+			
+			else {
 
+				this.global.userId = user.uid;
 				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
 				Promise.all(promises).then((values) => {
 					this.extractNeighbourData();
-					this.rootPage = TabsPage;
+					
+					// this.getUserData();
+					//    
 					console.log('Promise.all resolved');
+					if (this.global.FbLoginComplete) {
+						this.rootPage = TabsPage;
+						// return;
+						unsubscribe();
+					}
+					else if (!this.global.FbLoginComplete) { 
+						
+						return;
+					}
+					
 				}).catch((err) => {
 					console.log('Promise.all ', err);
 				});
-			/* 	this.getNeighbours().then(() => {
-				this.getAllChats().then(() => {
-					this.rootPage = TabsPage;
-					this.getUserData();
-					
-				});
-				}); */
-				// this.global.loadUserDatatoGloabls();
-				// unsubscribe();
-			}
+				
+			
+			
+				
+				// this.global.userId = user.uid;
+				// promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
+				// Promise.all(promises).then((values) => {
+				// 	this.extractNeighbourData();
+				// 	this.getUserData();
+				// 	this.rootPage = TabsPage;
+				// 	console.log('Promise.all resolved');
+				// }).catch((err) => {
+				// 	console.log('Promise.all ', err);
+				// });
+				
+		}
+	
 		});
 	}
 

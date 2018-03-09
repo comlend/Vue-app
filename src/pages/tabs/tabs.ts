@@ -18,6 +18,7 @@ export class TabsPage {
   tab4Root = NewsPage;
 
   constructor(private firebase: FirebaseProvider, private globals: GlobalsProvider) {
+   console.log('neighbours data from globals- ',this.globals.neighboursData);
   }
 
 }

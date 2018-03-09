@@ -5,13 +5,6 @@ import { GlobalsProvider } from '../../providers/globals/globals';
 import { MessagePage } from '../message/message'; 
 import { BusinessDetailsPage } from '../business-details/business-details';
 
-/**
- * Generated class for the NeighboursPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-neighbours',
