@@ -153,46 +153,49 @@ export class FirebaseProvider {
 	addnewmessage(msg, neighbourId, type) {
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
-		// console.log('chat message>>>', msg);
-		// console.log('neighbour >>>', neighbourId);
-		console.log('type - ',type);
+
+		// Default Status is Delivered for every message
+		let msgStatus = 'Delivered';
+
+		// console.log('type - ',type, ' chat message>>>', msg, ' neighbour >>>', neighbourId);
+
 		var userId = this.globals.userId;
 		// console.log(userId);
 		var firechats = firebase.database().ref('/chats/');
 
 		if (neighbourId) {
 			var promise = new Promise((resolve, reject) => {
-				// this.fireuserStatus.child(this.buddy.uid).on('value',(statuss)=>{
-				//   let msgstatus = statuss.val();
-				firechats.child(userId).child(neighbourId).push({
+				var msgObj = {
 					sentby: userId,
 					sentTo: neighbourId,
+					status: msgStatus,
 					message: msg,
 					timestamp: firebase.database.ServerValue.TIMESTAMP,
 					timeofmsg: time,
 					dateofmsg: date,
-					type: type
-				}).then(() => {
-					firechats.child(neighbourId).child(userId).push({
-						sentby: userId,
-						sentTo: neighbourId,
-						message: msg,
-						timestamp: firebase.database.ServerValue.TIMESTAMP,
-						timeofmsg: time,
-						dateofmsg: date,
-						type: type
-					}).then(() => {
-						// this.events.publish('newmessage');		
+					type: type,
+					id: ''
+				};
 
+				var saveMsgSender = firechats.child(userId).child(neighbourId).push();
+
+
+				var uniqueMsgKey = saveMsgSender.key;
+
+				// Add Unique Key
+				msgObj.id = uniqueMsgKey;
+
+
+				// console.log('Message To be Sent ', uniqueMsgKey, msgObj);
+				saveMsgSender.set(msgObj).then(() => {
+					var saveMsgReceiver = firechats.child(neighbourId).child(userId).child(uniqueMsgKey);
+					saveMsgReceiver.set(msgObj).then(() => {
 						resolve(true);
-					}), (err) => {
+					}).catch((err) => {
 						reject(false);
-						// .catch((err) => {
-						//   reject(err);
-					}
-				})
-			})
-			// })
+					});
+				});
+			});
 			return promise;
 		}
 	}

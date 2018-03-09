@@ -115,7 +115,7 @@ export class MyApp {
 			// console.log('User ID ', userId);
 			var dbRef = firebase.database().ref('chats').child(userId);
 			var chatArr = [];
-			dbRef.on('value', (chats) => {
+			dbRef.once('value', (chats) => {
 				var chatObj = chats.val();
 				for (let chat in chatObj) {
 					var chatObjTemp = {};
