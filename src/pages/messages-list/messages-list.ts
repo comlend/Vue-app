@@ -3,6 +3,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 
 import { MessagePage } from "../message/message";
+
+import * as firebase from 'firebase';
+import * as _ from 'lodash';
+
 @IonicPage()
 @Component({
 	selector: 'page-messages-list',
@@ -11,13 +15,16 @@ import { MessagePage } from "../message/message";
 export class MessagesListPage {
 	chats = [];
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone) {
-		this.chats = this.globals.chats;
-		console.log('Chats Available ', this.globals.chats);
-		this.showLastMessage();
+		// this.chats = this.globals.chats;
+		
 	}
 
-	ionViewWillLoad() {
-
+	ionViewWillEnter() {		
+		this.getAllChats().then(() => {				
+			this.chats = this.globals.chats;
+			this.showLastMessage();
+		});
+		console.log('Chats Available Message ', this.globals.chats);
 	}
 
 	ionViewDidLoad() {
@@ -42,6 +49,60 @@ export class MessagesListPage {
 				break;					
 				}				
 			}			
+		}
+	}
+
+	getAllChats() {
+		return new Promise((resolve, reject) => {
+			var userId = this.globals.userId;
+			// console.log('User ID ', userId);
+			var dbRef = firebase.database().ref('chats').child(userId);
+			var chatArr = [];
+			dbRef.once('value', (chats) => {
+				var chatObj = chats.val();
+				for (let chat in chatObj) {
+					var chatObjTemp = {};
+
+					chatObjTemp['receiver'] = chat;
+					chatObjTemp['messages'] = [];
+					if (chatObj.hasOwnProperty(chat)) {
+						let chatElement = chatObj[chat];
+						// console.log('Chat Eele ', chat, _.toArray(chatElement));
+
+						chatObjTemp['messages'] = _.toArray(chatElement);
+					}
+
+					chatArr.push(chatObjTemp);
+				}
+
+				this.globals.chats = chatArr;
+				console.log('Chat Arr ', chatArr);
+				
+				this.extractNeighbourData();
+				resolve();
+			});
+		});
+	}
+
+	extractNeighbourData() {
+		this.globals.neighboursData
+		this.globals.chats
+
+		for (let i = 0; i < this.globals.chats.length; i++) {
+			let chat = this.globals.chats[i];
+			let receiver = chat.receiver;
+
+			for (let j = 0; j < this.globals.neighboursData.length; j++) {
+				let eachNeighbour = this.globals.neighboursData[j];
+				let neighbourId = eachNeighbour.uId;
+				if (receiver == neighbourId) {
+					chat.receiverData = eachNeighbour;
+
+					break;
+				}
+			}
+
+			// console.log('All Chats Modified ', this.global.chats);
 		}
 	}
 

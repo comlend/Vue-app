@@ -20,7 +20,6 @@ export class MessagePage {
 	// imgornot: any = '';
 
 	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, private camera: Camera) {
-		 
 		this.userId = this.globals.userId;
 		this.userProfile = this.globals.userData.profileurl;
 
@@ -70,6 +69,7 @@ export class MessagePage {
 			
 			// this.chats = this.firebase.neighbourmessages;					
 			this.chats = data;
+			this.checkForUnreadMsgs();
 		}).catch((err) => {
 			console.log('Error ', err);
 		});		
@@ -80,7 +80,7 @@ export class MessagePage {
 	}
 
 	addnewmessage(chat, type) {
-		console.log(chat, this.neighbourData.uId);
+		console.log('Chat Before ', chat, this.neighbourData.uId);
 		this.firebase.addnewmessage(chat, this.neighbourData.uId, type).then(success => {
 			// this.chats = userData;
 			this.chat = '';
@@ -124,6 +124,23 @@ export class MessagePage {
 				console.log('Error ', err);
 			});
 		});
+
+		this.events.subscribe('chatstatus:updated', () => {
+			this.firebase.getneighbourmessages(this.neighbourData.uId).then((data) => {
+				this.zone.run(() => {
+					console.log('counter Message Arr', data);
+				});
+
+
+				// this.chats = this.firebase.neighbourmessages;					
+				this.chats = data;
+				this.checkForUnreadMsgs();
+			}).catch((err) => {
+				console.log('Error ', err);
+			});	
+		});
+
+		this.updateMsgFirebaseCallbackEvent();
 	}
 
 	uploadPic(){
@@ -175,5 +192,35 @@ export class MessagePage {
 					console.log(err);
 				});
 		});
+	}
+
+	checkForUnreadMsgs() {
+		var allChats = this.chats;
+
+		for (let i = 0; i < allChats.length; i++) {
+			let chat = allChats[i];
+
+			if (this.userId != chat.sentby) {		
+				// Update Chat status once, receiver open this page
+				this.updateMsgStatus(chat);
+
+				// console.log('Chat After ', chat);
+			}			
+		}
+	}
+
+	updateMsgStatus(chat) {
+		var userId = this.userId;
+		var neighbourId = this.neighbourData.uId;
+		/* chat.status = 'Read'; */
+
+		// Call Firebase and update db aswell
+		this.firebase.updateChatMsgStatus(userId, neighbourId, chat);
+	}
+
+	updateMsgFirebaseCallbackEvent() {
+		var userId = this.userId;
+		var neighbourId = this.neighbourData.uId;
+		this.firebase.chatMsgStatusUpdate(userId, neighbourId);
 	}
 }

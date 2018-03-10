@@ -153,46 +153,49 @@ export class FirebaseProvider {
 	addnewmessage(msg, neighbourId, type) {
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
-		// console.log('chat message>>>', msg);
-		// console.log('neighbour >>>', neighbourId);
-		console.log('type - ',type);
+
+		// Default Status is Delivered for every message
+		let msgStatus = 'Delivered';
+
+		// console.log('type - ',type, ' chat message>>>', msg, ' neighbour >>>', neighbourId);
+
 		var userId = this.globals.userId;
 		// console.log(userId);
 		var firechats = firebase.database().ref('/chats/');
 
 		if (neighbourId) {
 			var promise = new Promise((resolve, reject) => {
-				// this.fireuserStatus.child(this.buddy.uid).on('value',(statuss)=>{
-				//   let msgstatus = statuss.val();
-				firechats.child(userId).child(neighbourId).push({
+				var msgObj = {
 					sentby: userId,
 					sentTo: neighbourId,
+					status: msgStatus,
 					message: msg,
 					timestamp: firebase.database.ServerValue.TIMESTAMP,
 					timeofmsg: time,
 					dateofmsg: date,
-					type: type
-				}).then(() => {
-					firechats.child(neighbourId).child(userId).push({
-						sentby: userId,
-						sentTo: neighbourId,
-						message: msg,
-						timestamp: firebase.database.ServerValue.TIMESTAMP,
-						timeofmsg: time,
-						dateofmsg: date,
-						type: type
-					}).then(() => {
-						// this.events.publish('newmessage');		
+					type: type,
+					id: ''
+				};
 
+				var saveMsgSender = firechats.child(userId).child(neighbourId).push();
+
+
+				var uniqueMsgKey = saveMsgSender.key;
+
+				// Add Unique Key
+				msgObj.id = uniqueMsgKey;
+
+
+				// console.log('Message To be Sent ', uniqueMsgKey, msgObj);
+				saveMsgSender.set(msgObj).then(() => {
+					var saveMsgReceiver = firechats.child(neighbourId).child(userId).child(uniqueMsgKey);
+					saveMsgReceiver.set(msgObj).then(() => {
 						resolve(true);
-					}), (err) => {
+					}).catch((err) => {
 						reject(false);
-						// .catch((err) => {
-						//   reject(err);
-					}
-				})
-			})
-			// })
+					});
+				});
+			});
 			return promise;
 		}
 	}
@@ -246,5 +249,35 @@ export class FirebaseProvider {
 
 			});
 		});
+	}
+
+	updateChatMsgStatus(userId, neighbourId, chat) {
+		var updateSenderRef = firebase.database().ref('/chats').child(userId).child(neighbourId).child(chat.id);
+		updateSenderRef.update({
+			status: 'Read'
+		}).then(() => {
+			var updateReceiverRef = firebase.database().ref('/chats').child(neighbourId).child(userId).child(chat.id);
+			updateReceiverRef.update({
+				status: 'Read'
+			}).then(() => {
+				// Update msg status event
+				return({success: true, msg: 'Chat Message Status Updated'});
+			});
+		});
+	}
+
+	chatMsgStatusUpdate(userId, neighbourId/* , chat */) {
+		var updatedSenderRef = firebase.database().ref('/chats').child(userId).child(neighbourId)/* .child(chat.id) */;
+		updatedSenderRef.on('child_changed', (data: any) => {
+			var updatedData = data.val();
+			// console.log('Updated Data ', updatedData);				
+			
+			// console.log(userId + ' == ' + updatedData.sentby + ' && ' + updatedData.status + ' == Read');
+			if (userId == updatedData.sentby && updatedData.status == 'Read') {
+				this.events.publish('chatstatus:updated');
+				// console.log('Updated Data ', updatedData);				
+			}
+			// alert('Hey Neighbour read your message');
+		});		
 	}
 }
