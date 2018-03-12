@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 })
 export class MessagesListPage {
 	chats = [];
+	lastMsg: any;
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone) {
 		// this.chats = this.globals.chats;
 		
@@ -25,6 +26,7 @@ export class MessagesListPage {
 			this.showLastMessage();
 		});
 		console.log('Chats Available Message ', this.globals.chats);
+		console.log('last message', this.lastMsg);
 	}
 
 	ionViewDidLoad() {
@@ -35,19 +37,20 @@ export class MessagesListPage {
 		for (let i = 0; i < this.chats.length; i++) {
 			var chat = this.chats[i];
 			var messages = chat.messages;
-			// console.log('Chat ', messages);
+			console.log('Chat ', messages);
 			for (let j = messages.length-1; j >= 0; j--) {
 				var message = messages[j];
 				// console.log(this.globals.userId, message.sentby);
-				if (this.globals.userId != message.sentby) {
+				// if (this.globals.userId != message.sentby) {
 					if (message.message.indexOf('http') > -1) {
 						// console.log('Last Message ', message);
 						chat.lastMsg = 'Image Added';
 					} else {
 						chat.lastMsg = message.message;
+						// this.lastMsg = chat.lastMsg;
 					}
-				break;					
-				}				
+				// break;					
+				// }				
 			}			
 		}
 	}
