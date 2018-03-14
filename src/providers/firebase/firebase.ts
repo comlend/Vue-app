@@ -295,19 +295,38 @@ export class FirebaseProvider {
 			// let options = new HttpHeaders().set('Content-Type', 'application/json'); options.set('Authorization', 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8')
 			var notificationPayload = {
 				title: 'New Message Received!',
-				body: msg
+				body: msg,
+				sound: "default",
+				click_action: "FCM_PLUGIN_ACTIVITY",
+				icon: "fcm_push_icon"
 			};
 			
 			var body = {
 				to: neighbourDeviceToken,
+				priority: "high",
 				notification: notificationPayload
 			};
 
 			console.log('Headers Before Push Post ', options);
-			console.log('Body Before Push ', body);
-			this.http.post(url, body, options).subscribe((res) => {
+			console.log('Body Before Push ', JSON.stringify(body));
+			this.http.post(url, JSON.stringify(body), options).subscribe((res) => {
 				console.log('Noti Send Firbase Respone ', res);
 			})
+		});
+	}
+
+	updateFcmDeviceToken(deviceToken) {
+		return new Promise((resolve, reject) => {
+			var userId = this.globals.userId;
+			var dbRef = firebase.database().ref('/users/' + userId).child('deviceToken');
+
+			dbRef.update({
+				deviceToken: deviceToken
+			}).then(() => {
+				resolve();
+			}).catch(() => {
+				reject();
+			});
 		});
 	}
 }
