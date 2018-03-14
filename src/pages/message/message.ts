@@ -77,7 +77,7 @@ export class MessagePage {
 	sendChatNotification(msg) {
 		var neighbourDeviceToken = this.neighbourData.deviceToken;
 		console.log('Chat and Neighbour Device Token ', msg, neighbourDeviceToken);
-		this.firebase.sendChatMsgNoti(msg, neighbourDeviceToken).then(() => {
+		this.firebase.sendChatMsgNoti(neighbourDeviceToken, msg).then(() => {
 			console.log('Notification Sent.');
 		});
 	}
