@@ -5,12 +5,6 @@ import * as firebase from 'firebase';
 import { GlobalsProvider } from '../globals/globals';
 import * as _ from 'lodash';
 
-/*
-  Generated class for the FirebaseProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class FirebaseProvider {
 	firebaseUsers: any;
@@ -27,6 +21,8 @@ export class FirebaseProvider {
 
 	signupBizUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, name: string, userType: string, details: string) {
 		return new Promise((resolve, reject) => {
+			var fcmToken = this.globals.fcmToken;
+
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 
 				console.log("data output", email, firstName, lastName, createdAt, profileurl)
@@ -39,7 +35,8 @@ export class FirebaseProvider {
 					userType: userType,
 					name: name,
 					details: details,
-					uId: newUser.uid
+					uId: newUser.uid,
+					deviceToken: fcmToken
 				});
 				resolve(newUser);
 			}).catch((error) => {
@@ -52,6 +49,8 @@ export class FirebaseProvider {
 	}
 	signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string, unit: string) {
 		return new Promise((resolve, reject) => {
+			var fcmToken = this.globals.fcmToken;
+			
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 
 				console.log("data output", email, firstName, lastName, createdAt, profileurl)
@@ -63,7 +62,8 @@ export class FirebaseProvider {
 					profileurl: profileurl,
 					userType: userType,
 					unit: unit,
-					uId: newUser.uid
+					uId: newUser.uid,
+					deviceToken: fcmToken
 				});
 				resolve(newUser);
 			}).catch((error) => {

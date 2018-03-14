@@ -78,9 +78,7 @@
     </platform>
     <allow-navigation href="http://192.168.1.102:8100" />
     <allow-navigation href="http://192.168.1.100:8100" />
-    <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.4" />
-    <engine name="browser" spec="5.0.3" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
     <plugin name="cordova-plugin-device" spec="^2.0.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
@@ -91,4 +89,8 @@
         <variable name="APP_ID" value="403918076719214" />
         <variable name="APP_NAME" value="Horizon" />
     </plugin>
+    <plugin name="cordova-plugin-fcm" spec="~2.1.2" />
+    <engine name="browser" spec="~5.0.3" />
+    <engine name="android" spec="~6.3.0" />
+    <allow-navigation href="http://192.168.43.55:8100" />
 </widget>
