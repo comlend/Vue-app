@@ -1,4 +1,4 @@
-// import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import * as firebase from 'firebase';
@@ -15,7 +15,7 @@ export class FirebaseProvider {
 	neighbourmessages = [];
 	msgcount = 0;
 
-	constructor(public globals: GlobalsProvider, public events: Events) {
+	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events) {
 		console.log('Hello FirebaseProvider Provider');
 	}
 
@@ -282,10 +282,29 @@ export class FirebaseProvider {
 	}
 
 	sendChatMsgNoti(neighbourDeviceToken, msg) {
-		var url = 'https://fcm.googleapis.com/fcm/send';
-		var notificationPayload = {
-			title: 'New Message!',
-			body: msg
-		};
+		return new Promise((resolve, reject) => {
+			var url = 'https://fcm.googleapis.com/fcm/send';
+
+			var options = {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					'Authorization': 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8'
+				})
+			};
+
+			var notificationPayload = {
+				title: 'New Message Received!',
+				body: msg
+			};
+			
+			var body = {
+				to: neighbourDeviceToken,
+				notification: notificationPayload
+			};
+
+			this.http.post(url, body, options).subscribe((res) => {
+				console.log('Noti Send Firbase Respone ', res);
+			})
+		});
 	}
 }

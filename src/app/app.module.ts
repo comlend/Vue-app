@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Http } from '@angular/http';
 import { HttpModule } from '@angular/http';
+
 import { IonicStorageModule } from '@ionic/storage';
 
 import { TabsPage } from '../pages/tabs/tabs';
@@ -29,6 +30,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Facebook } from '@ionic-native/facebook'
 import { GlobalsProvider } from '../providers/globals/globals';
 import { FCM } from '@ionic-native/fcm';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { FCM } from '@ionic-native/fcm';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp, { mode: 'ios' }),
     HttpModule,
     IonicStorageModule.forRoot()

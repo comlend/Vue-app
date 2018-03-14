@@ -23,7 +23,6 @@ export class MyApp {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
-		this.initializeFcmNotification();
 		// storage.get('FbLoginComplete').then((val) => {
 		// 	console.log('fblogin is complete?', val);
 		// 	if (val) {
@@ -33,6 +32,9 @@ export class MyApp {
 			
 		// });
 		platform.ready().then(() => {
+			// Initialize Push Notification
+			this.initializeFcmNotification();
+			
 			// this.initializeApp();
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.

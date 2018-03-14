@@ -74,11 +74,12 @@ export class MessagePage {
 		});
 	}
 
-	sendChatNotification(chat, neighbourDeviceToken) {
-		console.log('Chat and Neighbour Device Token ', chat, neighbourDeviceToken);
-		/* this.firebase.sendChatMsgNoti(chat, neighbourDeviceToken).then(() => {
-
-		}); */
+	sendChatNotification(msg) {
+		var neighbourDeviceToken = this.neighbourData.deviceToken;
+		console.log('Chat and Neighbour Device Token ', msg, neighbourDeviceToken);
+		this.firebase.sendChatMsgNoti(msg, neighbourDeviceToken).then(() => {
+			console.log('Notification Sent.');
+		});
 	}
 
 	// getAllMessages() {

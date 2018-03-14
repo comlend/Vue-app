@@ -68,9 +68,9 @@
       "cordova-plugin-fcm": {}
     },
     "platforms": [
-      "android",
       "ios",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }
