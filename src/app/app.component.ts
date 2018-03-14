@@ -105,6 +105,7 @@ export class MyApp {
 
 	initializeFcmNotification() {
 		this.fcm.onNotification().subscribe(data => {
+			alert('Received Notification Successfully!');
 			if (data.wasTapped) {
 				console.log("Received in background");
 			} else {

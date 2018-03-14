@@ -40,22 +40,6 @@ export class MessagePage {
 		});		
 		
 		this.listenForEvents();
-
-		// this.events.subscribe('newmessage', () => {
-		//   this.zone.run(() => {
-		//     this.firebase.getneighbourmessages(this.neighbourData.uId).then(success => {
-		//       this.chats = success;
-		//       console.warn(success);
-		//     }, error => {
-		//       console.error(error);
-		//     });;
-		//     console.log(this.chats);
-		//     // 
-		//   });
-
-		// });
-
-
 	}
 
 	ionViewDidLoad() {
@@ -88,6 +72,13 @@ export class MessagePage {
 		}, error => {
 			console.error(error);
 		});
+	}
+
+	sendChatNotification(chat, neighbourDeviceToken) {
+		console.log('Chat and Neighbour Device Token ', chat, neighbourDeviceToken);
+		/* this.firebase.sendChatMsgNoti(chat, neighbourDeviceToken).then(() => {
+
+		}); */
 	}
 
 	// getAllMessages() {
