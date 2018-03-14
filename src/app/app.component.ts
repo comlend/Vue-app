@@ -117,7 +117,7 @@ export class MyApp {
 
 		this.fcm.onTokenRefresh().subscribe((token) => {
 			var userId = this.global.userId;			
-			var dbRef = firebase.database().ref('/users/' + userId).child('deviceToken');
+			var dbRef = firebase.database().ref('/users').child(userId);
 
 			dbRef.update({
 				deviceToken: token
