@@ -113,7 +113,20 @@ export class MyApp {
 			} else {
 				console.log("Received in foreground");
 			};
-		})
+		});
+
+		this.fcm.onTokenRefresh().subscribe((token) => {
+			var userId = this.global.userId;			
+			var dbRef = firebase.database().ref('/users/' + userId).child('deviceToken');
+
+			dbRef.update({
+				deviceToken: token
+			}).then(() => {
+				console.log('Device Token Updated Successfully');
+			}).catch(() => {
+				console.log('Device Token Update Error');				
+			});
+		});
 	}
 
 	getUserData(){
