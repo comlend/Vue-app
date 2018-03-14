@@ -280,4 +280,12 @@ export class FirebaseProvider {
 			// alert('Hey Neighbour read your message');
 		});		
 	}
+
+	sendChatMsgNoti(neighbourDeviceToken, msg) {
+		var url = 'https://fcm.googleapis.com/fcm/send';
+		var notificationPayload = {
+			title: 'New Message!',
+			body: msg
+		};
+	}
 }
