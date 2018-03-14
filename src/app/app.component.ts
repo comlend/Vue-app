@@ -11,7 +11,7 @@ import { GlobalsProvider } from '../providers/globals/globals';
 import { Storage } from '@ionic/storage';
 
 import * as _ from 'lodash';
-
+import { FCM } from '@ionic-native/fcm';
 @Component({
 	templateUrl: 'app.html'
 })
@@ -19,9 +19,11 @@ export class MyApp {
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events) {
+	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM) {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
+
+		this.initializeFcmNotification();
 		// storage.get('FbLoginComplete').then((val) => {
 		// 	console.log('fblogin is complete?', val);
 		// 	if (val) {
@@ -99,6 +101,17 @@ export class MyApp {
 		}
 	
 		});
+	}
+
+	initializeFcmNotification() {
+		this.fcm.onNotification().subscribe(data => {
+			alert('Received Notification Successfully!');
+			if (data.wasTapped) {
+				console.log("Received in background");
+			} else {
+				console.log("Received in foreground");
+			};
+		})
 	}
 
 	getUserData(){

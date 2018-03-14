@@ -7,14 +7,7 @@ import * as firebase from 'firebase';
 import { FbprofilePage } from '../fbprofile/fbprofile';
 import { TabsPage } from '../tabs/tabs';
 import { GlobalsProvider } from '../../providers/globals/globals';
-
-/**
- * Generated class for the SignupPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
+import { FCM } from '@ionic-native/fcm';
 @IonicPage()
 @Component({
   selector: 'page-signup',
@@ -24,7 +17,12 @@ export class SignupPage {
   userProfile: any = null;
   loading: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public events: Events, public globals: GlobalsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public events: Events, public globals: GlobalsProvider, private fcm: FCM) {
+   
+  }
+
+  ionViewWillEnter() {
+    this.getDeviceFcmToken();
   }
 
   ionViewDidLoad() {
@@ -85,4 +83,11 @@ export class SignupPage {
     this.loading.present();
   }
 
+  getDeviceFcmToken() {
+    // Get Device Token
+    this.fcm.getToken().then(token => {
+      console.log('Device Token ', token);
+      this.globals.fcmToken = token;
+    });
+  }
 }

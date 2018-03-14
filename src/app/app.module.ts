@@ -28,6 +28,7 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Facebook } from '@ionic-native/facebook'
 import { GlobalsProvider } from '../providers/globals/globals';
+import { FCM } from '@ionic-native/fcm';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { GlobalsProvider } from '../providers/globals/globals';
     Camera,
     FirebaseProvider,
     Facebook,
-    GlobalsProvider
+    GlobalsProvider,
+    FCM
   ]
 })
 export class AppModule {}

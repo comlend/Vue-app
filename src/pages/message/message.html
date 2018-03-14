@@ -77,7 +77,7 @@
 			</ion-item>
 		</ion-col>
 		<ion-col col-3>
-			<button ion-button clear (click)="addnewmessage(chat,'text')">Send</button>
+			<button ion-button clear (click)="addnewmessage(chat,'text'); sendChatNotification(chat, neighbourData.deviceToken)">Send</button>
 		</ion-col>
 	</ion-row>
 

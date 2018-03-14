@@ -9,7 +9,7 @@ export class GlobalsProvider {
   FbLoginComplete: boolean = true;
 
   chats = [];
-
+  fcmToken: string = '';
   constructor() {
     console.log('Hello GlobalsProvider Provider');
   }
