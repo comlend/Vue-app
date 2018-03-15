@@ -17,13 +17,14 @@ export class EventDispatcherProvider {
 	}
 
 	newUserAdded() {
-		// console.log('New User Add Event Initialised');
-		var dbRef = firebase.database().ref('/users').limitToLast(1);
-		dbRef.on('child_added', (data) => {
-			// alert('New User Added event-dispatcher');
-			this.events.publish('user:added');
+		return new Promise((resolve) => {
+			// console.log('New User Add Event Initialised');
+			var dbRef = firebase.database().ref('/users').limitToLast(1);
+			dbRef.on('child_added', (data) => {
+				// alert('New User Added event-dispatcher');
+				resolve();
+				this.events.publish('user:added');
+			});
 		});
-
 	}
-
 }

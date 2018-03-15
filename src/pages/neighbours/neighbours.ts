@@ -28,10 +28,10 @@ export class NeighboursPage {
 
   ionViewWillEnter() {
     // Initialize add User Event
-    this.eventDispatcher.newUserAdded();
-
-    // Listen for the app level Events
-    this.listenEventDispatcher();
+    this.eventDispatcher.newUserAdded().then(() => {
+      // Listen for the app level Events
+      this.listenEventDispatcher();
+    });
   }
 
   ionViewDidLoad() {
