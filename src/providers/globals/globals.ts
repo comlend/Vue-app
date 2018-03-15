@@ -10,6 +10,8 @@ export class GlobalsProvider {
 
   chats = [];
   fcmToken: string = '';
+  cordovaPlatform: boolean = null;
+  unreadMessages: number = 0;
   constructor() {
     console.log('Hello GlobalsProvider Provider');
   }
@@ -19,6 +21,8 @@ export class GlobalsProvider {
     this.userData = undefined;
     this.chats = undefined;
     this.neighboursData = undefined;
+    this.cordovaPlatform = undefined;
+    this.unreadMessages = undefined;
   }
 
 }

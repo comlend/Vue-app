@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Platform, ModalController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,7 +19,7 @@ export class MyApp {
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM) {
+	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone) {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
@@ -32,10 +32,11 @@ export class MyApp {
 			
 		// });
 		platform.ready().then(() => {
-			// Initialize Push Notification
-			this.initializeFcmNotification();
-			
-			// this.initializeApp();
+			if (platform.is('cordova')) {
+				this.global.cordovaPlatform = true;
+			}
+			this.initializeApp();
+
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.
 			statusBar.styleDefault();
@@ -44,6 +45,12 @@ export class MyApp {
 			let splash = modalCtrl.create(SplashPage);
 			splash.present();
 		});
+	}
+	initializeApp() {
+		if (this.global.cordovaPlatform) {
+			// Initialize Push Notification
+			this.initializeFcmNotification();	
+		}
 	}
 
 	initializeFirebase() {
@@ -106,6 +113,7 @@ export class MyApp {
 	}
 
 	initializeFcmNotification() {
+		console.log('FCM Notification initialised');
 		this.fcm.onNotification().subscribe(data => {
 			alert('Received Notification Successfully!');
 			if (data.wasTapped) {
