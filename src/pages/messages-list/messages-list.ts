@@ -24,9 +24,11 @@ export class MessagesListPage {
 		this.getAllChats().then(() => {				
 			this.chats = this.globals.chats;
 			this.showLastMessage();
+
+			this.unreadMessages();
 		});
-		console.log('Chats Available Message ', this.globals.chats);
-		console.log('last message', this.lastMsg);
+		// console.log('Chats Available Message ', this.chats);
+		// console.log('last message', this.lastMsg);
 	}
 
 	ionViewDidLoad() {
@@ -37,11 +39,11 @@ export class MessagesListPage {
 		for (let i = 0; i < this.chats.length; i++) {
 			var chat = this.chats[i];
 			var messages = chat.messages;
-			console.log('Chat ', messages);
+			// console.log('Chat ', chat, ' Messages ', messages);
 			for (let j = messages.length-1; j >= 0; j--) {
 				var message = messages[j];
 				// console.log(this.globals.userId, message.sentby);
-				// if (this.globals.userId != message.sentby) {
+				if (this.globals.userId != message.sentby) {
 					if (message.message.indexOf('http') > -1) {
 						// console.log('Last Message ', message);
 						chat.lastMsg = 'Image Added';
@@ -49,8 +51,10 @@ export class MessagesListPage {
 						chat.lastMsg = message.message;
 						// this.lastMsg = chat.lastMsg;
 					}
-				// break;					
-				// }				
+
+				// console.log(chat.lastMsg);
+				break;					
+				}				
 			}			
 		}
 	}
@@ -111,6 +115,27 @@ export class MessagesListPage {
 
 	goToChatPage(chat) {
 		this.navCtrl.push(MessagePage, { 'neighbour': chat.receiverData });
+	}
+
+	unreadMessages() {
+		var totalUnreadMessages = 0;
+		for (let i = 0; i < this.chats.length; i++) {
+			var chat = this.chats[i];
+			chat.unreadMessages = 0;
+			var messages = chat.messages;
+			// console.log('Chat ', chat, ' Messages ', messages);
+			for (let j = messages.length - 1; j >= 0; j--) {
+				var message = messages[j];
+				// console.log(j + ' ' + message.message + ' ' + message.status);
+				if (message.status == 'Delivered') {
+					chat.unreadMessages++;
+				}
+			}
+			// console.log('Each Chat Unread Message ', chat.unreadMessages);
+			totalUnreadMessages += chat.unreadMessages;
+		}
+		console.log('Total Unread Messages ', totalUnreadMessages);
+		this.globals.unreadMessages = totalUnreadMessages;
 	}
 
 }
