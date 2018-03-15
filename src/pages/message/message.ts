@@ -25,7 +25,7 @@ export class MessagePage {
 
 		this.neighbourData = this.navParams.get('neighbour');
 		console.log(this.neighbourData);
-		this.scrollto();
+		// this.scrollto();
 		
 		this.firebase.getnewMsg(this.neighbourData.uId).then((message) => {
 			// console.log('Why i am not running');
@@ -34,9 +34,8 @@ export class MessagePage {
 				// console.log('Remember me ')
 				// console.log(message);
 				this.chats = message;
-				
-			});
-			this.scrollto();							
+				this.scrollto();
+			});							
 		});		
 		
 		this.listenForEvents();
@@ -94,9 +93,11 @@ export class MessagePage {
 	// }
 
 	scrollto() {
-		setTimeout(() => {
-			this.content.scrollToBottom();
-		}, 1000);
+		if (this.content) {
+			setTimeout(() => {
+				this.content.scrollToBottom();
+			}, 500);	
+		}
 	}
 
 	listenForEvents() {
