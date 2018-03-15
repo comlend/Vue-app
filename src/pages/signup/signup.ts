@@ -84,10 +84,12 @@ export class SignupPage {
   }
 
   getDeviceFcmToken() {
-    // Get Device Token
-    this.fcm.getToken().then(token => {
-      console.log('Device Token ', token);
-      this.globals.fcmToken = token;
-    });
+    if (this.globals.cordovaPlatform) {
+      // Get Device Token
+      this.fcm.getToken().then(token => {
+        console.log('Device Token ', token);
+        this.globals.fcmToken = token;
+      });
+    }
   }
 }

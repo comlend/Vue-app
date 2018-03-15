@@ -11,8 +11,9 @@
 	<div *ngIf="chats.length > 0">
 		<ion-list class="firstitem">
 			<ion-item *ngFor="let chat of chats" (click)="goToChatPage(chat)">
-				<ion-avatar item-start>
+				<ion-avatar item-start id="badge-container">
 					<img src="{{ chat.receiverData.profileurl }}">
+					<ion-badge id="badge" *ngIf="chat.unreadMessages > 0" item-end>{{ chat.unreadMessages }}</ion-badge>
 				</ion-avatar>
 				<h5>{{ chat.receiverData.firstName }} {{ chat.receiverData.lastName }}</h5>
 				<p>{{ chat.lastMsg }}</p> {{chat.status}}
