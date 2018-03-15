@@ -31,6 +31,7 @@ import { Facebook } from '@ionic-native/facebook'
 import { GlobalsProvider } from '../providers/globals/globals';
 import { FCM } from '@ionic-native/fcm';
 import { HttpClientModule } from '@angular/common/http';
+import { EventDispatcherProvider } from '../providers/event-dispatcher/event-dispatcher';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { HttpClientModule } from '@angular/common/http';
     FirebaseProvider,
     Facebook,
     GlobalsProvider,
-    FCM
+    FCM,
+    EventDispatcherProvider
   ]
 })
 export class AppModule {}
