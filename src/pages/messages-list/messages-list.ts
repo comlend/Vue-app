@@ -15,6 +15,8 @@ import * as _ from 'lodash';
 export class MessagesListPage {
 	chats = [];
 	lastMsg: any;
+
+	searchQuery: string = '';
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events) {
 		// this.chats = this.globals.chats;
 		
@@ -145,4 +147,40 @@ export class MessagesListPage {
 		}	
 	}
 
+	onSearchInput(event) {
+		var query = this.searchQuery/* event.data */;
+		var chats = this.chats;
+
+		var chatsMatched = [];
+		// console.log('Query ', query);
+		if (query == '') {
+			this._zone.run(() => {
+				chatsMatched = this.globals.chats;
+			});			
+			// console.log(' Globals ', this.globals.chats);
+		} else {
+			for (let i = 0; i < chats.length; i++) {
+				var chat = chats[i];
+				var name = chat.receiverData.firstName + ' ' + chat.receiverData.lastName;
+
+				if (name.indexOf(query) > -1) {
+					chatsMatched.push(chat);
+				}
+			}
+		}
+		
+
+		this.chats = chatsMatched;
+		// console.log('Matched Neighbours ', chatsMatched, ' Globals ', this.globals.chats);
+		// console.log('Search Input ', event, this.chats);
+	}
+
+	onSearchCancel(event) {
+		this._zone.run(() => {
+			this.chats = this.globals.chats;
+		});			
+		console.log(' Globals ', this.globals.chats);
+		
+		console.log('Search Cancel', event);
+	}
 }

@@ -8,6 +8,8 @@
 
 
 <ion-content>
+	<ion-searchbar [(ngModel)]="searchQuery" [showCancelButton]="shouldShowCancel" (ionInput)="onSearchInput($event)" (ionCancel)="onSearchCancel($event)"></ion-searchbar>
+
 	<div *ngIf="chats.length > 0">
 		<ion-list class="firstitem">
 			<ion-item *ngFor="let chat of chats" (click)="goToChatPage(chat)">
