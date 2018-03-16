@@ -49,7 +49,7 @@ export class MessagesListPage {
 			for (let j = messages.length-1; j >= 0; j--) {
 				var message = messages[j];
 				// console.log(this.globals.userId, message.sentby);
-				if (this.globals.userId != message.sentby) {
+				/* if (this.globals.userId != message.sentby) { */
 					if (message.message.indexOf('http') > -1) {
 						// console.log('Last Message ', message);
 						chat.lastMsg = 'Image Added';
@@ -62,7 +62,7 @@ export class MessagesListPage {
 
 				// console.log(chat.lastMsg);
 				break;					
-				}				
+				/* } */				
 			}			
 		}
 	}
