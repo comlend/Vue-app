@@ -53,8 +53,10 @@ export class MessagesListPage {
 					if (message.message.indexOf('http') > -1) {
 						// console.log('Last Message ', message);
 						chat.lastMsg = 'Image Added';
+						chat.lastMsgTime = message.timestamp;
 					} else {
 						chat.lastMsg = message.message;
+						chat.lastMsgTime = message.timestamp;
 						// this.lastMsg = chat.lastMsg;
 					}
 

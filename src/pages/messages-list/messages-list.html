@@ -39,6 +39,8 @@
 					</ion-avatar>
 					<h5>{{ chat.receiverData.firstName }} {{ chat.receiverData.lastName }}</h5>
 					<p>{{ chat.lastMsg }}</p> {{chat.status}}
+
+					<p item-end style="font-size: 11px;color: blue;">{{ chat.lastMsgTime | lastMsgTime }}</p>
 				</ion-item>
 			</div>
 
@@ -56,6 +58,8 @@
 								</ion-avatar>
 								<h5>{{ chat.receiverData.firstName }} {{ chat.receiverData.lastName }}</h5>
 								<p>{{ chat.lastMsg }}</p> {{chat.status}}
+
+								<span item-end>{{ chat.lastMsgTime }}</span>
 							</ion-item>
 						</ion-col>
 					</ion-row>
