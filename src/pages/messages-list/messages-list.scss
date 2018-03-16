@@ -1,4 +1,5 @@
 page-messages-list {
+    $checkbox-ios-background-color-on: color($colors, danger);
     #badge-container {
         position: relative;
         #badge {
@@ -8,6 +9,9 @@ page-messages-list {
             background-color: color($colors, danger);
             border-radius: 100%;
         }
+    }
+    .col {
+        padding: 0 !important;
     }
     .firstitem {
         margin-top: 2.5em;
