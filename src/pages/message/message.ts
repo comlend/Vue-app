@@ -17,6 +17,8 @@ export class MessagePage {
 	userId: string;
 	userProfile: any;
 	imageData: any;
+
+	compensateUnreadMsg: number = 0;
 	// imgornot: any = '';
 
 	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, private camera: Camera) {
@@ -24,7 +26,9 @@ export class MessagePage {
 		this.userProfile = this.globals.userData.profileurl;
 
 		this.neighbourData = this.navParams.get('neighbour');
-		console.log('Neighbour Data ', this.neighbourData);
+		this.compensateUnreadMsg = this.navParams.get('unreadCompensation');
+
+		// console.log('Neighbour Data ', this.neighbourData, ' Unread Compensation ', this.compensateUnreadMsg);
 		// this.scrollto();
 		
 		this.firebase.getnewMsg(this.neighbourData.uId).then((message) => {
@@ -39,6 +43,10 @@ export class MessagePage {
 		});		
 		
 		this.listenForEvents();
+	}
+
+	ionViewWillEnter() {
+		this.compensateUnreadMessagesVal();
 	}
 
 	ionViewDidLoad() {
@@ -218,8 +226,8 @@ export class MessagePage {
 	}
 
 	compensateUnreadMessagesVal() {
-		this.globals.unreadMessages -= this.neighbourData.unreadMessages;
-		this.neighbourData.unreadMessages = 0;
-		console.log(this.neighbourData);
+		this.globals.unreadMessages -= this.compensateUnreadMsg;
+		this.events.publish('unread:messages');
+		// console.log('Compensated Unread ', this.globals.unreadMessages);
 	}
 }

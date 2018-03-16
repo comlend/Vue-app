@@ -1,11 +1,12 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, App } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 
 import { MessagePage } from "../message/message";
 
 import * as firebase from 'firebase';
 import * as _ from 'lodash';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 @IonicPage()
 @Component({
@@ -15,7 +16,12 @@ import * as _ from 'lodash';
 export class MessagesListPage {
 	chats = [];
 	lastMsg: any;
-	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone) {
+
+	searchQuery: string = '';
+
+	editable: boolean = false;
+	chatsToDelete: any = [];
+	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events, public app: App, public firebaseProvider: FirebaseProvider) {
 		// this.chats = this.globals.chats;
 		
 	}
@@ -47,8 +53,10 @@ export class MessagesListPage {
 					if (message.message.indexOf('http') > -1) {
 						// console.log('Last Message ', message);
 						chat.lastMsg = 'Image Added';
+						chat.lastMsgTime = message.timestamp;
 					} else {
 						chat.lastMsg = message.message;
+						chat.lastMsgTime = message.timestamp;
 						// this.lastMsg = chat.lastMsg;
 					}
 
@@ -114,10 +122,11 @@ export class MessagesListPage {
 	}
 
 	goToChatPage(chat) {
-		this.navCtrl.push(MessagePage, { 'neighbour': chat.receiverData });
+		this.navCtrl.push(MessagePage, { 'neighbour': chat.receiverData, 'unreadCompensation': chat.unreadMessages });
 	}
 
 	unreadMessages() {
+		var userId = this.globals.userId;
 		var totalUnreadMessages = 0;
 		for (let i = 0; i < this.chats.length; i++) {
 			var chat = this.chats[i];
@@ -127,15 +136,101 @@ export class MessagesListPage {
 			for (let j = messages.length - 1; j >= 0; j--) {
 				var message = messages[j];
 				// console.log(j + ' ' + message.message + ' ' + message.status);
-				if (message.status == 'Delivered') {
+
+				if (userId != message.sentby && message.status == 'Delivered') {
 					chat.unreadMessages++;
 				}
 			}
 			// console.log('Each Chat Unread Message ', chat.unreadMessages);
 			totalUnreadMessages += chat.unreadMessages;
 		}
-		console.log('Total Unread Messages ', totalUnreadMessages);
-		this.globals.unreadMessages = totalUnreadMessages;
+		// console.log('Total Unread Messages ', totalUnreadMessages);
+
+		if (totalUnreadMessages > 0) {
+			this.globals.unreadMessages = totalUnreadMessages;
+			
+			this.events.publish('unread:messages');
+		}	
 	}
 
+	onSearchInput(event) {
+		var query = this.searchQuery/* event.data */;
+		var chats = this.chats;
+
+		var chatsMatched = [];
+		// console.log('Query ', query);
+		if (query == '') {
+			this._zone.run(() => {
+				chatsMatched = this.globals.chats;
+			});			
+			// console.log(' Globals ', this.globals.chats);
+		} else {
+			for (let i = 0; i < chats.length; i++) {
+				var chat = chats[i];
+				var name = chat.receiverData.firstName + ' ' + chat.receiverData.lastName;
+
+				if (name.indexOf(query) > -1) {
+					chatsMatched.push(chat);
+				}
+			}
+		}
+		
+
+		this.chats = chatsMatched;
+		// console.log('Matched Neighbours ', chatsMatched, ' Globals ', this.globals.chats);
+		// console.log('Search Input ', event, this.chats);
+	}
+
+	onSearchCancel(event) {
+		this._zone.run(() => {
+			this.chats = this.globals.chats;
+		});			
+		console.log(' Globals ', this.globals.chats);
+		
+		console.log('Search Cancel', event);
+	}
+
+	goToMyNeighbours() {
+		var tabIndex = 1;
+		this.app.getRootNav().getActiveChildNav().select(tabIndex);
+	}
+
+	doEditable() {
+		this.editable = true;
+	}
+
+	undoEditable() {
+		this.editable = false;		
+	}
+
+	addChatsToDelete(chat) {
+		if (this.chatsToDelete.length == 0) {
+			this.chatsToDelete.push(chat);
+		} else {
+			var chatFound = _.find(this.chatsToDelete, { 'receiver': chat.receiver });
+			if (chatFound) {
+				_.remove(this.chatsToDelete, { 'receiver': chat.receiver })
+			} else {
+				this.chatsToDelete.push(chat);
+			}
+		}		
+		// console.log('Chats To Delete ', this.chatsToDelete);
+	}
+
+	deleteSelecTedChats() {
+		this.undoEditable();
+		
+		var chats = this.chatsToDelete;
+
+		this.firebaseProvider.deleteChats(chats).then((data: any) => {
+			if (data.success) {
+				this.chatsToDelete = [];
+				this.getAllChats().then(() => {
+					this.chats = this.globals.chats;
+				});				
+			}
+		}).catch((err) => {
+			console.log('Delete Chats Error: ', err);
+		});
+	}
 }

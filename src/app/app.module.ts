@@ -33,6 +33,8 @@ import { FCM } from '@ionic-native/fcm';
 import { HttpClientModule } from '@angular/common/http';
 import { EventDispatcherProvider } from '../providers/event-dispatcher/event-dispatcher';
 
+import { PipesModule } from '../pipes/pipes.module';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -56,7 +58,8 @@ import { EventDispatcherProvider } from '../providers/event-dispatcher/event-dis
     HttpClientModule,
     IonicModule.forRoot(MyApp, { mode: 'ios' }),
     HttpModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

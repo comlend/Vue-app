@@ -329,4 +329,26 @@ export class FirebaseProvider {
 			});
 		});
 	}
+
+	deleteChats(chats) {
+		var userId = this.globals.userId;
+		var deletePromises = [];
+		return new Promise((resolve, reject) => {
+			for (let i = 0; i < chats.length; i++) {
+				let chat = chats[i];
+				var neighbourId = chat.receiver;
+
+				var dbRef = firebase.database().ref('/chats').child(userId).child(neighbourId).remove();	
+
+				deletePromises.push(dbRef);
+			}
+
+			Promise.all(deletePromises).then(() => {
+				resolve({success: true, msg: 'Chats Deleted Successfully'});
+			}).catch((err) => {
+				reject(err);
+			})
+		});
+		
+	}
 }
