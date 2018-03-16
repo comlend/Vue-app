@@ -122,7 +122,7 @@ export class MessagesListPage {
 	}
 
 	goToChatPage(chat) {
-		this.navCtrl.push(MessagePage, { 'neighbour': chat.receiverData, 'unreadCompensation': chat.unreadMessages });
+		this.app.getRootNav().push(MessagePage, { 'neighbour': chat.receiverData, 'unreadCompensation': chat.unreadMessages });
 	}
 
 	unreadMessages() {
