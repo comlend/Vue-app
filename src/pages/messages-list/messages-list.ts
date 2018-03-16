@@ -1,11 +1,12 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, App } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 
 import { MessagePage } from "../message/message";
 
 import * as firebase from 'firebase';
 import * as _ from 'lodash';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,10 @@ export class MessagesListPage {
 	lastMsg: any;
 
 	searchQuery: string = '';
-	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events) {
+
+	editable: boolean = false;
+	chatsToDelete: any = [];
+	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events, public app: App, public firebaseProvider: FirebaseProvider) {
 		// this.chats = this.globals.chats;
 		
 	}
@@ -182,5 +186,49 @@ export class MessagesListPage {
 		console.log(' Globals ', this.globals.chats);
 		
 		console.log('Search Cancel', event);
+	}
+
+	goToMyNeighbours() {
+		var tabIndex = 1;
+		this.app.getRootNav().getActiveChildNav().select(tabIndex);
+	}
+
+	doEditable() {
+		this.editable = true;
+	}
+
+	undoEditable() {
+		this.editable = false;		
+	}
+
+	addChatsToDelete(chat) {
+		if (this.chatsToDelete.length == 0) {
+			this.chatsToDelete.push(chat);
+		} else {
+			var chatFound = _.find(this.chatsToDelete, { 'receiver': chat.receiver });
+			if (chatFound) {
+				_.remove(this.chatsToDelete, { 'receiver': chat.receiver })
+			} else {
+				this.chatsToDelete.push(chat);
+			}
+		}		
+		// console.log('Chats To Delete ', this.chatsToDelete);
+	}
+
+	deleteSelecTedChats() {
+		this.undoEditable();
+		
+		var chats = this.chatsToDelete;
+
+		this.firebaseProvider.deleteChats(chats).then((data: any) => {
+			if (data.success) {
+				this.chatsToDelete = [];
+				this.getAllChats().then(() => {
+					this.chats = this.globals.chats;
+				});				
+			}
+		}).catch((err) => {
+			console.log('Delete Chats Error: ', err);
+		});
 	}
 }
