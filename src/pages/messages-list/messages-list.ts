@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 
 import { MessagePage } from "../message/message";
@@ -15,7 +15,7 @@ import * as _ from 'lodash';
 export class MessagesListPage {
 	chats = [];
 	lastMsg: any;
-	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events) {
 		// this.chats = this.globals.chats;
 		
 	}
@@ -114,10 +114,11 @@ export class MessagesListPage {
 	}
 
 	goToChatPage(chat) {
-		this.navCtrl.push(MessagePage, { 'neighbour': chat.receiverData });
+		this.navCtrl.push(MessagePage, { 'neighbour': chat.receiverData, 'unreadCompensation': chat.unreadMessages });
 	}
 
 	unreadMessages() {
+		var userId = this.globals.userId;
 		var totalUnreadMessages = 0;
 		for (let i = 0; i < this.chats.length; i++) {
 			var chat = this.chats[i];
@@ -127,15 +128,21 @@ export class MessagesListPage {
 			for (let j = messages.length - 1; j >= 0; j--) {
 				var message = messages[j];
 				// console.log(j + ' ' + message.message + ' ' + message.status);
-				if (message.status == 'Delivered') {
+
+				if (userId != message.sentby && message.status == 'Delivered') {
 					chat.unreadMessages++;
 				}
 			}
 			// console.log('Each Chat Unread Message ', chat.unreadMessages);
 			totalUnreadMessages += chat.unreadMessages;
 		}
-		console.log('Total Unread Messages ', totalUnreadMessages);
-		this.globals.unreadMessages = totalUnreadMessages;
+		// console.log('Total Unread Messages ', totalUnreadMessages);
+
+		if (totalUnreadMessages > 0) {
+			this.globals.unreadMessages = totalUnreadMessages;
+			
+			this.events.publish('unread:messages');
+		}	
 	}
 
 }
