@@ -80,6 +80,10 @@ export class FirebaseProvider {
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
 
+	logOut(){
+		return firebase.auth().signOut();
+	}
+
 	public uploadProfile(data) {
 		var filename = (new Date()).getTime() + '.jpg';
 		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
