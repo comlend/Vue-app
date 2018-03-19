@@ -48,7 +48,7 @@
 				<div *ngFor="let chat of chats">  <!-- (click)="goToChatPage(chat)" -->
 					<ion-row>
 						<ion-col col-1 style="background-color: #fff">
-							<ion-checkbox item-start [(ngModel)]="pepperoni" (ionChange)="addChatsToDelete(chat)" style="top: 30%; padding-left: 5px !important;"></ion-checkbox>
+							<ion-checkbox item-start (ionChange)="addChatsToDelete(chat)" style="top: 30%; padding-left: 5px !important;"></ion-checkbox>
 						</ion-col>
 						<ion-col col-11>
 							<ion-item>
