@@ -27,4 +27,12 @@ page-register-business {
     textarea.text-input.text-input-ios {
         height: 60px;
     }
+    ion-col {
+        position: initial;
+    }
+    .passwordlabel {
+        font-size:0.75em;
+        padding-left:1.5em;
+        color:#A1ABB6;
+    }
 }

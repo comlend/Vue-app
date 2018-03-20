@@ -1,4 +1,4 @@
-import { Component, ViewChild, NgZone } from '@angular/core';
+import { Component, ViewChild, NgZone, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Content, Events, ActionSheetController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
@@ -10,6 +10,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 	templateUrl: 'message.html',
 })
 export class MessagePage {
+	@ViewChild('chatMessage') myInput: ElementRef;
 	@ViewChild('content') content: Content;
 	neighbourData: any;
 	chat: any = '';
@@ -229,5 +230,11 @@ export class MessagePage {
 		this.globals.unreadMessages -= this.compensateUnreadMsg;
 		this.events.publish('unread:messages');
 		// console.log('Compensated Unread ', this.globals.unreadMessages);
+	}
+
+
+	resize() {
+		console.log(this.myInput);
+		this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
 	}
 }

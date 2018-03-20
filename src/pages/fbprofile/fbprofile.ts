@@ -3,6 +3,7 @@ import { IonicPage, NavController, LoadingController, NavParams, Events } from '
 import * as firebase from 'firebase';
 import * as moment from 'moment';
 import { TabsPage } from '../tabs/tabs';
+import { GlobalsProvider } from '../../providers/globals/globals';
 // import { Storage } from '@ionic/storage';
 
 /**
@@ -25,7 +26,7 @@ export class FbprofilePage {
   firstName: any;
   lastName: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public event: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public event: Events, public globals: GlobalsProvider) {
   	this.fbData = this.navParams.get('fbdata');
     console.log("fbdata",this.fbData.uid);
     // this.userProfile = this.fbData.photoURL;
@@ -49,6 +50,7 @@ export class FbprofilePage {
 
   signupUser() {
     var createdAt = moment().format();
+    var fcmToken = this.globals.fcmToken;
 
     firebase.database().ref('/users').child(this.fbData.uid).set({
           email: this.fbData.email,
@@ -59,7 +61,8 @@ export class FbprofilePage {
           profileurl: this.fbData.photoURL,
           uId: this.fbData.uid,
           userType: this.userType,
-          unit: this.unit
+          unit: this.unit,
+          deviceToken: fcmToken
           
           }, () => {
             console.log('Success');

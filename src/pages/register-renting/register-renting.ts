@@ -20,7 +20,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 })
 export class RegisterRentingPage {
   public signupForm;
-   user: {firstName?: any, lastName?: any, email?: any, password?: any} = {};
+   user: {firstName?: any, lastName?: any, email?: any, pass?: any} = {};
    formData: any;
    loading: any;
    errormessage: any;
@@ -29,6 +29,7 @@ export class RegisterRentingPage {
    imageData: any;
    userType: string = "renting";
    liveInProperty: boolean = false;
+  showPassError: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
       this.initializeForm();
@@ -52,6 +53,13 @@ export class RegisterRentingPage {
   }
   back(){
     this.navCtrl.pop();
+  }
+  checkPassLength() {
+    if (this.user.pass.length < 6) {
+      this.showPassError = true;
+    }
+    else
+      this.showPassError = false;
   }
 
   signupUser() {

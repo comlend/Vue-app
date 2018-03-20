@@ -35,7 +35,15 @@ export class MyApp {
 			if (platform.is('cordova')) {
 				this.global.cordovaPlatform = true;
 			}
-			this.initializeApp();
+			// this.initializeApp();
+
+			if (platform.is('ios')) {
+				this.initializeFcmNotification();	
+			}
+
+			else if (platform.is('ios')) {
+				this.initializeFcmNotification();
+			}
 
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.

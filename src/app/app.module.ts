@@ -56,7 +56,7 @@ import { PipesModule } from '../pipes/pipes.module';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp, { mode: 'ios' }),
+    IonicModule.forRoot(MyApp, { mode: 'ios', autoFocusAssist: true }),
     HttpModule,
     IonicStorageModule.forRoot(),
     PipesModule

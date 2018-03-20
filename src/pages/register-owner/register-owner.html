@@ -40,12 +40,13 @@
 		<ion-list>
 			<ion-item>
 						<ion-input #password formControlName="password" placeholder="Password" [(ngModel)]="user.pass" type="password" 
-							[class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty && returnInvalid" >
+							[class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty && returnInvalid" (input)="checkPassLength()">
 							</ion-input>
 			</ion-item>
-			<div class="error-message" *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty && returnInvalid">
+			<ion-label class="passwordlabel" *ngIf="showPassError">Minimum 6 characters</ion-label>
+			<!-- <div class="error-message" *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty && returnInvalid">
 				<p>Your password needs more than 6 characters.</p>
-			</div>
+			</div> -->
 		</ion-list>
 		<ion-list>
 			<ion-item>
@@ -87,7 +88,7 @@
 </ion-content>
 <ion-footer>
 	<div class="buttonspadding">
-	  		<button ion-button block type="submit" (click)="signupUser()">Sign up</button>
+	  		<button ion-button block type="submit" (click)="signupUser()" [disabled]="!signupForm.valid">Sign up</button>
 		</div>
 	</ion-footer>
 
