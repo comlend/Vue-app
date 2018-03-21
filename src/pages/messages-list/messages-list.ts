@@ -89,7 +89,6 @@ export class MessagesListPage {
 
 					chatArr.push(chatObjTemp);
 				}
-
 				this.globals.chats = chatArr;
 				console.log('Chat Arr ', chatArr);
 				

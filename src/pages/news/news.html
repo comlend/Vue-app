@@ -8,11 +8,49 @@
 
   <ion-navbar>
     <ion-title>NEWS</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="secondary" (click)="addNews()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchQuery" [showCancelButton]="shouldShowCancel" (ionInput)="onSearchInput($event)" (ionCancel)="onSearchCancel($event)"></ion-searchbar>
+  <ion-list no-lines>
+    <ion-item *ngFor="let new of news" class="itemstyle">
+        <ion-row>
+        <ion-col col-2>
+        <ion-avatar item-start>
+          <img [src]=new.profileurl>
+        </ion-avatar>
+        </ion-col>
+        <ion-col col-10>
+          <ion-row>
+            <ion-col col-10>
+              <h5>{{new.firstName}} {{new.lastName}}
+                <span class="newsspan">Unit {{new.unit}}</span>
+              </h5>
+            </ion-col>
+            <ion-col col-2>
+              <span class="newsspan">
+                {{new.time}}
+              </span>
+            </ion-col>
+          </ion-row>
+          
+              <ion-row><p style="white-space:normal ">{{new.news}}</p></ion-row>
+          
+        </ion-col>
+       
+        </ion-row>
+       
+        
+      
+    </ion-item>
+  </ion-list>
 
 </ion-content>

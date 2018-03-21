@@ -18,6 +18,7 @@ export class MessagePage {
 	userId: string;
 	userProfile: any;
 	imageData: any;
+	messageRow: number = 1;
 
 	compensateUnreadMsg: number = 0;
 	// imgornot: any = '';
@@ -76,6 +77,7 @@ export class MessagePage {
 		this.firebase.addnewmessage(chat, this.neighbourData.uId, type).then(success => {
 			// this.chats = userData;
 			this.chat = '';
+			this.myInput.nativeElement.style.height = '20px';
 			console.warn(success);
 		}, error => {
 			console.error(error);
@@ -234,7 +236,11 @@ export class MessagePage {
 
 
 	resize() {
-		console.log(this.myInput);
-		this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
+		console.log(this.myInput.nativeElement.style.height);
+		// if (this.myInput.nativeElement.style.height) {
+			this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
+		// this.messageRow = this.messageRow + 1;
+		// }
+		
 	}
 }

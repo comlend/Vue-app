@@ -73,7 +73,7 @@
 		</ion-col>
 		<ion-col col-8>
 			<ion-item no-lines class="footer">
-				<ion-textarea #chatMessage rows="1" type="text" [(ngModel)]="chat" placeholder="New Message" id = "myInput"></ion-textarea>
+				<textarea #chatMessage [rows]="messageRow" (keyup.enter)="resize()" type="text" [(ngModel)]="chat" placeholder="New Message" id = "myInput"></textarea>
 				 <!-- (keyup.enter)="resize()" -->
 				 <!-- (keyup.enter)="addnewmessage(chat,'text'); sendChatNotification(chat)" -->
 			</ion-item>
