@@ -35,7 +35,15 @@ export class MyApp {
 			if (platform.is('cordova')) {
 				this.global.cordovaPlatform = true;
 			}
-			this.initializeApp();
+			// this.initializeApp();
+
+			if (platform.is('ios')) {
+				this.initializeFcmNotification();	
+			}
+
+			else if (platform.is('android')) {
+				this.initializeFcmNotification();
+			}
 
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.
@@ -75,7 +83,7 @@ export class MyApp {
 				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
 				Promise.all(promises).then((values) => {
 					this.extractNeighbourData();
-					
+					this.getAllNews();
 					// this.getUserData();
 					//    
 					console.log('Promise.all resolved');
@@ -205,7 +213,33 @@ export class MyApp {
 			});
 		});
 	}
-	
+	getAllNews(){
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/news/');
+			var newsArr = [];
+			dbRef.on('value', (data) => {
+
+				if (data.val() != 'default') {
+					// this.global.news = data.val();
+				
+					newsArr = _.toArray(data.val());
+					this.global.news = newsArr;
+					console.log('all news in globals', this.global.news);
+					this.event.publish('newsupdated');
+					// this.removeSelfFromNeighbours(newsArr);
+					// console.log('All Neighbours ', newsArr);
+					// if (this.global.news.length > 0) {
+						// console.log('users Array ', userArr);
+						resolve();
+					// } else {
+						// reject();
+					// }
+				} else {
+					reject();
+				}
+			});
+		});
+	}
 	extractNeighbourData() {
 		this.global.neighboursData
 		this.global.chats

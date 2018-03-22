@@ -21,6 +21,8 @@ import { MessagesListPage } from '../pages/messages-list/messages-list';
 import { NeighboursPage } from '../pages/neighbours/neighbours';
 import { NewsPage } from '../pages/news/news';
 import { BusinessDetailsPage } from '../pages/business-details/business-details';
+import { AddNewsPage } from '../pages/add-news/add-news';
+import { NewsDetailsPage } from '../pages/news-details/news-details';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -51,12 +53,14 @@ import { PipesModule } from '../pipes/pipes.module';
     NeighboursPage,
     NewsPage,
     MessagesListPage,
-    BusinessDetailsPage
+    BusinessDetailsPage,
+    AddNewsPage,
+    NewsDetailsPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp, { mode: 'ios' }),
+    IonicModule.forRoot(MyApp, { mode: 'ios', autoFocusAssist: true }),
     HttpModule,
     IonicStorageModule.forRoot(),
     PipesModule
@@ -77,7 +81,9 @@ import { PipesModule } from '../pipes/pipes.module';
     NeighboursPage,
     NewsPage,
     MessagesListPage,
-    BusinessDetailsPage
+    BusinessDetailsPage,
+    AddNewsPage,
+    NewsDetailsPage
   ],
   providers: [
     StatusBar,

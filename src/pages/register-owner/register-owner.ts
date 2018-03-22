@@ -20,7 +20,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 })
 export class RegisterOwnerPage {
 	 public signupForm;
-	 user: {firstName?: any, lastName?: any, email?: any, password?: any} = {};
+	 user: {firstName?: any, lastName?: any, email?: any, pass?: any} = {};
 	 formData: any;
 	 loading: any;
 	 errormessage: any;
@@ -30,6 +30,7 @@ export class RegisterOwnerPage {
 	 imageData: any;
 	 userType: string = "owner";
 	 liveInProperty: boolean;
+	showPassError: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
   		this.initializeForm();
@@ -54,6 +55,14 @@ export class RegisterOwnerPage {
   back(){
   	this.navCtrl.pop();
   }
+
+	checkPassLength(){
+		if (this.user.pass.length < 6) {
+			this.showPassError = true;
+		}
+		else 
+			this.showPassError = false;
+	}
 
   signupUser() {
 		this.formData = this.signupForm.value;

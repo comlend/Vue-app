@@ -1,4 +1,4 @@
-import { Component, ViewChild, NgZone } from '@angular/core';
+import { Component, ViewChild, NgZone, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Content, Events, ActionSheetController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
@@ -10,6 +10,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 	templateUrl: 'message.html',
 })
 export class MessagePage {
+	@ViewChild('chatMessage') myInput: ElementRef;
 	@ViewChild('content') content: Content;
 	neighbourData: any;
 	chat: any = '';
@@ -17,6 +18,7 @@ export class MessagePage {
 	userId: string;
 	userProfile: any;
 	imageData: any;
+	messageRow: number = 1;
 
 	compensateUnreadMsg: number = 0;
 	// imgornot: any = '';
@@ -26,6 +28,7 @@ export class MessagePage {
 		this.userProfile = this.globals.userData.profileurl;
 
 		this.neighbourData = this.navParams.get('neighbour');
+		console.log('neighbors data', this.neighbourData);
 		this.compensateUnreadMsg = this.navParams.get('unreadCompensation');
 
 		// console.log('Neighbour Data ', this.neighbourData, ' Unread Compensation ', this.compensateUnreadMsg);
@@ -75,6 +78,7 @@ export class MessagePage {
 		this.firebase.addnewmessage(chat, this.neighbourData.uId, type).then(success => {
 			// this.chats = userData;
 			this.chat = '';
+			this.myInput.nativeElement.style.height = '20px';
 			console.warn(success);
 		}, error => {
 			console.error(error);
@@ -229,5 +233,15 @@ export class MessagePage {
 		this.globals.unreadMessages -= this.compensateUnreadMsg;
 		this.events.publish('unread:messages');
 		// console.log('Compensated Unread ', this.globals.unreadMessages);
+	}
+
+
+	resize() {
+		console.log(this.myInput.nativeElement.style.height);
+		// if (this.myInput.nativeElement.style.height) {
+			this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
+		// this.messageRow = this.messageRow + 1;
+		// }
+		
 	}
 }

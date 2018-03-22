@@ -297,10 +297,13 @@ export class FirebaseProvider {
 			};
 
 			// let options = new HttpHeaders().set('Content-Type', 'application/json'); options.set('Authorization', 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8')
+			var badgeCount = this.globals.unreadMessages + 1;
+			console.log("unread messages", badgeCount);
 			var notificationPayload = {
-				title: 'New Message Received!',
+				title: 'Your neighbour '+this.globals.userData.firstName+' sent you a message',
 				body: msg,
 				sound: "default",
+				badge: badgeCount,
 				click_action: "FCM_PLUGIN_ACTIVITY",
 				icon: "fcm_push_icon"
 			};
@@ -354,5 +357,50 @@ export class FirebaseProvider {
 			})
 		});
 		
+	}
+
+	addNews(userData,news){
+		let time = this.formatAMPM(new Date());
+		let date = this.formatDate(new Date());
+
+		return new Promise((resolve, reject) => {
+			firebase.database().ref('/news').push({
+				uId: userData.uId,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				profileurl: userData.profileurl,
+				date: date,
+				time: time,
+				news: news,
+				unit: userData.unit,
+				userType: userData.userType,
+				deviceToken: userData.deviceToken
+			});
+			resolve();
+		});
+	}
+
+	getAllNews(){
+		var userId = this.globals.userId;
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/news/');
+			var newsArr = [];
+			dbRef.on('value', (data) => {
+				
+				if (data.val() != 'default') {
+					newsArr = _.toArray(data.val());
+					// this.removeSelfFromNeighbours(newsArr);
+					// console.log('All Neighbours ', newsArr);
+					if (newsArr.length > 0) {
+						// console.log('users Array ', userArr);
+						resolve(newsArr);
+					} else {
+						reject({ msg: 'No news Found' });
+					}
+				} else {
+					reject({ msg: 'No news Found' });
+				}
+			});
+		});
 	}
 }

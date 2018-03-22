@@ -1,0 +1,30 @@
+page-news-details {
+    .newsspan {
+        color: #A1ABB6;
+        font-size: 10px;
+        text-align: left; // padding-left: 16px;
+        margin-top: -2em;
+    }
+    .col {
+        // padding: 0 !important;
+    }
+    .itemstyle {
+        margin-bottom: 10px !important;
+    }
+    ion-footer {
+        background-color: #EFEFF4;
+    }
+    ion-item.footer {
+        border-radius: 10px;
+        border: solid 0.5px #b2b2b2 !important;
+        // .col{
+        //     padding:16px !important;
+        // }
+    }
+    #myInput {
+        // width: calc(100% - 10px);
+        border: 0;
+        border-radius: 0;
+        // background: transparent;
+    }
+}

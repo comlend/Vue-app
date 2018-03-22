@@ -20,7 +20,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 })
 export class RegisterBusinessPage {
   public signupFormBiz;
-   user: {firstName?: any, lastName?: any, email?: any, password?: any, unit?: any, details?: any} = {};
+   user: {firstName?: any, lastName?: any, email?: any, pass?: any, unit?: any, details?: any} = {};
    formData: any;
    loading: any;
    errormessage: any;
@@ -29,6 +29,7 @@ export class RegisterBusinessPage {
    imageData: any;
    userType: string = "business";
    liveInProperty: boolean = false;
+  showPassError: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
     this.initializeForm();
@@ -36,7 +37,7 @@ export class RegisterBusinessPage {
   }
   initializeForm(): void {
       this.signupFormBiz = this.formBuilder.group({
-        firstName: ['Divyanshu', Validators.compose([Validators.required])],
+        firstName: ['', Validators.compose([Validators.required])],
         lastName: ['', Validators.compose([Validators.required])],
         name: ['', Validators.compose([Validators.required])],
         email: ['', Validators.compose([Validators.required])],
@@ -51,6 +52,13 @@ export class RegisterBusinessPage {
   }
   back(){
     this.navCtrl.pop();
+  }
+  checkPassLength() {
+    if (this.user.pass.length < 6) {
+      this.showPassError = true;
+    }
+    else
+      this.showPassError = false;
   }
 
   signupUser() {

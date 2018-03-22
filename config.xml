@@ -83,6 +83,7 @@
     <allow-navigation href="http://192.168.43.55:8100" />
     <preference name="SplashScreenDelay" value="3000" />
     <allow-navigation href="http://192.168.1.100:8101" />
+    <allow-navigation href="http://192.168.1.101:8100" />
     <engine name="ios" spec="4.5.4" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="6.3.0" />
