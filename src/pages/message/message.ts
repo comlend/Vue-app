@@ -28,6 +28,7 @@ export class MessagePage {
 		this.userProfile = this.globals.userData.profileurl;
 
 		this.neighbourData = this.navParams.get('neighbour');
+		console.log('neighbors data', this.neighbourData);
 		this.compensateUnreadMsg = this.navParams.get('unreadCompensation');
 
 		// console.log('Neighbour Data ', this.neighbourData, ' Unread Compensation ', this.compensateUnreadMsg);

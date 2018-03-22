@@ -6,10 +6,21 @@ page-news {
         padding-left: 16px;
         margin-top: -2em;
     }
+    .newsspan2 {
+        color: #A1ABB6;
+        font-size: 0.75em;
+        text-align: left;
+        // padding-left: 16px;
+    }
     .col {
         padding: 0 !important;
     }
-    .itemstyle{
+    .itemstyle {
         margin-bottom: 10px !important;
+    }
+    .divider {
+        border-bottom: solid #f2f2f2 0.25px;
+        margin-top: 15px;
+        margin-bottom: 10px;
     }
 }

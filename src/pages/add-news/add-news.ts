@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 
@@ -19,7 +19,7 @@ export class AddNewsPage {
   userData: any;
   news: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider, public app: App ) {
     this.userData = this.globals.userData;
     console.log(this.userData);
   }
@@ -27,7 +27,9 @@ export class AddNewsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddNewsPage');
   }
-
+  back(){
+    this.app.getRootNav().pop();
+  }
   addNews(){
     this.firebase.addNews(this.userData,this.news).then((data) => {
       console.log('news added');

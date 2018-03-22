@@ -22,6 +22,7 @@ import { NeighboursPage } from '../pages/neighbours/neighbours';
 import { NewsPage } from '../pages/news/news';
 import { BusinessDetailsPage } from '../pages/business-details/business-details';
 import { AddNewsPage } from '../pages/add-news/add-news';
+import { NewsDetailsPage } from '../pages/news-details/news-details';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -53,7 +54,8 @@ import { PipesModule } from '../pipes/pipes.module';
     NewsPage,
     MessagesListPage,
     BusinessDetailsPage,
-    AddNewsPage
+    AddNewsPage,
+    NewsDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { PipesModule } from '../pipes/pipes.module';
     NewsPage,
     MessagesListPage,
     BusinessDetailsPage,
-    AddNewsPage
+    AddNewsPage,
+    NewsDetailsPage
   ],
   providers: [
     StatusBar,

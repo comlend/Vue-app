@@ -7,7 +7,7 @@ export class GlobalsProvider {
   userData: any;
   neighboursData: any;
   FbLoginComplete: boolean = true;
-
+  news: any;
   chats = [];
   fcmToken: string = '';
   cordovaPlatform: boolean = null;
@@ -23,6 +23,7 @@ export class GlobalsProvider {
     this.neighboursData = undefined;
     this.cordovaPlatform = undefined;
     this.unreadMessages = undefined;
+    this.news = undefined;
   }
 
 }

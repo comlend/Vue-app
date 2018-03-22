@@ -361,14 +361,16 @@ export class FirebaseProvider {
 
 		return new Promise((resolve, reject) => {
 			firebase.database().ref('/news').push({
-				userId: userData.uId,
+				uId: userData.uId,
 				firstName: userData.firstName,
 				lastName: userData.lastName,
 				profileurl: userData.profileurl,
 				date: date,
 				time: time,
 				news: news,
-				unit: userData.unit
+				unit: userData.unit,
+				userType: userData.userType,
+				deviceToken: userData.deviceToken
 			});
 			resolve();
 		});
