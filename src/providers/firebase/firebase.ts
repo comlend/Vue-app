@@ -80,6 +80,10 @@ export class FirebaseProvider {
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
 
+	logOut(){
+		return firebase.auth().signOut();
+	}
+
 	public uploadProfile(data) {
 		var filename = (new Date()).getTime() + '.jpg';
 		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
@@ -358,9 +362,9 @@ export class FirebaseProvider {
 	addNews(userData,news){
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
-
+		var dbref = firebase.database().ref('/news/').push();
 		return new Promise((resolve, reject) => {
-			firebase.database().ref('/news').push({
+			dbref.set({
 				uId: userData.uId,
 				firstName: userData.firstName,
 				lastName: userData.lastName,
@@ -370,7 +374,8 @@ export class FirebaseProvider {
 				news: news,
 				unit: userData.unit,
 				userType: userData.userType,
-				deviceToken: userData.deviceToken
+				deviceToken: userData.deviceToken,
+				id: dbref.key
 			});
 			resolve();
 		});

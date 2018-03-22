@@ -6,7 +6,12 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-back" color="secondary"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Post</ion-title>
   </ion-navbar>
 
@@ -16,7 +21,7 @@
 <ion-content>
   <ion-item no-lines>
     <ion-row align-items-start>
-      <ion-col col-2>
+      <ion-col col-2 style="padding:0 !important">
         <ion-avatar item-start>
           <img [src]=newsDetails.profileurl>
         </ion-avatar>
@@ -28,11 +33,7 @@
             <span class="newsspan">Unit {{newsDetails.unit}}</span>
           </ion-col>
         </ion-row>
-  
-       
-  
-     
-  
+
   <ion-row>
     <p style="white-space:normal;padding-top:10px ">{{newsDetails.news}}</p>
   </ion-row>
@@ -44,7 +45,7 @@
   <ion-row>
     <ion-col col-9>
       <ion-item no-lines class="footer">
-        <ion-textarea type="text" [(ngModel)]="comment" placeholder="Comment on this Post"></ion-textarea>
+        <ion-input type="text" [(ngModel)]="comment" placeholder="Comment on this Post"></ion-input>
       </ion-item>
     </ion-col>
     <ion-col col-3>
