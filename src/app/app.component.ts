@@ -217,23 +217,22 @@ export class MyApp {
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/news/');
 			var newsArr = [];
+			var comments = [];
 			dbRef.on('value', (data) => {
 
 				if (data.val() != 'default') {
-					// this.global.news = data.val();
-				
 					newsArr = _.toArray(data.val());
 					this.global.news = newsArr;
 					console.log('all news in globals', this.global.news);
 					this.event.publish('newsupdated');
-					// this.removeSelfFromNeighbours(newsArr);
-					// console.log('All Neighbours ', newsArr);
-					// if (this.global.news.length > 0) {
-						// console.log('users Array ', userArr);
-						resolve();
-					// } else {
-						// reject();
+					// for (let index = 0; index < newsArr.length; index++) {
+					// 	if (newsArr[index].id = newsArr[index].comments.newsId) {
+					// 		comments.push(_.toArray(newsArr[index].comments.length));
+					// 	}
 					// }
+					// console.log('all comments',comments);
+					resolve();
+				
 				} else {
 					reject();
 				}

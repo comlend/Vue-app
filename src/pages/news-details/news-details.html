@@ -27,9 +27,7 @@
         </ion-avatar>
       </ion-col>
       <ion-col col-10>
-            <h5>{{newsDetails.firstName}} {{newsDetails.lastName}}
-              
-            </h5>
+            <h5>{{newsDetails.firstName}} {{newsDetails.lastName}}</h5>
             <span class="newsspan">Unit {{newsDetails.unit}}</span>
           </ion-col>
         </ion-row>
@@ -37,9 +35,15 @@
   <ion-row>
     <p style="white-space:normal;padding-top:10px ">{{newsDetails.news}}</p>
   </ion-row>
+
   <div class="divider">
-    <!-- <p class="newsspan2">Like</p> -->
   </div>
+
+  <ion-row *ngIf="noComments">
+      <p class="newsspan">No comments yet. Add one!</p>
+  </ion-row>
+
+  <div *ngIf="!noComments">
     <ion-item no-lines *ngFor="let comment of allComments" style="padding-left:0px !important">
       <ion-avatar item-start>
         <img [src]=comment.profileurl>
@@ -49,8 +53,8 @@
       </h6>
       <p style="white-space:normal">{{comment.comment}}</p>
     </ion-item>
- 
-  
+  </div>
+
   </ion-item>
 
 </ion-content>
@@ -62,7 +66,7 @@
       </ion-item>
     </ion-col>
     <ion-col col-3 style="text-align:left">
-      <button ion-button clear type="submit" (click)="addComment()">Comment</button>
+      <button ion-button clear type="submit" (click)="addComment()">Post</button>
     </ion-col>
     </ion-row>
     

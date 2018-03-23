@@ -57,9 +57,9 @@ export class NewsPage {
   }
 
   addLike(newsData) {
-    this.firebase.addLikeToNews(newsData).then((data) => {
+    this.firebase.addLikeToNews(this.global.userData,newsData).then((data) => {
       console.log('like added');
-      this.liked = true;
+      // this.liked = true;
       // this.navCtrl.pop();
     });
   }

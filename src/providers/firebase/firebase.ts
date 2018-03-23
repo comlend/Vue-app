@@ -380,6 +380,28 @@ export class FirebaseProvider {
 			resolve();
 		});
 	}
+	addPicInNews(userData,pic,news){
+		let time = this.formatAMPM(new Date());
+		let date = this.formatDate(new Date());
+		var dbref = firebase.database().ref('/news/').push();
+		return new Promise((resolve, reject) => {
+			dbref.set({
+				uId: userData.uId,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				profileurl: userData.profileurl,
+				newspic:pic,
+				date: date,
+				time: time,
+				news: news,
+				unit: userData.unit,
+				userType: userData.userType,
+				deviceToken: userData.deviceToken,
+				id: dbref.key
+			});
+			resolve();
+		});
+	}
 
 	addCommentToNews(newsData,userData,comment){
 		let time = this.formatAMPM(new Date());
@@ -395,16 +417,17 @@ export class FirebaseProvider {
 				time: time,
 				comment: comment,
 				unit: userData.unit,
-				id: dbref.key
+				id: dbref.key,
+				newsId: newsData.id
 			});
 			resolve();
 		});
 	}
 
-	addLikeToNews(userData){
+	addLikeToNews(userData,newsData){
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
-		var dbref = firebase.database().ref('/news/' + userData.id + '/likes/').push();
+		var dbref = firebase.database().ref('/news/' + newsData.id + '/likes/').push();
 		return new Promise((resolve, reject) => {
 			dbref.set({
 				uId: userData.uId,
@@ -414,7 +437,8 @@ export class FirebaseProvider {
 				date: date,
 				time: time,
 				unit: userData.unit,
-				id: dbref.key
+				id: dbref.key,
+				newsId: newsData.id
 			});
 			resolve();
 		});
@@ -433,10 +457,10 @@ export class FirebaseProvider {
 						// console.log('users Array ', userArr);
 						resolve(newsCommentArr);
 					} else {
-						reject({ msg: 'No news Found' });
+						reject({ msg: 'No comments Found' });
 					}
 				} else {
-					reject({ msg: 'No news Found' });
+					reject({ msg: 'No comments Found' });
 				}
 			});
 		});
