@@ -19,7 +19,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 export class AddNewsPage {
   userData: any;
   news: any;
-  commentPicUrl: any;
+  newsPicUrl: any = 'Default';
+  hasPhoto: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider, public app: App, private camera: Camera, public actionSheetCtrl: ActionSheetController ) {
     this.userData = this.globals.userData;
@@ -33,17 +34,17 @@ export class AddNewsPage {
     this.app.getRootNav().pop();
   }
   addNews(){
-    this.firebase.addPicInNews(this.userData,this.news,this.commentPicUrl).then((data) => {
+    this.firebase.addNews(this.userData,this.news,this.newsPicUrl).then((data) => {
       console.log('news added');
       this.navCtrl.pop();
     });
   }
-  addPicInNews(){
-    this.firebase.addNews(this.userData, this.news).then((data) => {
-      console.log('news added');
-      this.navCtrl.pop();
-    });
-  }
+  // addPicInNews(){
+  //   this.firebase.addNews(this.userData, this.news).then((data) => {
+  //     console.log('news added');
+  //     this.navCtrl.pop();
+  //   });
+  // }
 
   addPhototoNews(){
     let actionSheet = this.actionSheetCtrl.create({
@@ -83,10 +84,12 @@ export class AddNewsPage {
 
     this.camera.getPicture(options).then((imageData) => {
       var imageData = imageData;
-      // this.profileurl = imageData;
-      this.firebase.uploadProfile(imageData).then((data) => {
-        this.commentPicUrl = data;
+      this.newsPicUrl = imageData;
+      
+      this.firebase.uploadPicture(imageData).then((data) => {
+        this.newsPicUrl = data;
         console.log('Camera Data ', data);
+        this.hasPhoto = true;
 
       })
         .catch((err) => {

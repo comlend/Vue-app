@@ -225,11 +225,30 @@ export class MyApp {
 					this.global.news = newsArr;
 					console.log('all news in globals', this.global.news);
 					this.event.publish('newsupdated');
-					// for (let index = 0; index < newsArr.length; index++) {
-					// 	if (newsArr[index].id = newsArr[index].comments.newsId) {
-					// 		comments.push(_.toArray(newsArr[index].comments.length));
-					// 	}
-					// }
+					for (let index = 0; index < newsArr.length; index++) {
+						var news = newsArr[index];
+
+						var custNewsData = {};
+
+						var commentKeys = Object.keys(news.comments);
+						var commentsNumber = Object.keys(news.comments).length;
+						var likesNumber = Object.keys(news.likes).length;
+
+						var lastCommentKey = commentKeys[commentsNumber - 1];
+						
+						var lastComment = news.comments[lastCommentKey];
+						// console.log('Last Comment ', lastComment)
+						custNewsData['commentsNumber'] = commentsNumber;
+						custNewsData['likesNumber'] = likesNumber;
+						custNewsData['lastComment'] = lastComment;
+
+						news.custNewsData = custNewsData;
+
+						// console.log('News Modified Data Form ', news);
+						// if (newsArr[index].id == newsArr[index].comments.newsId) {
+							// comments.push(_.toArray(newsArr[index].comments.length));
+						// }
+					}
 					// console.log('all comments',comments);
 					resolve();
 				

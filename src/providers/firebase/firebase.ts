@@ -101,6 +101,23 @@ export class FirebaseProvider {
 		});
 	}
 
+	public uploadPicture(data) {
+		var filename = (new Date()).getTime() + '.jpg';
+		let uploadTask = firebase.storage().ref('/photos/news-pictures/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		return new Promise((resolve, reject) => {
+			uploadTask.on('state_changed', (snapshot) => {
+
+			}, (err) => {
+				reject(false);
+			}, () => {
+				console.log(uploadTask.snapshot.downloadURL);
+
+				resolve(uploadTask.snapshot.downloadURL);
+				return;
+			});
+		});
+	}
+
 
 	getNeighbours() {
 		var userId = this.globals.userId;
@@ -359,7 +376,7 @@ export class FirebaseProvider {
 		
 	}
 
-	addNews(userData,news){
+	addNews(userData,news,picture){
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		var dbref = firebase.database().ref('/news/').push();
@@ -375,33 +392,13 @@ export class FirebaseProvider {
 				unit: userData.unit,
 				userType: userData.userType,
 				deviceToken: userData.deviceToken,
-				id: dbref.key
+				id: dbref.key, 
+				newspic: picture
 			});
 			resolve();
 		});
 	}
-	addPicInNews(userData,pic,news){
-		let time = this.formatAMPM(new Date());
-		let date = this.formatDate(new Date());
-		var dbref = firebase.database().ref('/news/').push();
-		return new Promise((resolve, reject) => {
-			dbref.set({
-				uId: userData.uId,
-				firstName: userData.firstName,
-				lastName: userData.lastName,
-				profileurl: userData.profileurl,
-				newspic:pic,
-				date: date,
-				time: time,
-				news: news,
-				unit: userData.unit,
-				userType: userData.userType,
-				deviceToken: userData.deviceToken,
-				id: dbref.key
-			});
-			resolve();
-		});
-	}
+	
 
 	addCommentToNews(newsData,userData,comment){
 		let time = this.formatAMPM(new Date());

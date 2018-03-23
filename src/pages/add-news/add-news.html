@@ -29,8 +29,8 @@
   <ion-item no-lines>
     <textarea type="text" [(ngModel)]="news" rows="10" placeholder="Add new news feed" style="width:100%;border:none"></textarea>
   </ion-item>
-  <ion-item *ngIf="commentPicUrl != null">
-    <img [src]='commentPicUrl' />
+  <ion-item *ngIf="hasPhoto">
+    <img [src]=newsPicUrl />
   </ion-item>
  
 
