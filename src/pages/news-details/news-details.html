@@ -37,6 +37,19 @@
   <ion-row>
     <p style="white-space:normal;padding-top:10px ">{{newsDetails.news}}</p>
   </ion-row>
+  <div class="divider">
+    <!-- <p class="newsspan2">Like</p> -->
+  </div>
+    <ion-item no-lines *ngFor="let comment of allComments" style="padding-left:0px !important">
+      <ion-avatar item-start>
+        <img [src]=comment.profileurl>
+      </ion-avatar>
+      <h6>
+        {{comment.firstName}} {{comment.lastName}}
+      </h6>
+      <p style="white-space:normal">{{comment.comment}}</p>
+    </ion-item>
+ 
   
   </ion-item>
 
@@ -48,9 +61,10 @@
         <ion-input type="text" [(ngModel)]="comment" placeholder="Comment on this Post"></ion-input>
       </ion-item>
     </ion-col>
-    <ion-col col-3>
+    <ion-col col-3 style="text-align:left">
       <button ion-button clear type="submit" (click)="addComment()">Comment</button>
     </ion-col>
     </ion-row>
+    
 
 </ion-footer>

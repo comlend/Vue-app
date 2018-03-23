@@ -16,15 +16,18 @@ page-news-details {
     }
     ion-item.footer {
         border-radius: 10px;
-        border: solid 0.5px #b2b2b2 !important;
-        // .col{
+        border: solid 0.5px #b2b2b2 !important; // .col{
         //     padding:16px !important;
         // }
     }
     #myInput {
         // width: calc(100% - 10px);
         border: 0;
-        border-radius: 0;
-        // background: transparent;
+        border-radius: 0; // background: transparent;
+    }
+    .divider {
+        border-bottom: solid #f2f2f2 0.25px;
+        margin-top: 15px;
+        margin-bottom: 10px;
     }
 }

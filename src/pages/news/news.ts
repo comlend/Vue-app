@@ -22,9 +22,11 @@ export class NewsPage {
   news: any;
   searchQuery: string = '';
   userId: any;
+  liked: boolean = false;
+  commentsLength: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone) {
     this.userId = this.global.userId;
-    
     this.news = this.global.news;
 
     this.events.subscribe('newsupdated', () => {
@@ -42,10 +44,6 @@ export class NewsPage {
     console.log('ionViewDidLoad NewsPage');
   }
   
-
-  ionViewWillEnter(){
-  }
-  
   addNews(){
     this.app.getRootNav().push(AddNewsPage);
   }
@@ -56,6 +54,14 @@ export class NewsPage {
 
   goToMessage(newsData){
     this.app.getRootNav().push(MessagePage, { 'neighbour': newsData });
+  }
+
+  addLike(newsData) {
+    this.firebase.addLikeToNews(newsData).then((data) => {
+      console.log('like added');
+      this.liked = true;
+      // this.navCtrl.pop();
+    });
   }
 
 

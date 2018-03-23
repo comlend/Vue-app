@@ -381,6 +381,66 @@ export class FirebaseProvider {
 		});
 	}
 
+	addCommentToNews(newsData,userData,comment){
+		let time = this.formatAMPM(new Date());
+		let date = this.formatDate(new Date());
+		var dbref = firebase.database().ref('/news/' + newsData.id + '/comments/').push();
+		return new Promise((resolve, reject) => {
+			dbref.set({
+				uId: userData.uId,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				profileurl: userData.profileurl,
+				date: date,
+				time: time,
+				comment: comment,
+				unit: userData.unit,
+				id: dbref.key
+			});
+			resolve();
+		});
+	}
+
+	addLikeToNews(userData){
+		let time = this.formatAMPM(new Date());
+		let date = this.formatDate(new Date());
+		var dbref = firebase.database().ref('/news/' + userData.id + '/likes/').push();
+		return new Promise((resolve, reject) => {
+			dbref.set({
+				uId: userData.uId,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				profileurl: userData.profileurl,
+				date: date,
+				time: time,
+				unit: userData.unit,
+				id: dbref.key
+			});
+			resolve();
+		});
+	}
+	getAllComments(newsId){
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/news/' + newsId + '/comments/');
+			var newsCommentArr = [];
+			dbRef.on('value', (data) => {
+
+				if (data.val() != 'default') {
+					newsCommentArr = _.toArray(data.val());
+					// this.removeSelfFromNeighbours(newsArr);
+					// console.log('All Neighbours ', newsArr);
+					if (newsCommentArr.length > 0) {
+						// console.log('users Array ', userArr);
+						resolve(newsCommentArr);
+					} else {
+						reject({ msg: 'No news Found' });
+					}
+				} else {
+					reject({ msg: 'No news Found' });
+				}
+			});
+		});
+	}
 	getAllNews(){
 		var userId = this.globals.userId;
 		return new Promise((resolve, reject) => {

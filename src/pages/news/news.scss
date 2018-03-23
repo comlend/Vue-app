@@ -9,8 +9,13 @@ page-news {
     .newsspan2 {
         color: #A1ABB6;
         font-size: 0.75em;
+        text-align: left; // padding-left: 16px;
+    }
+    .liked {
+        color: yellow;
+        font-style: bold;
+        font-size: 0.75em;
         text-align: left;
-        // padding-left: 16px;
     }
     .col {
         padding: 0 !important;

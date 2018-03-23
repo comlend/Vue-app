@@ -54,10 +54,11 @@
           <!-- <p class="newsspan2">Like</p> -->
         </div>
        <ion-row>
-         <ion-col col-2 style="text-align:left">
+         <ion-col col-2 style="text-align:left" tappable (tap)="addLike(new)">
            <p class="newsspan2">Like</p>
+           <!-- <p class="liked">Liked</p> -->
          </ion-col>
-         <ion-col col-3 style="text-align:left">
+         <ion-col col-3 style="text-align:left" tappable (tap)="newsDetails(new)">
           <p class="newsspan2">Comment</p>
          </ion-col>
         <ion-col col-3 style="text-align:left" tappable (tap)="goToMessage(new)" *ngIf="userId != new.uId">
