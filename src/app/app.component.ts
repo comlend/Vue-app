@@ -217,23 +217,41 @@ export class MyApp {
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/news/');
 			var newsArr = [];
+			var comments = [];
 			dbRef.on('value', (data) => {
 
 				if (data.val() != 'default') {
-					// this.global.news = data.val();
-				
 					newsArr = _.toArray(data.val());
 					this.global.news = newsArr;
 					console.log('all news in globals', this.global.news);
 					this.event.publish('newsupdated');
-					// this.removeSelfFromNeighbours(newsArr);
-					// console.log('All Neighbours ', newsArr);
-					// if (this.global.news.length > 0) {
-						// console.log('users Array ', userArr);
-						resolve();
-					// } else {
-						// reject();
-					// }
+					for (let index = 0; index < newsArr.length; index++) {
+						var news = newsArr[index];
+
+						var custNewsData = {};
+
+						var commentKeys = Object.keys(news.comments);
+						var commentsNumber = Object.keys(news.comments).length;
+						var likesNumber = Object.keys(news.likes).length;
+
+						var lastCommentKey = commentKeys[commentsNumber - 1];
+						
+						var lastComment = news.comments[lastCommentKey];
+						// console.log('Last Comment ', lastComment)
+						custNewsData['commentsNumber'] = commentsNumber;
+						custNewsData['likesNumber'] = likesNumber;
+						custNewsData['lastComment'] = lastComment;
+
+						news.custNewsData = custNewsData;
+
+						// console.log('News Modified Data Form ', news);
+						// if (newsArr[index].id == newsArr[index].comments.newsId) {
+							// comments.push(_.toArray(newsArr[index].comments.length));
+						// }
+					}
+					// console.log('all comments',comments);
+					resolve();
+				
 				} else {
 					reject();
 				}

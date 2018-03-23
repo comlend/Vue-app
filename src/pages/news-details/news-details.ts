@@ -21,6 +21,7 @@ export class NewsDetailsPage {
   messageRow: number = 1;
   comment: any;
   allComments: any;
+  noComments: boolean=false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public app: App,public firebase:FirebaseProvider, public globals: GlobalsProvider) {
     this.newsDetails = this.navParams.get('news');
@@ -38,13 +39,14 @@ export class NewsDetailsPage {
     this.firebase.addCommentToNews(this.newsDetails, this.globals.userData, this.comment).then((data) => {
       console.log('comment added');
       this.getAllComments();
-      this.comment = '';
+      this.comment = ''; 
+      this.noComments = false;
       // this.navCtrl.pop();
     });
   }
 
   addLike(){
-    this.firebase.addLikeToNews(this.newsDetails).then((data) => {
+    this.firebase.addLikeToNews(this.globals.userData,this.newsDetails).then((data) => {
       console.log('like added');
       // this.navCtrl.pop();
     });
@@ -52,8 +54,11 @@ export class NewsDetailsPage {
 
   getAllComments(){
     this.firebase.getAllComments(this.newsDetails.id).then((data) => {
-      console.log('comment added',data);
       this.allComments = data;
+     
+    },(error) =>{
+      console.log(error);
+      this.noComments = true;
     });
   }
 

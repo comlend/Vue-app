@@ -101,6 +101,23 @@ export class FirebaseProvider {
 		});
 	}
 
+	public uploadPicture(data) {
+		var filename = (new Date()).getTime() + '.jpg';
+		let uploadTask = firebase.storage().ref('/photos/news-pictures/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		return new Promise((resolve, reject) => {
+			uploadTask.on('state_changed', (snapshot) => {
+
+			}, (err) => {
+				reject(false);
+			}, () => {
+				console.log(uploadTask.snapshot.downloadURL);
+
+				resolve(uploadTask.snapshot.downloadURL);
+				return;
+			});
+		});
+	}
+
 
 	getNeighbours() {
 		var userId = this.globals.userId;
@@ -359,7 +376,7 @@ export class FirebaseProvider {
 		
 	}
 
-	addNews(userData,news){
+	addNews(userData,news,picture){
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		var dbref = firebase.database().ref('/news/').push();
@@ -375,11 +392,13 @@ export class FirebaseProvider {
 				unit: userData.unit,
 				userType: userData.userType,
 				deviceToken: userData.deviceToken,
-				id: dbref.key
+				id: dbref.key, 
+				newspic: picture
 			});
 			resolve();
 		});
 	}
+	
 
 	addCommentToNews(newsData,userData,comment){
 		let time = this.formatAMPM(new Date());
@@ -395,16 +414,17 @@ export class FirebaseProvider {
 				time: time,
 				comment: comment,
 				unit: userData.unit,
-				id: dbref.key
+				id: dbref.key,
+				newsId: newsData.id
 			});
 			resolve();
 		});
 	}
 
-	addLikeToNews(userData){
+	addLikeToNews(userData,newsData){
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
-		var dbref = firebase.database().ref('/news/' + userData.id + '/likes/').push();
+		var dbref = firebase.database().ref('/news/' + newsData.id + '/likes/').push();
 		return new Promise((resolve, reject) => {
 			dbref.set({
 				uId: userData.uId,
@@ -414,7 +434,8 @@ export class FirebaseProvider {
 				date: date,
 				time: time,
 				unit: userData.unit,
-				id: dbref.key
+				id: dbref.key,
+				newsId: newsData.id
 			});
 			resolve();
 		});
@@ -433,10 +454,10 @@ export class FirebaseProvider {
 						// console.log('users Array ', userArr);
 						resolve(newsCommentArr);
 					} else {
-						reject({ msg: 'No news Found' });
+						reject({ msg: 'No comments Found' });
 					}
 				} else {
-					reject({ msg: 'No news Found' });
+					reject({ msg: 'No comments Found' });
 				}
 			});
 		});
