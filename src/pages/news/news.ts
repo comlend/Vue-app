@@ -24,11 +24,12 @@ export class NewsPage {
   userId: any;
   liked: boolean = false;
   commentsLength: any;
+  commentsArr = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone) {
     this.userId = this.global.userId;
     this.news = this.global.news;
-
+    
     this.events.subscribe('newsupdated', () => {
 
       this.zone.run(() => {
@@ -59,8 +60,6 @@ export class NewsPage {
   addLike(newsData) {
     this.firebase.addLikeToNews(this.global.userData,newsData).then((data) => {
       console.log('like added');
-      // this.liked = true;
-      // this.navCtrl.pop();
     });
   }
 

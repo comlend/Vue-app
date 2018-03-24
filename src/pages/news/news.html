@@ -32,9 +32,9 @@
         <ion-col col-10>
           <ion-row>
             <ion-col col-10>
-              <h5>{{new.firstName}} {{new.lastName}}
+              <h5>{{new.firstName}} {{new.lastName}}</h5>
                 <span class="newsspan">Unit {{new.unit}}</span>
-              </h5>
+              
             </ion-col>
             <ion-col col-2>
               <span class="newsspan">
@@ -43,19 +43,50 @@
             </ion-col>
           </ion-row>
           
-              <ion-row><p style="white-space:normal ">{{new.news}}</p></ion-row>
+              
           
         </ion-col>
        
         </ion-row>
+        <ion-row><p style="white-space:normal " class="elipsis">{{new.news}}</p></ion-row>
+        <div text-center *ngIf="new.newspic != 'Default'" style="padding-top:1em">
+          <img [src]=new.newspic />
+        </div>
+        </div>
+
+        <div style="padding-top:1em" *ngIf="new.custNewsData">
+          <p>{{new.custNewsData.likesNumber}} <span *ngIf="new.custNewsData.likesNumber == 1">like</span>
+          <span *ngIf="new.custNewsData.likesNumber > 1">likes</span>, {{new.custNewsData.commentsNumber}} <span *ngIf="new.custNewsData.commentsNumber == 1">comment</span><span *ngIf="new.custNewsData.commentsNumber > 1">comments</span></p>
         </div>
        
+        
+        <div *ngIf="new.custNewsData">
+          <div class="divider">
+            <!-- <p class="newsspan2">Like</p> -->
+          </div>
+          <ion-item no-lines style="padding-left:0px !important">
+            <ion-avatar item-start style="min-width:0px !important;min-height:0px !important;">
+              <img style="width:28px;height:28px" [src]=new.custNewsData.lastComment.profileurl>
+            </ion-avatar>
+            <h6 style="font-size:0.7em">
+              {{new.custNewsData.lastComment.firstName}} {{new.custNewsData.lastComment.lastName}}
+            </h6>
+            <p class="newsspan2" style="white-space:normal">{{new.custNewsData.lastComment.comment}}</p>
+          </ion-item>
+        </div>
         <div class="divider">
           <!-- <p class="newsspan2">Like</p> -->
         </div>
        <ion-row>
-         <ion-col col-2 style="text-align:left" tappable (tap)="addLike(new)">
-           <p class="newsspan2">Like</p>
+         <ion-col col-2 style="text-align:left">
+           <p class="newsspan2" tappable (tap)="addLike(new)">Like</p>
+           <!-- <div *ngIf="new.custNewsData.likes">
+              <div *ngFor="let like of new.custNewsData.likes">
+                <p *ngIf="like.uId == userId" class="likedclass">Liked</p>
+              </div>
+           </div> -->
+           
+           
            <!-- <p class="liked">Liked</p> -->
          </ion-col>
          <ion-col col-3 style="text-align:left" tappable (tap)="newsDetails(new)">
@@ -65,7 +96,13 @@
           <p class="newsspan2">Message</p>
         </ion-col>
          </ion-row>
-      
+
+        
+<!-- 
+         <ion-row *ngIf="new.custNewsData">
+           <p>{{new.custNewsData.lastComment.comment}}</p>
+         </ion-row>
+       -->
     </ion-item>
   </ion-list>
 

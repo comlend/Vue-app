@@ -35,7 +35,9 @@
   <ion-row>
     <p style="white-space:normal;padding-top:10px ">{{newsDetails.news}}</p>
   </ion-row>
-
+    <div text-center *ngIf="newsDetails.newspic != 'Default'" style="padding-top:1em">
+      <img [src]=newsDetails.newspic />
+    </div>
   <div class="divider">
   </div>
 
