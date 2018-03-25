@@ -23,6 +23,7 @@ import { NewsPage } from '../pages/news/news';
 import { BusinessDetailsPage } from '../pages/business-details/business-details';
 import { AddNewsPage } from '../pages/add-news/add-news';
 import { NewsDetailsPage } from '../pages/news-details/news-details';
+import { MorePage } from '../pages/more/more';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';

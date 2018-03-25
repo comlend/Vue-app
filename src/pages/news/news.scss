@@ -13,7 +13,7 @@ page-news {
     .elipsis {
         display: block;
         display: -webkit-box;
-        height: 70px;
+        max-height: 70px;
         -webkit-line-clamp: 4 !important;
         -webkit-box-orient: vertical !important;
         overflow: hidden !important;

@@ -243,7 +243,7 @@ export class MyApp {
 
 						if (news.hasOwnProperty('likes')) {
 							var likesNumber = Object.keys(news.likes).length;
-
+							custNewsData['likes'] = _.toArray(news.likes);
 							custNewsData['likesNumber'] = likesNumber;
 							news.custNewsData = custNewsData;
 						}

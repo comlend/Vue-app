@@ -22,11 +22,13 @@ export class NewsDetailsPage {
   comment: any;
   allComments: any;
   noComments: boolean=false;
+  userId: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public app: App,public firebase:FirebaseProvider, public globals: GlobalsProvider) {
     this.newsDetails = this.navParams.get('news');
     console.log(this.newsDetails);
     this.getAllComments();
+    this.userId = this.globals.userId;
   }
 
   ionViewDidLoad() {

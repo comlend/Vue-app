@@ -38,26 +38,56 @@
     <div text-center *ngIf="newsDetails.newspic != 'Default'" style="padding-top:1em">
       <img [src]=newsDetails.newspic />
     </div>
-  <div class="divider">
-  </div>
+  
 
-  <ion-row *ngIf="noComments">
+      <div style="padding-top:1em" *ngIf="newsDetails.custNewsData != undefiend">
+        <p>{{newsDetails.custNewsData.likesNumber}}
+          <span *ngIf="newsDetails.custNewsData.likesNumber == 1">like</span>
+          <span *ngIf="newsDetails.custNewsData.likesNumber > 1">likes</span>
+          <span *ngIf="newsDetails.custNewsData.commentsNumber && newsDetails.custNewsData.likesNumber">,</span>
+          <span *ngIf="newsDetails.custNewsData.commentsNumber">{{newsDetails.custNewsData.commentsNumber}}</span>
+          <span *ngIf="newsDetails.custNewsData.commentsNumber == 1">comment</span>
+          <span *ngIf="newsDetails.custNewsData.commentsNumber > 1">comments</span>
+        </p>
+      </div>
+      <div class="divider">
+      </div>
+
+  <!-- <ion-row *ngIf="noComments">
       <p class="newsspan">No comments yet. Add one!</p>
-  </ion-row>
+      <div class="divider">
+      </div>
+  </ion-row> -->
 
   <div *ngIf="!noComments">
     <ion-item no-lines *ngFor="let comment of allComments" style="padding-left:0px !important">
-      <ion-avatar item-start>
-        <img [src]=comment.profileurl>
+      <ion-avatar item-start style="min-width:0px !important;min-height:0px !important;">
+        <img style="width:28px;height:28px" [src]=comment.profileurl>
       </ion-avatar>
-      <h6>
+      <h6 style="font-size:0.7em">
         {{comment.firstName}} {{comment.lastName}}
       </h6>
-      <p style="white-space:normal">{{comment.comment}}</p>
+      <p class="newsspan2" style="white-space:normal">{{comment.comment}}</p>
     </ion-item>
+    <div class="divider">
+    </div>
   </div>
 
+  <ion-row>
+    <ion-col col-2 style="text-align:left;padding-left:0px !important;">
+      <!-- <p>Like</p> -->
+      <p class="likedclass" tappable (tap)="removeLike(new)" *ngIf="newsDetails.postLiked">Liked</p>
+      
+          <p class="newsspan2" tappable (tap)="addLike(new)" *ngIf="!newsDetails.postLiked">Like</p>
+    </ion-col>
+    <ion-col col-3 style="text-align:left" tappable (tap)="goToMessage(new)" *ngIf="userId != newsDetails.uId">
+      <p class="newsspan2">Message</p>
+    </ion-col>
+  </ion-row>
+
   </ion-item>
+
+  
 
 </ion-content>
 <ion-footer>

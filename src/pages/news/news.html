@@ -54,7 +54,7 @@
         <p>{{new.custNewsData.likesNumber}}
           <span *ngIf="new.custNewsData.likesNumber == 1">like</span>
           <span *ngIf="new.custNewsData.likesNumber > 1">likes</span>
-          <span *ngIf="new.custNewsData.commentsNumber">,</span>
+          <span *ngIf="new.custNewsData.commentsNumber && new.custNewsData.likesNumber">,</span>
           <span *ngIf="new.custNewsData.commentsNumber">{{new.custNewsData.commentsNumber}}</span>
           <span *ngIf="new.custNewsData.commentsNumber == 1">comment</span>
           <span *ngIf="new.custNewsData.commentsNumber > 1">comments</span>
@@ -82,11 +82,11 @@
         <!-- <p class="newsspan2">Like</p> -->
       </div>
       <ion-row>
-        <ion-col col-2 style="text-align:left">
-          <p class="newsspan2" tappable (tap)="removeLike(new)" *ngIf="new.postLiked" style="color: blue">Liked</p>
+        <ion-col col-2 style="text-align:left;padding-left:0px !important;">
+          <p class="likedclass" tappable (tap)="removeLike(new)" *ngIf="new.postLiked">Liked</p>
 
           <p class="newsspan2" tappable (tap)="addLike(new)" *ngIf="!new.postLiked">Like</p>
-          <!-- <div *ngIf="new.custNewsData.likes"  *ngIf="!new.postLiked">
+          <!-- <div *ngIf="new.custNewsData.likes">
               <div *ngFor="let like of new.custNewsData.likes">
                 <p *ngIf="like.uId == userId" class="likedclass">Liked</p>
               </div>
