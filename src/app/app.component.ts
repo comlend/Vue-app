@@ -155,7 +155,7 @@ export class MyApp {
 				if (data.val() != 'default') {
 					userArr = data.val();
 					this.global.userData = userArr;
-					// console.warn(this.global.userData);
+					console.warn(' Component User Data ', this.global.userData);
 					resolve(userArr);
 				} else {
 					reject({ msg: 'No Users Found' });
@@ -227,23 +227,25 @@ export class MyApp {
 					this.event.publish('newsupdated');
 					for (let index = 0; index < newsArr.length; index++) {
 						var news = newsArr[index];
-
 						var custNewsData = {};
-
-						var commentKeys = Object.keys(news.comments);
-						var commentsNumber = Object.keys(news.comments).length;
-						var likesNumber = Object.keys(news.likes).length;
-
-						var lastCommentKey = commentKeys[commentsNumber - 1];
 						
-						var lastComment = news.comments[lastCommentKey];
-						// console.log('Last Comment ', lastComment)
-						custNewsData['commentsNumber'] = commentsNumber;
-						custNewsData['likesNumber'] = likesNumber;
-						custNewsData['lastComment'] = lastComment;
+						if (news.hasOwnProperty('comments')) {
+							var commentKeys = Object.keys(news.comments);
+							var commentsNumber = Object.keys(news.comments).length;
+							var lastCommentKey = commentKeys[commentsNumber - 1];
 
-						news.custNewsData = custNewsData;
+							var lastComment = news.comments[lastCommentKey];
+							// console.log('Last Comment ', lastComment)
+							custNewsData['commentsNumber'] = commentsNumber;
+							custNewsData['lastComment'] = lastComment;							
+						}
 
+						if (news.hasOwnProperty('likes')) {
+							var likesNumber = Object.keys(news.likes).length;
+
+							custNewsData['likesNumber'] = likesNumber;
+							news.custNewsData = custNewsData;
+						}
 						// console.log('News Modified Data Form ', news);
 						// if (newsArr[index].id == newsArr[index].comments.newsId) {
 							// comments.push(_.toArray(newsArr[index].comments.length));
