@@ -50,10 +50,12 @@
         </div>
       </div>
 
-      <div style="padding-top:1em" *ngIf="new.custNewsData">
+      <div style="padding-top:1em" *ngIf="new.custNewsData != undefiend">
         <p>{{new.custNewsData.likesNumber}}
-          <span *ngIf="new.custNewsData.likesNumber == 1">like ,</span>
-          <span *ngIf="new.custNewsData.likesNumber > 1">likes ,</span><span *ngIf="new.custNewsData.commentsNumber">{{new.custNewsData.commentsNumber}}</span>
+          <span *ngIf="new.custNewsData.likesNumber == 1">like</span>
+          <span *ngIf="new.custNewsData.likesNumber > 1">likes</span>
+          <span *ngIf="new.custNewsData.commentsNumber">,</span>
+          <span *ngIf="new.custNewsData.commentsNumber">{{new.custNewsData.commentsNumber}}</span>
           <span *ngIf="new.custNewsData.commentsNumber == 1">comment</span>
           <span *ngIf="new.custNewsData.commentsNumber > 1">comments</span>
         </p>
@@ -61,6 +63,7 @@
 
 
       <div *ngIf="new.custNewsData">
+        <div *ngIf="new.custNewsData.lastComment">
         <div class="divider">
           <!-- <p class="newsspan2">Like</p> -->
         </div>
@@ -73,6 +76,7 @@
           </h6>
           <p class="newsspan2" style="white-space:normal">{{new.custNewsData.lastComment.comment}}</p>
         </ion-item>
+        </div>
       </div>
       <div class="divider">
         <!-- <p class="newsspan2">Like</p> -->

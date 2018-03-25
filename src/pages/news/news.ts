@@ -75,6 +75,7 @@ export class NewsPage {
 			// console.log('User Id ', this.global.userId, previousLikesArr, newsData);
 			this.firebase.addLikeToNews(this.global.userData, newsData).then((data) => {
 				// console.log('like added');
+				newsData.postLiked = true;
 			});
 		}
 	}
