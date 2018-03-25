@@ -155,7 +155,7 @@ export class MyApp {
 				if (data.val() != 'default') {
 					userArr = data.val();
 					this.global.userData = userArr;
-					// console.warn(this.global.userData);
+					console.warn(' Component User Data ', this.global.userData);
 					resolve(userArr);
 				} else {
 					reject({ msg: 'No Users Found' });
@@ -229,7 +229,7 @@ export class MyApp {
 						var news = newsArr[index];
 						var custNewsData = {};
 						
-						if (Object.keys(news.comments).length > 0) {
+						if (news.hasOwnProperty('comments')) {
 							var commentKeys = Object.keys(news.comments);
 							var commentsNumber = Object.keys(news.comments).length;
 							var lastCommentKey = commentKeys[commentsNumber - 1];
@@ -240,7 +240,7 @@ export class MyApp {
 							custNewsData['lastComment'] = lastComment;							
 						}
 
-						if (Object.keys(news.likes).length > 0) {
+						if (news.hasOwnProperty('likes')) {
 							var likesNumber = Object.keys(news.likes).length;
 
 							custNewsData['likesNumber'] = likesNumber;

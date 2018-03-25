@@ -422,6 +422,7 @@ export class FirebaseProvider {
 	}
 
 	addLikeToNews(userData,newsData){
+		console.log('User Data ', userData, ' News Data ', newsData);
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		var dbref = firebase.database().ref('/news/' + newsData.id + '/likes/').push();
@@ -440,6 +441,20 @@ export class FirebaseProvider {
 			resolve();
 		});
 	}
+
+	removeLikesFromNews(newsData, like) {
+		var newsId = newsData.id;
+		var likeId = like.id;
+
+		return new Promise((resolve, reject) => {
+			var dbref = firebase.database().ref('/news/' + newsId + '/likes/').child(likeId);
+			
+			dbref.remove().then(() => {
+				resolve();
+			});			
+		});
+	}
+
 	getAllComments(newsId){
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/news/' + newsId + '/comments/');
