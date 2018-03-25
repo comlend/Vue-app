@@ -52,20 +52,20 @@
 
       <div style="padding-top:1em" *ngIf="new.custNewsData">
         <p>{{new.custNewsData.likesNumber}}
-          <span *ngIf="new.custNewsData.likesNumber == 1">like</span>
-          <span *ngIf="new.custNewsData.likesNumber > 1">likes</span>, {{new.custNewsData.commentsNumber}}
+          <span *ngIf="new.custNewsData.likesNumber == 1">like ,</span>
+          <span *ngIf="new.custNewsData.likesNumber > 1">likes ,</span><span *ngIf="new.custNewsData.commentsNumber">{{new.custNewsData.commentsNumber}}</span>
           <span *ngIf="new.custNewsData.commentsNumber == 1">comment</span>
           <span *ngIf="new.custNewsData.commentsNumber > 1">comments</span>
         </p>
       </div>
 
 
-      <div *ngIf="new.custNewsData.lastComment">
+      <div *ngIf="new.custNewsData">
         <div class="divider">
           <!-- <p class="newsspan2">Like</p> -->
         </div>
         <ion-item no-lines style="padding-left:0px !important">
-          <ion-avatar item-start style="min-width:0px !important;min-height:0px !important;">
+          <ion-avatar item-start style="min-width:0px !important;min-height:0px !important;" *ngIf="new.custNewsData.lastComment.profileurl">
             <img style="width:28px;height:28px" [src]=new.custNewsData.lastComment.profileurl>
           </ion-avatar>
           <h6 style="font-size:0.7em">

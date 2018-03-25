@@ -237,7 +237,8 @@ export class MyApp {
 							var lastComment = news.comments[lastCommentKey];
 							// console.log('Last Comment ', lastComment)
 							custNewsData['commentsNumber'] = commentsNumber;
-							custNewsData['lastComment'] = lastComment;							
+							custNewsData['lastComment'] = lastComment;	
+							news.custNewsData = custNewsData;						
 						}
 
 						if (news.hasOwnProperty('likes')) {
