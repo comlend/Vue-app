@@ -400,7 +400,7 @@ export class FirebaseProvider {
 	}
 	
 
-	addCommentToNews(newsData,userData,comment){
+	addCommentToNews(newsData,userData,comment,picture){
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		var dbref = firebase.database().ref('/news/' + newsData.id + '/comments/').push();
@@ -415,7 +415,8 @@ export class FirebaseProvider {
 				comment: comment,
 				unit: userData.unit,
 				id: dbref.key,
-				newsId: newsData.id
+				newsId: newsData.id,
+				commentPic: picture
 			});
 			resolve();
 		});

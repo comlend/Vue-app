@@ -14,7 +14,7 @@
     </ion-buttons>
     <ion-title>Post</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only color="secondary" (click)="addNews()">
+      <button ion-button icon-only color="secondary" (click)="addNews()" [disabled]="hasNoContent">
         Post
       </button>
     </ion-buttons>
@@ -27,13 +27,13 @@
   <div class="paddingtop">
   </div>
   <ion-item no-lines>
-    <textarea type="text" [(ngModel)]="news" rows="10" placeholder="Add new news feed" style="width:100%;border:none"></textarea>
+    <textarea type="text" [(ngModel)]="news" rows="10" placeholder="Add new news feed" style="width:100%;border:none" (input)="addContent()"></textarea>
   </ion-item>
   <ion-item *ngIf="hasPhoto">
     <img [src]=newsPicUrl />
   </ion-item>
  <div padding>
-  <button ion-button icon-left outline small (click)="addPhototoNews()">
+  <button ion-button icon-left outline small color="secondary" (click)="addPhototoNews()">
     <ion-icon name="images"></ion-icon>
     Add Photo
   </button>
