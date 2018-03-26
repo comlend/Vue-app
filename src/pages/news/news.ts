@@ -28,6 +28,7 @@ export class NewsPage {
 		this.events.subscribe('newsupdated', () => {
 			this.zone.run(() => {
 				this.news = this.global.news;
+				this.handleAlreadyLikedPosts();				
 			});
 		});
 
@@ -60,10 +61,6 @@ export class NewsPage {
 
 	addLike(newsData) {		
 		newsData.postLiked = true;
-		/* this.zone.run(() => {
-			newsData.postLiked = true;
-			console.log(newsData);
-		}); */
 	
 		var userId = this.global.userId;
 		var previousLikesArr = _.toArray(newsData.likes);
@@ -78,9 +75,12 @@ export class NewsPage {
 				newsData.postLiked = true;
 			});
 		}
+
+		console.log('News ', newsData, this.news);
 	}
 
 	removeLike(news) {
+		console.log('Remove Like ', news);
 		news.postLiked = false;
 		var userId = this.global.userId;
 		var like = _.find(news.likes, { 'uId': userId });
