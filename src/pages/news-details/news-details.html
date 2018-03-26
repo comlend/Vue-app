@@ -91,14 +91,17 @@
 
 </ion-content>
 <ion-footer>
-  <ion-row>
-    <ion-col col-9>
+  <ion-row align-items-center>
+    <ion-col col-2 style="text-align:center" (click)="uploadPic()">
+      <ion-icon class="attachicon" ios="ios-camera-outline" md="md-camera"></ion-icon>
+    </ion-col>
+    <ion-col col-8>
       <ion-item no-lines class="footer">
         <ion-input type="text" [(ngModel)]="comment" placeholder="Comment on this Post"></ion-input>
       </ion-item>
     </ion-col>
-    <ion-col col-3 style="text-align:left">
-      <button ion-button clear type="submit" (click)="addComment()">Post</button>
+    <ion-col col-2 style="text-align:left" (click)="addComment()">
+      <p>Post</p>
     </ion-col>
     </ion-row>
     

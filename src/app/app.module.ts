@@ -56,7 +56,8 @@ import { PipesModule } from '../pipes/pipes.module';
     MessagesListPage,
     BusinessDetailsPage,
     AddNewsPage,
-    NewsDetailsPage
+    NewsDetailsPage,
+    MorePage
   ],
   imports: [
     BrowserModule,
@@ -84,7 +85,8 @@ import { PipesModule } from '../pipes/pipes.module';
     MessagesListPage,
     BusinessDetailsPage,
     AddNewsPage,
-    NewsDetailsPage
+    NewsDetailsPage,
+    MorePage
   ],
   providers: [
     StatusBar,
