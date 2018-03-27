@@ -21,6 +21,7 @@ export class AddNewsPage {
   news: any;
   newsPicUrl: any = 'Default';
   hasPhoto: boolean = false;
+  hasNoContent: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider, public app: App, private camera: Camera, public actionSheetCtrl: ActionSheetController ) {
     this.userData = this.globals.userData;
@@ -32,6 +33,11 @@ export class AddNewsPage {
   }
   back(){
     this.app.getRootNav().pop();
+  }
+  addContent(){
+    if (this.news != null) {
+      this.hasNoContent = false;
+    }
   }
   addNews(){
     this.firebase.addNews(this.userData,this.news,this.newsPicUrl).then((data) => {
