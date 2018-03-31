@@ -554,7 +554,7 @@ export class FirebaseProvider {
 	}
 
 	addLikeToNews(userData,newsData){
-		console.log('User Data ', userData, ' News Data ', newsData);
+		// console.log('User Data ', userData, ' News Data ', newsData);
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		var dbref = firebase.database().ref('/news/' + newsData.id + '/likes/').push();

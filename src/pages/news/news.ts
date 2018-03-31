@@ -77,15 +77,15 @@ export class NewsPage {
 			});
 		}
 
-		console.log('News ', newsData, this.news);
+		// console.log('News ', newsData, this.news);
 	}
 
 	removeLike(news) {
-		console.log('Remove Like ', news);
+		// console.log('Remove Like ', news);
 		news.postLiked = false;
 		var userId = this.global.userId;
 		var like = _.find(news.likes, { 'uId': userId });
-		console.log('Remove Like ', like.id);
+		// console.log('Remove Like ', like.id);
 		this.firebase.removeLikesFromNews(news, like).then();
 	}
 
