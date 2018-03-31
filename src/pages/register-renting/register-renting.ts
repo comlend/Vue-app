@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ActionSheetController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { FirebaseProvider} from '../../providers/firebase/firebase';
@@ -13,7 +13,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-register-renting',
   templateUrl: 'register-renting.html',
@@ -30,6 +29,7 @@ export class RegisterRentingPage {
    userType: string = "renting";
    liveInProperty: boolean = false;
   showPassError: boolean = false;
+  picUploaded: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
       this.initializeForm();
@@ -42,7 +42,8 @@ export class RegisterRentingPage {
         lastName: ['', Validators.compose([Validators.required])],
         unit: ['', Validators.compose([Validators.required])],
         email: ['', Validators.compose([Validators.required])],
-        password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+        password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
+        mobile: ['', Validators.compose([Validators.required])]
         
       });            
     
@@ -72,7 +73,7 @@ export class RegisterRentingPage {
       var createdAt = moment().format();
       
 
-      this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl, this.userType, this.signupForm.value.unit)
+    this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl, this.userType, this.signupForm.value.unit, this.imageData, this.signupForm.value.mobile)
         .then((data) => {
           console.log('test', data);
           this.loading.dismiss().then(() => {  
@@ -128,14 +129,16 @@ export class RegisterRentingPage {
 
       this.camera.getPicture(options).then((imageData) =>{
         this.imageData = imageData;
-          this.firebase.uploadProfile(imageData).then((data) => {
-            // this.profileurl = data;
-            console.log(data);
+        this.profileurl = 'data:image/png;base64,' + imageData;
+        this.picUploaded = true;
+          // this.firebase.uploadProfile(imageData).then((data) => {
+          //   // this.profileurl = data;
+          //   console.log(data);
             
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          // })
+          // .catch((err) => {
+          //   console.log(err);
+          // });
       });
   }
   clearErrors(){

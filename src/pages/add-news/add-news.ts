@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, App, ActionSheetController } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -11,7 +11,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-add-news',
   templateUrl: 'add-news.html',

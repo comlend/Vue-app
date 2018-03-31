@@ -6,13 +6,40 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>building-info</ion-title>
+  <ion-navbar hideBackButton>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-back" color="secondary"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>BUILDING INFO</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <div class="paddingtop"></div>
+  <ion-list>
+    <button ion-item>
+      Automatic door entry
+    </button>
+    <button ion-item (click)="dishwasher()">
+      Dishwasher
+    </button>
+    <button ion-item>
+      Heating
+    </button>
+    <button ion-item>
+      Keys
+    </button>
+    <button ion-item>
+      Paint
+    </button>
+    <button ion-item>
+      Rubbish
+    </button>
+  </ion-list>
+  
 
 </ion-content>

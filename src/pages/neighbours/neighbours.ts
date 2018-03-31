@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, Events } from 'ionic-angular';
+import { NavController, NavParams, App, Events } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { MessagePage } from '../message/message'; 
@@ -9,7 +9,6 @@ import * as firebase from 'firebase';
 
 import { EventDispatcherProvider } from '../../providers/event-dispatcher/event-dispatcher';
 
-@IonicPage()
 @Component({
   selector: 'page-neighbours',
   templateUrl: 'neighbours.html',

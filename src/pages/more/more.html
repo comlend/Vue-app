@@ -14,9 +14,23 @@
 
 
 <ion-content>
+  <div class="paddingtop"></div>
   <ion-list>
-    <button ion-item>
-      My Flat Info
+    <ion-item (click)="buildingInfo()" detail-push>
+      <img class="item-image" item-start src="assets/imgs/buildinginfo.png"/> Building Info
+    </ion-item>
+    <ion-item (click)="serviceCenter()" detail-push>
+      <img class="item-image" item-start src="assets/imgs/servicecenter.png" /> Service Center
+    </ion-item>
+    <ion-item (click)="liveLocal()" detail-push>
+      <img class="item-image" item-start src="assets/imgs/livelocal.png" />Live Local
+    </ion-item>
+    </ion-list>
+    <div class="paddingtop"></div>
+    <ion-list>
+    <button ion-item (click)="settings()">
+      <ion-icon name="settings" item-start></ion-icon>
+      Settings
     </button>
   </ion-list>
 

@@ -67,5 +67,14 @@ page-message {
         border: 0;
         border-radius: 0;
         background: transparent;
+        height: 20px;
+    }
+    .item-block {
+        min-height: 2.2em;
+    }
+    .footer {
+        .label-ios {
+            margin: 0px;
+        }
     }
 }

@@ -39,13 +39,13 @@
 		<div class="userchatmsg" *ngIf="chat.sentby == neighbourData.uId">
 
 			<ion-avatar item-start style="display: inline-block;float: left;">
-				<img [src]="neighbourData.profileurl">
+				<img [src]="neighbourData.profileurl"/>
 			</ion-avatar>
 
 			<span *ngIf="chat.type == 'text'" class="userchatmsg left-msg">
 				{{chat.message}}
 			</span>
-			<img class="chatimageleft" src="{{chat.message}}" *ngIf="chat.type == 'image'">
+			<img class="chatimageleft" src="{{chat.message}}" *ngIf="chat.type == 'image'"/>
 			<!-- </div> *ngIf="userId == chat.sentby"-->
 			
 		</div>
@@ -57,7 +57,7 @@
 
 			<span *ngIf="chat.type == 'text'" class="userchatmsg right-msg">
 				{{chat.message}}</span>
-			<img class="chatimageright" src="{{chat.message}}" *ngIf="chat.type == 'image'">
+			<img class="chatimageright" src="{{chat.message}}" *ngIf="chat.type == 'image'"/>
 		</div>
 
 		<p *ngIf="chat.sentby == userId" style="position: relative;clear: both;float: right;font-size: 9px;right: 65px;">{{ chat.status }}</p>
@@ -68,8 +68,8 @@
 </ion-content>
 <ion-footer>
 	<ion-row align-items-center>
-		<ion-col col-1 style="text-align:center" (click)="uploadPic()">
-			<ion-icon class="attachicon" name="attach"></ion-icon>
+		<ion-col col-2 style="text-align:center" (click)="uploadPic()">
+			<ion-icon class="attachicon" ios="ios-camera-outline" md="md-camera"></ion-icon>
 		</ion-col>
 		<ion-col col-8>
 			<ion-item no-lines class="footer">
@@ -78,8 +78,8 @@
 				 <!-- (keyup.enter)="addnewmessage(chat,'text'); sendChatNotification(chat)" -->
 			</ion-item>
 		</ion-col>
-		<ion-col col-3>
-			<button ion-button clear type="submit" (click)="addnewmessage(chat,'text'); sendChatNotification(chat)">Send</button>
+		<ion-col col-2>
+			<button ion-button clear type="submit" style="padding-left:0px" (click)="addnewmessage(chat,'text'); sendChatNotification(chat)">Send</button>
 		</ion-col>
 	</ion-row>
 

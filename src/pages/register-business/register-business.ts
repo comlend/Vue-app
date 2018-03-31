@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ActionSheetController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { FirebaseProvider} from '../../providers/firebase/firebase';
@@ -13,14 +13,13 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-register-business',
   templateUrl: 'register-business.html',
 })
 export class RegisterBusinessPage {
   public signupFormBiz;
-   user: {firstName?: any, lastName?: any, email?: any, pass?: any, unit?: any, details?: any} = {};
+   user: {firstName?: any, lastName?: any, email?: any, pass?: any, unit?: any, details?: any,mobile?: any} = {};
    formData: any;
    loading: any;
    errormessage: any;
@@ -30,6 +29,7 @@ export class RegisterBusinessPage {
    userType: string = "business";
    liveInProperty: boolean = false;
   showPassError: boolean = false;
+  picUploaded: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
     this.initializeForm();
@@ -42,6 +42,7 @@ export class RegisterBusinessPage {
         name: ['', Validators.compose([Validators.required])],
         email: ['', Validators.compose([Validators.required])],
         password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
+        mobile: ['', Validators.compose([Validators.required])],
         details: ['', Validators.compose([Validators.required])],
       });            
     
@@ -71,7 +72,7 @@ export class RegisterBusinessPage {
       var createdAt = moment().format();
       
 
-    this.firebase.signupBizUser(this.signupFormBiz.value.email, this.signupFormBiz.value.password, this.signupFormBiz.value.firstName, this.signupFormBiz.value.lastName, createdAt, this.profileurl, this.signupFormBiz.value.name, this.userType, this.signupFormBiz.value.details)
+    this.firebase.signupBizUser(this.signupFormBiz.value.email, this.signupFormBiz.value.password, this.signupFormBiz.value.firstName, this.signupFormBiz.value.lastName, createdAt, this.profileurl, this.signupFormBiz.value.name, this.userType, this.signupFormBiz.value.details, this.imageData, this.signupFormBiz.value.mobile)
         .then((data) => {
           console.log('test', data);
           this.loading.dismiss().then(() => {  
@@ -127,14 +128,16 @@ export class RegisterBusinessPage {
 
       this.camera.getPicture(options).then((imageData) =>{
         this.imageData = imageData;
-          this.firebase.uploadProfile(imageData).then((data) => {
-            // this.profileurl = data;
-            console.log(data);
+        this.profileurl = 'data:image/png;base64,' + imageData;
+        this.picUploaded = true;
+          // this.firebase.uploadProfile(imageData).then((data) => {
+          //   // this.profileurl = data;
+          //   console.log(data);
             
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          // })
+          // .catch((err) => {
+          //   console.log(err);
+          // });
       });
   }
   clearErrors(){

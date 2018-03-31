@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import { BuildingInfoDetailsPage } from '../building-info-details/building-info-details';
 
 /**
  * Generated class for the BuildingInfoPage page.
@@ -8,7 +9,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-building-info',
   templateUrl: 'building-info.html',
@@ -20,6 +20,12 @@ export class BuildingInfoPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BuildingInfoPage');
+  }
+  back(){
+    this.navCtrl.pop();
+  }
+  dishwasher(){
+    this.navCtrl.push(BuildingInfoDetailsPage);
   }
 
 }
