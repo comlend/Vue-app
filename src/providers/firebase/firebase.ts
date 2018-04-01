@@ -93,7 +93,6 @@ export class FirebaseProvider {
 			}, () => {
 				console.log(uploadTask.snapshot.downloadURL);
 				firebase.database().ref('/users').child(userId).update({
-					
 					profileurl: uploadTask.snapshot.downloadURL,
 				});
 
@@ -102,11 +101,9 @@ export class FirebaseProvider {
 			});
 		});
 	}
-	updateUserData(firstName: any, lastName: any, phone:any, userId)
-	{
-		return new Promise((resolve, reject) => {
-			firebase.database().ref('/users').child(userId).update({
-
+	updateUserData(firstName,lastName,phone,userId)
+	{	return new Promise((resolve, reject) => {
+			firebase.database().ref('/users/').child(userId).update({
 				firstName: firstName,
 				lastName: lastName,
 				phone: phone
