@@ -1,9 +1,3 @@
-<!--
-  Generated template for the EditProfilePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar hideBackButton>
@@ -56,6 +50,14 @@
     <ion-item no-lines>
       {{userData.email}}
       <!-- <ion-input type="phone" [(ngModel)]="userData.email"></ion-input> -->
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header></ion-list-header>
+    <ion-item no-lines>
+      <ion-label>Hide My Profile</ion-label>
+      <ion-toggle color="secondary" [(ngModel)]="hideProfile" (ionChange)="hideMyProfile($event)"></ion-toggle>
     </ion-item>
   </ion-list>
 

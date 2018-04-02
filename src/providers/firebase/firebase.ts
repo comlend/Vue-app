@@ -21,28 +21,43 @@ export class FirebaseProvider {
 	}
 
 	signupBizUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, name: string, userType: string, details: string, imageData: any, phone: any) {
+		console.log('Image Data => ', imageData);
+		
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
 
+			var userData = {
+				email: email,
+				firstName: firstName,
+				lastName: lastName,
+				createdAt: createdAt,
+				userType: userType,
+				name: name,
+				details: details,
+				deviceToken: fcmToken,
+				phone: phone,
+				hideProfile: false
+			};
+		
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
-				this.uploadProfile(imageData, newUser.uid).then(() => {
-					console.log("data output", email, firstName, lastName, createdAt, profileurl)
-					firebase.database().ref('/users').child(newUser.uid).set({
-						email: email,
-						firstName: firstName,
-						lastName: lastName,
-						createdAt: createdAt,
-						profileurl: profileurl,
-						userType: userType,
-						name: name,
-						details: details,
-						uId: newUser.uid,
-						deviceToken: fcmToken,
-						phone: phone
+				userData['uId'] = newUser.uid;
+				console.log('if => ', imageData);
+				if (imageData == 'assets/imgs/imgPlaceholder.png') {
+					console.log('if => ', imageData);
+					userData['profileurl'] = imageData;
+					firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+						resolve(newUser);
 					});
-				});
-				
-				resolve(newUser);
+				} else {
+					this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
+						console.log("else data output", email, firstName, lastName, createdAt, imageUrl);
+						userData['profileurl'] = imageUrl;
+						
+						firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+							resolve(newUser);
+						});
+					});
+				}
 			}).catch((error) => {
 				console.log('Error getting location', error);
 				reject(error);
@@ -51,28 +66,41 @@ export class FirebaseProvider {
 
 		});
 	}
-	signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string, unit: string, imageData: any, phone: any) {
+	signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, userType: string, unit: string, imageData: any, phone: any) {
+		// console.log('Image Data => ', imageData);
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
 			
+			var userData = {
+				email: email,
+				firstName: firstName,
+				lastName: lastName,
+				createdAt: createdAt,
+				userType: userType,
+				deviceToken: fcmToken,
+				phone: phone,
+				hideProfile: false
+			};
+			// console.log('User Data => ', userData);
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
-				this.uploadProfile(imageData, newUser.uid).then(()=> {
-					console.log("data output", email, firstName, lastName, createdAt, profileurl)
-					firebase.database().ref('/users').child(newUser.uid).set({
-						email: email,
-						firstName: firstName,
-						lastName: lastName,
-						createdAt: createdAt,
-						profileurl: profileurl,
-						userType: userType,
-						unit: unit,
-						uId: newUser.uid,
-						deviceToken: fcmToken,
-						phone: phone
+				userData['uId'] = newUser.uid;
+
+				if (imageData == 'assets/imgs/imgPlaceholder.png') {
+					// console.log('if => ', imageData);
+					userData['profileurl'] = imageData;
+					firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+						resolve(newUser);
 					});
-				})
-				
-				resolve(newUser);
+				} else {
+					this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
+						// console.log("else data output", email, firstName, lastName, createdAt, imageUrl);
+						userData['profileurl'] = imageUrl;
+						
+						firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+							resolve(newUser);
+						});
+					});
+				}
 			}).catch((error) => {
 				console.log('Error getting location', error);
 				reject(error);
