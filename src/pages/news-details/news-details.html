@@ -71,7 +71,7 @@
   </ion-row> -->
 
   <div *ngIf="!noComments">
-    <ion-item no-lines *ngFor="let comment of allComments" style="padding-left:0px !important">
+    <ion-item no-lines *ngFor="let comment of allComments" style="padding-left:0px !important;">
       <ion-avatar item-start style="min-width:0px !important;min-height:0px !important;">
         <img style="width:28px;height:28px" [src]=comment.profileurl>
       </ion-avatar>
@@ -101,7 +101,8 @@
     </ion-col>
     <ion-col col-8>
       <ion-item no-lines class="footer">
-        <ion-input type="text" [(ngModel)]="comment" placeholder="Comment on this Post" (input)="hasComment()"></ion-input>
+        <textarea #commentInput [rows]="commentRow" (keyup.enter)="resize()" type="text" [(ngModel)]="comment" placeholder="Comment on this Post" id = "myInput" (input)="hasComment()"></textarea>
+        <!-- <ion-input type="text" [(ngModel)]="comment" placeholder="Comment on this Post" (input)="hasComment()"></ion-input> -->
       </ion-item>
     </ion-col>
     <ion-col col-2 style="text-align:left">

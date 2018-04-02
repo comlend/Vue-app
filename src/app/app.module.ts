@@ -24,6 +24,11 @@ import { BusinessDetailsPage } from '../pages/business-details/business-details'
 import { AddNewsPage } from '../pages/add-news/add-news';
 import { NewsDetailsPage } from '../pages/news-details/news-details';
 import { MorePage } from '../pages/more/more';
+import { BuildingInfoPage } from '../pages/building-info/building-info';
+import { ServiceCenterPage } from '../pages/service-center/service-center';
+import { LiveLocalPage } from '../pages/live-local/live-local';
+import { SettingsPage } from '../pages/settings/settings';
+import { AddLocalPage } from '../pages/add-local/add-local';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -37,6 +42,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { EventDispatcherProvider } from '../providers/event-dispatcher/event-dispatcher';
 
 import { PipesModule } from '../pipes/pipes.module';
+import { EditProfilePage } from '../pages/edit-profile/edit-profile';
+import { TncPage } from '../pages/tnc/tnc';
+import { BuildingInfoDetailsPage } from '../pages/building-info-details/building-info-details';
+import { NotificationsPage } from '../pages/notifications/notifications';
+import { ProfilePage } from '../pages/profile/profile';
 
 @NgModule({
   declarations: [
@@ -57,7 +67,17 @@ import { PipesModule } from '../pipes/pipes.module';
     BusinessDetailsPage,
     AddNewsPage,
     NewsDetailsPage,
-    MorePage
+    MorePage,
+    BuildingInfoPage,
+    ServiceCenterPage,
+    LiveLocalPage,
+    SettingsPage,
+    AddLocalPage,
+    EditProfilePage,
+    TncPage,
+    BuildingInfoDetailsPage,
+    ProfilePage,
+    NotificationsPage
   ],
   imports: [
     BrowserModule,
@@ -86,7 +106,17 @@ import { PipesModule } from '../pipes/pipes.module';
     BusinessDetailsPage,
     AddNewsPage,
     NewsDetailsPage,
-    MorePage
+    MorePage,
+    BuildingInfoPage,
+    ServiceCenterPage,
+    LiveLocalPage,
+    SettingsPage,
+    AddLocalPage,
+    EditProfilePage,
+    TncPage,
+    BuildingInfoDetailsPage,
+    NotificationsPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

@@ -4,6 +4,7 @@ import { Events } from 'ionic-angular';
 import * as firebase from 'firebase';
 import { GlobalsProvider } from '../globals/globals';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 @Injectable()
 export class FirebaseProvider {
@@ -19,25 +20,28 @@ export class FirebaseProvider {
 		console.log('Hello FirebaseProvider Provider');
 	}
 
-	signupBizUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, name: string, userType: string, details: string) {
+	signupBizUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, name: string, userType: string, details: string, imageData: any, phone: any) {
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
 
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
-
-				console.log("data output", email, firstName, lastName, createdAt, profileurl)
-				firebase.database().ref('/users').child(newUser.uid).set({
-					email: email,
-					firstName: firstName,
-					lastName: lastName,
-					createdAt: createdAt,
-					profileurl: profileurl,
-					userType: userType,
-					name: name,
-					details: details,
-					uId: newUser.uid,
-					deviceToken: fcmToken
+				this.uploadProfile(imageData, newUser.uid).then(() => {
+					console.log("data output", email, firstName, lastName, createdAt, profileurl)
+					firebase.database().ref('/users').child(newUser.uid).set({
+						email: email,
+						firstName: firstName,
+						lastName: lastName,
+						createdAt: createdAt,
+						profileurl: profileurl,
+						userType: userType,
+						name: name,
+						details: details,
+						uId: newUser.uid,
+						deviceToken: fcmToken,
+						phone: phone
+					});
 				});
+				
 				resolve(newUser);
 			}).catch((error) => {
 				console.log('Error getting location', error);
@@ -47,24 +51,27 @@ export class FirebaseProvider {
 
 		});
 	}
-	signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string, unit: string) {
+	signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, userType: string, unit: string, imageData: any, phone: any) {
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
 			
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
-
-				console.log("data output", email, firstName, lastName, createdAt, profileurl)
-				firebase.database().ref('/users').child(newUser.uid).set({
-					email: email,
-					firstName: firstName,
-					lastName: lastName,
-					createdAt: createdAt,
-					profileurl: profileurl,
-					userType: userType,
-					unit: unit,
-					uId: newUser.uid,
-					deviceToken: fcmToken
-				});
+				this.uploadProfile(imageData, newUser.uid).then(()=> {
+					console.log("data output", email, firstName, lastName, createdAt, profileurl)
+					firebase.database().ref('/users').child(newUser.uid).set({
+						email: email,
+						firstName: firstName,
+						lastName: lastName,
+						createdAt: createdAt,
+						profileurl: profileurl,
+						userType: userType,
+						unit: unit,
+						uId: newUser.uid,
+						deviceToken: fcmToken,
+						phone: phone
+					});
+				})
+				
 				resolve(newUser);
 			}).catch((error) => {
 				console.log('Error getting location', error);
@@ -75,17 +82,64 @@ export class FirebaseProvider {
 		});
 	}
 
+	updateUserPic(data,userId){
+		var filename = userId+ '.jpg';
+		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		return new Promise((resolve, reject) => {
+			uploadTask.on('state_changed', (snapshot) => {
+
+			}, (err) => {
+				reject(false);
+			}, () => {
+				console.log(uploadTask.snapshot.downloadURL);
+				firebase.database().ref('/users').child(userId).update({
+					
+					profileurl: uploadTask.snapshot.downloadURL,
+				});
+
+				resolve(uploadTask.snapshot.downloadURL);
+				// return;
+			});
+		});
+	}
+	updateUserData(firstName: any, lastName: any, phone:any, userId)
+	{
+		return new Promise((resolve, reject) => {
+			firebase.database().ref('/users').child(userId).update({
+
+				firstName: firstName,
+				lastName: lastName,
+				phone: phone
+			});
+
+			resolve();
+		});
+
+	}
+
 
 	loginData(email: string, password: string) {
+		this.globals.reinitializeGlobals();
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
 
 	logOut(){
-		return firebase.auth().signOut();
+		return new Promise((resolve, reject) => {
+			firebase.auth().signOut().then((authdata) => {
+				resolve();
+				// console.log('Auth DATA ', authdata);
+				// console.log(firebase.auth().onAuthStateChanged((user) => {
+				// 	console.log(user)
+				// }));
+				
+			});
+		})
+		// this.globals.clear();
+		
 	}
 
-	public uploadProfile(data) {
-		var filename = (new Date()).getTime() + '.jpg';
+	public uploadProfile(data,userId) {
+		var filename = userId + '.jpg';
 		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
 		return new Promise((resolve, reject) => {
 			uploadTask.on('state_changed', (snapshot) => {
@@ -100,7 +154,22 @@ export class FirebaseProvider {
 			});
 		});
 	}
+	public uploadMessagePic(data) {
+		var filename = (new Date()).getTime() + '.jpg';
+		let uploadTask = firebase.storage().ref('/photos/messages/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		return new Promise((resolve, reject) => {
+			uploadTask.on('state_changed', (snapshot) => {
 
+			}, (err) => {
+				reject(false);
+			}, () => {
+				console.log(uploadTask.snapshot.downloadURL);
+
+				resolve(uploadTask.snapshot.downloadURL);
+				return;
+			});
+		});
+	}
 	public uploadPicture(data) {
 		var filename = (new Date()).getTime() + '.jpg';
 		let uploadTask = firebase.storage().ref('/photos/news-pictures/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
@@ -339,6 +408,42 @@ export class FirebaseProvider {
 		});
 	}
 
+	sendNewsCommentNoti(newsPublisherDeviceToken) {
+		var userData = this.globals.userData;
+		
+		return new Promise((resolve, reject) => {
+			var url = 'https://fcm.googleapis.com/fcm/send';
+
+			var options = {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					'Authorization': 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8'
+				})
+			};
+
+			var notificationPayload = {
+				title: userData.firstName + ' commented on your news',
+				sound: "default",
+				click_action: "FCM_PLUGIN_ACTIVITY",
+				icon: "fcm_push_icon"
+			};
+
+			var body = {
+				to: newsPublisherDeviceToken,
+				priority: "high",
+				notification: notificationPayload
+			};
+
+			/* console.log('Headers Before Push Post ', options);
+			console.log('Body Before Push ', JSON.stringify(body)); */
+
+			this.http.post(url, JSON.stringify(body), options).subscribe((res) => {
+				console.log('Noti Send Firbase Respone ', res);
+				resolve(res);
+			})
+		});
+	}
+
 	updateFcmDeviceToken(deviceToken) {
 		return new Promise((resolve, reject) => {
 			var userId = this.globals.userId;
@@ -375,7 +480,31 @@ export class FirebaseProvider {
 		});
 		
 	}
-
+	addLocal(userData, local, localName, localPicUrl){
+		let time = this.formatAMPM(new Date());
+		let date = this.formatDate(new Date());
+		var dbref = firebase.database().ref('/locals/').push();
+		return new Promise((resolve, reject) => {
+			dbref.set({
+				uId: userData.uId,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				profileurl: userData.profileurl,
+				timeofPost: moment().format(),
+				timestamp: firebase.database.ServerValue.TIMESTAMP,
+				date: date,
+				time: time,
+				local: local,
+				unit: userData.unit,
+				userType: userData.userType,
+				deviceToken: userData.deviceToken,
+				id: dbref.key,
+				localName: localName,
+				picUrl: localPicUrl
+			});
+			resolve();
+		});
+	}
 	addNews(userData,news,picture){
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
@@ -386,6 +515,8 @@ export class FirebaseProvider {
 				firstName: userData.firstName,
 				lastName: userData.lastName,
 				profileurl: userData.profileurl,
+				timeofPost:moment().format(),
+				timestamp: firebase.database.ServerValue.TIMESTAMP,
 				date: date,
 				time: time,
 				news: news,

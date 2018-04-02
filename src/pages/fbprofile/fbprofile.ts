@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, LoadingController, NavParams, Events } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, Events } from 'ionic-angular';
 import * as firebase from 'firebase';
 import * as moment from 'moment';
 import { TabsPage } from '../tabs/tabs';
@@ -13,7 +13,6 @@ import { GlobalsProvider } from '../../providers/globals/globals';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-fbprofile',
   templateUrl: 'fbprofile.html',

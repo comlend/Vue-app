@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, LoadingController, NavParams, Events } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, Events } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
 import { Facebook } from '@ionic-native/facebook';
@@ -8,7 +8,7 @@ import { FbprofilePage } from '../fbprofile/fbprofile';
 import { TabsPage } from '../tabs/tabs';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { FCM } from '@ionic-native/fcm';
-@IonicPage()
+
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',

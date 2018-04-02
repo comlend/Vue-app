@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import { ServiceCenterPage } from '../service-center/service-center'; 
+import { BuildingInfoPage } from '../building-info/building-info';
+import { LiveLocalPage } from '../live-local/live-local';
+import { SettingsPage } from '../settings/settings';
 
 /**
  * Generated class for the MorePage page.
@@ -8,7 +12,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-more',
   templateUrl: 'more.html',
@@ -17,9 +20,22 @@ export class MorePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-
+  BuildingInfoPage
+  ServiceCenterPage
   ionViewDidLoad() {
     console.log('ionViewDidLoad MorePage');
+  }
+  buildingInfo(){
+    this.navCtrl.push(BuildingInfoPage);
+  }
+  liveLocal(){
+    this.navCtrl.push(LiveLocalPage);
+  }
+  serviceCenter(){
+    this.navCtrl.push(ServiceCenterPage);
+  }
+  settings(){
+    this.navCtrl.push(SettingsPage);
   }
 
 }

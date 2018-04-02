@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, App } from 'ionic-angular';
+import { NavController, NavParams, Events, App } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 
 import { MessagePage } from "../message/message";
@@ -8,7 +8,7 @@ import * as firebase from 'firebase';
 import * as _ from 'lodash';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 
-@IonicPage()
+
 @Component({
 	selector: 'page-messages-list',
 	templateUrl: 'messages-list.html',

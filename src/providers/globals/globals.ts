@@ -8,6 +8,7 @@ export class GlobalsProvider {
   neighboursData: any;
   FbLoginComplete: boolean = true;
   news: any;
+  locals: any;
   chats = [];
   fcmToken: string = '';
   cordovaPlatform: boolean = null;
@@ -24,6 +25,18 @@ export class GlobalsProvider {
     this.cordovaPlatform = undefined;
     this.unreadMessages = undefined;
     this.news = undefined;
+    this.locals = undefined;
+  }
+
+  reinitializeGlobals() {
+    this.userId = '';
+    this.userData = '';
+    this.chats = [];
+    this.neighboursData = [];
+    this.cordovaPlatform = null;
+    this.unreadMessages = 0;
+    this.news = [];
+    this.locals = [];
   }
 
 }

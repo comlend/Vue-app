@@ -59,6 +59,15 @@
 				<p>{{errormessage}}</p>
 			</div>
 		</ion-list>
+		
+		<ion-list>
+			<ion-item>
+		
+				<ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="telephone">
+				</ion-input>
+			</ion-item>
+		</ion-list>
+
 		<ion-list>
 			<ion-item>
 
@@ -88,7 +97,7 @@
 </ion-content>
 <ion-footer>
 	<div class="buttonspadding">
-	  		<button ion-button block type="submit" (click)="signupUser()" [disabled]="!signupForm.valid">Sign up</button>
+	  		<button ion-button block type="submit" (click)="signupUser()" [disabled]="!signupForm.valid || !picUploaded">Sign up</button>
 		</div>
 	</ion-footer>
 

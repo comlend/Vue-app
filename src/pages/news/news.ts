@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, Events } from 'ionic-angular';
+import { NavController, NavParams, App, Events } from 'ionic-angular';
 import { AddNewsPage } from '../add-news/add-news';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
@@ -8,7 +8,6 @@ import { MessagePage } from '../message/message';
 
 import * as _ from 'lodash';
 
-@IonicPage()
 @Component({
 	selector: 'page-news',
 	templateUrl: 'news.html',
@@ -28,7 +27,8 @@ export class NewsPage {
 		this.events.subscribe('newsupdated', () => {
 			this.zone.run(() => {
 				this.news = this.global.news;
-				this.handleAlreadyLikedPosts();				
+				this.handleAlreadyLikedPosts();	
+				this.updatedProfilePicture();			
 			});
 		});
 
@@ -42,6 +42,7 @@ export class NewsPage {
 	initializeData() {
 		this.userId = this.global.userId;
 		this.news = this.global.news;
+		this.updatedProfilePicture();
 
 		this.handleAlreadyLikedPosts();
 
@@ -106,6 +107,33 @@ export class NewsPage {
 
 		console.log('Likes Handled ', this.news);
 	}
+	updatedProfilePicture(){
+		var news = this.news;
+		var user = this.global.userData;
+		var neighbours = this.global.neighboursData;
 
+		for (let i = 0; i < news.length; i++) {
+			var eachNews = news[i];
+
+			switch (true) {
+				case (user.uId == eachNews.uId):
+					eachNews.profileurl = user.profileurl;
+					break;
+
+				case (true):
+					for (let j = 0; j < neighbours.length; j++) {
+						var neighbour = neighbours[j];
+						if (neighbour.uId == eachNews.uId) {
+							eachNews.profileurl = neighbour.profileurl;
+						}						
+					}
+					break;
+			
+				default:
+					break;
+			}
+			
+		}
+	}
 
 }

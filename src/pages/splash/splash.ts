@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ViewController  } from 'ionic-angular';
+import { ViewController  } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 /**
@@ -9,7 +9,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-splash',
   templateUrl: 'splash.html',

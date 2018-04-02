@@ -32,7 +32,7 @@
 	<div *ngIf="chats.length > 0">
 		<ion-list>
 			<div *ngIf="!editable">
-				<ion-item *ngFor="let chat of chats" (click)="goToChatPage(chat)">
+				<ion-item *ngFor="let chat of chats" (click)="goToChatPage(chat)" detail-push>
 					<ion-avatar item-start id="badge-container">
 						<img src="{{ chat.receiverData.profileurl }}">
 						<ion-badge id="badge" *ngIf="chat.unreadMessages > 0" item-end>{{ chat.unreadMessages }}</ion-badge>
@@ -40,7 +40,7 @@
 					<h5>{{ chat.receiverData.firstName }} {{ chat.receiverData.lastName }}</h5>
 					<p>{{ chat.lastMsg }}</p> {{chat.status}}
 
-					<p item-end style="font-size: 11px;color: blue;">{{ chat.lastMsgTime | lastMsgTime }}</p>
+					<p item-end style="font-size: 11px;color: blue;margin: 0px;">{{ chat.lastMsgTime | lastMsgTime }}</p>
 				</ion-item>
 			</div>
 

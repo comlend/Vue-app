@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { RegisterBusinessPage } from '../register-business/register-business';
 import { RegisterRentingPage } from '../register-renting/register-renting';
 import { RegisterOwnerPage } from '../register-owner/register-owner';
@@ -11,7 +11,6 @@ import { RegisterOwnerPage } from '../register-owner/register-owner';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',

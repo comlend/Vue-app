@@ -20,19 +20,19 @@
         <ion-row align-items-start>
           <ion-col col-2>
             <ion-avatar item-start>
-              <img [src]=new.profileurl>
+              <img [src]="new.profileurl"/>
             </ion-avatar>
           </ion-col>
           <ion-col col-10>
             <ion-row>
-              <ion-col col-10>
+              <ion-col col-9>
                 <h5>{{new.firstName}} {{new.lastName}}</h5>
                 <span class="newsspan">Unit {{new.unit}}</span>
 
               </ion-col>
-              <ion-col col-2>
+              <ion-col col-3 style="text-align:right">
                 <span class="newsspan">
-                  {{new.time}}
+                  {{new.timeofPost | lastMsgTime}}
                 </span>
               </ion-col>
             </ion-row>
@@ -92,7 +92,7 @@
         </div>
         <ion-item no-lines style="padding-left:0px !important">
           <ion-avatar item-start style="min-width:0px !important;min-height:0px !important;" *ngIf="new.custNewsData.lastComment.profileurl">
-            <img style="width:28px;height:28px" [src]=new.custNewsData.lastComment.profileurl>
+            <img style="width:28px;height:28px" [src]=new.custNewsData.lastComment.profileurl />
           </ion-avatar>
           <h6 style="font-size:0.7em">
             {{new.custNewsData.lastComment.firstName}} {{new.custNewsData.lastComment.lastName}}

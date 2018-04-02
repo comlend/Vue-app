@@ -1,10 +1,9 @@
 import { Component, ViewChild, NgZone, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content, Events, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, Content, Events, ActionSheetController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
-@IonicPage()
 @Component({
 	selector: 'page-message',
 	templateUrl: 'message.html',
@@ -185,7 +184,7 @@ export class MessagePage {
 
 		this.camera.getPicture(options).then((imageData) => {
 			this.imageData = imageData;
-			this.firebase.uploadProfile(imageData).then((data) => {
+			this.firebase.uploadMessagePic(imageData).then((data) => {
 				// this.profileurl = data;
 				// this.chat = data;
 				var type = 'image';

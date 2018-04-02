@@ -80,13 +80,22 @@ export class MyApp {
 			else {
 
 				this.global.userId = user.uid;
+				// console.log('new user ->',this.global.userId);
 				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
 				Promise.all(promises).then((values) => {
 					this.extractNeighbourData();
 					this.getAllNews();
+					this.getAllLocals();
+
+					
+					this.fcm.subscribeToTopic("news").then(() => {
+						console.log('subscribed to news');
+					}).catch((error) => {
+						console.log('topic subscription error',error);
+					});
 					// this.getUserData();
 					//    
-					console.log('Promise.all resolved');
+					// console.log('Promise.all resolved');
 					if (this.global.FbLoginComplete) {
 						this.rootPage = TabsPage;
 						// return;
@@ -98,22 +107,8 @@ export class MyApp {
 					}
 					
 				}).catch((err) => {
-					console.log('Promise.all ', err);
+					// console.log('Promise.all ', err);
 				});
-				
-			
-			
-				
-				// this.global.userId = user.uid;
-				// promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
-				// Promise.all(promises).then((values) => {
-				// 	this.extractNeighbourData();
-				// 	this.getUserData();
-				// 	this.rootPage = TabsPage;
-				// 	console.log('Promise.all resolved');
-				// }).catch((err) => {
-				// 	console.log('Promise.all ', err);
-				// });
 				
 		}
 	
@@ -143,6 +138,8 @@ export class MyApp {
 				console.log('Device Token Update Error');				
 			});
 		});
+
+		
 	}
 
 	getUserData(){
@@ -155,7 +152,7 @@ export class MyApp {
 				if (data.val() != 'default') {
 					userArr = data.val();
 					this.global.userData = userArr;
-					console.warn(' Component User Data ', this.global.userData);
+					// console.warn(' Component User Data ', this.global.userData);
 					resolve(userArr);
 				} else {
 					reject({ msg: 'No Users Found' });
@@ -213,6 +210,25 @@ export class MyApp {
 			});
 		});
 	}
+	getAllLocals(){
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/locals/');
+			var localsArr = [];
+			dbRef.on('value', (data) => {
+				if (data.val() != 'default') {
+					localsArr = _.toArray(data.val()).reverse();
+					this.global.locals = localsArr;
+					console.log('all localss in globals', this.global.locals);
+					this.event.publish('localsupdated');
+				
+				resolve();
+
+				} else {
+						reject();
+				}
+			});
+		});
+	}
 	getAllNews(){
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/news/');
@@ -221,7 +237,7 @@ export class MyApp {
 			dbRef.on('value', (data) => {
 
 				if (data.val() != 'default') {
-					newsArr = _.toArray(data.val());
+					newsArr = _.toArray(data.val()).reverse();
 					this.global.news = newsArr;
 					console.log('all news in globals', this.global.news);
 					this.event.publish('newsupdated');
