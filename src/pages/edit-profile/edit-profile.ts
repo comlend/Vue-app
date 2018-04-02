@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
@@ -28,7 +28,7 @@ export class EditProfilePage {
 	oldName: string = '';
 	oldNumber: string = '';
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public alertCtrl: AlertController) {
 		this.userData = this.globals.userData;
 		this.profileurl = this.globals.userData.profileurl;
 		this.fullName = this.globals.userData.firstName + ' ' + this.globals.userData.lastName;
@@ -181,14 +181,25 @@ export class EditProfilePage {
 			lastName = this.fullName.substr(this.fullName.indexOf(' ') + 1);
 		}
 
-		console.log(firstName, lastName);
-
-		/* this.firebase.updateUserData(firstName, lastName, this.userData.phone, this.userData.userId).then((data) => {
+		this.firebase.updateUserData(firstName, lastName, this.userData.phone, this.userData.uId).then(() => {
 			console.log('user data updated');
 			this.globals.userData.firstName = firstName;
 			this.globals.userData.lastName = lastName;
 			this.globals.userData.phone = this.userData.phone;
-		}); */
+			this.valueChange = true;
+			let alert = this.alertCtrl.create({
+				title: 'User Profile',
+				subTitle: 'User Profile has been updated',
+				buttons: [
+					{
+						text: 'Ok',
+						role: 'cancel'
+					}
+				]
+			});
+			alert.present();
+
+		});
 	}
 
 }
