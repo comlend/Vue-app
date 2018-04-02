@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 import { GlobalsProvider } from '../globals/globals';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { resolve } from 'dns';
 
 @Injectable()
 export class FirebaseProvider {
@@ -654,6 +655,19 @@ export class FirebaseProvider {
 				} else {
 					reject({ msg: 'No news Found' });
 				}
+			});
+		});
+	}
+
+	hideMyProfile(hideProfile) {
+		var userId = this.globals.userId;
+		
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/users').child(userId);
+			dbRef.update({
+				hideProfile: hideProfile
+			}).then(() => {
+				resolve();
 			});
 		});
 	}
