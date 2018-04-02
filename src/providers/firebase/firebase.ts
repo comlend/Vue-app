@@ -37,7 +37,9 @@ export class FirebaseProvider {
 				details: details,
 				deviceToken: fcmToken,
 				phone: phone,
-				hideProfile: false
+				hideProfile: false,
+				blockedByMe: 'default',
+				blockedMe: 'default'
 			};
 		
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
@@ -80,7 +82,9 @@ export class FirebaseProvider {
 				userType: userType,
 				deviceToken: fcmToken,
 				phone: phone,
-				hideProfile: false
+				hideProfile: false,
+				blockedByMe: 'default',
+				blockedMe: 'default'
 			};
 			// console.log('User Data => ', userData);
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
@@ -670,5 +674,28 @@ export class FirebaseProvider {
 				resolve();
 			});
 		});
+	}
+
+	blockNeighbour(neighbourToBlock) {
+		var userId = this.globals.userId;
+		var neighbourId = neighbourToBlock.uId;
+
+		return new Promise((resolve, reject) => {
+			var userRef = firebase.database().ref('/users').child(userId + '/blockedByMe').child(neighbourId);
+			userRef.set({
+				id: neighbourId
+			});
+
+			var neighbourRef = firebase.database().ref('/users').child(neighbourId + '/blockedMe').child(userId);
+			neighbourRef.set({
+				id: userId
+			});
+
+			Promise.all([userRef, neighbourRef]).then(() => {
+				resolve({success: true, msg: 'User Blocked'});
+			}).catch((err) => {
+				reject(err);
+			});
+		});	
 	}
 }

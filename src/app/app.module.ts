@@ -47,6 +47,8 @@ import { TncPage } from '../pages/tnc/tnc';
 import { BuildingInfoDetailsPage } from '../pages/building-info-details/building-info-details';
 import { NotificationsPage } from '../pages/notifications/notifications';
 import { ProfilePage } from '../pages/profile/profile';
+import { BlockedUsersListPage } from '../pages/blocked-users-list/blocked-users-list';
+import { AddBlockedUsersPage } from '../pages/add-blocked-users/add-blocked-users';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,9 @@ import { ProfilePage } from '../pages/profile/profile';
     TncPage,
     BuildingInfoDetailsPage,
     ProfilePage,
-    NotificationsPage
+    NotificationsPage,
+    BlockedUsersListPage,
+    AddBlockedUsersPage
   ],
   imports: [
     BrowserModule,
@@ -116,7 +120,9 @@ import { ProfilePage } from '../pages/profile/profile';
     TncPage,
     BuildingInfoDetailsPage,
     NotificationsPage,
-    ProfilePage
+    ProfilePage,
+    BlockedUsersListPage,
+    AddBlockedUsersPage
   ],
   providers: [
     StatusBar,

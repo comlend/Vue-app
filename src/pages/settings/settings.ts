@@ -5,13 +5,7 @@ import { SignupPage } from '../signup/signup';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { EditProfilePage } from '../edit-profile/edit-profile';
 import { TncPage } from '../tnc/tnc';
-
-/**
- * Generated class for the SettingsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { BlockedUsersListPage } from '../blocked-users-list/blocked-users-list';
 
 @Component({
   selector: 'page-settings',
@@ -47,5 +41,9 @@ export class SettingsPage {
   }
   TncPage(){
     this.navCtrl.push(TncPage);
+  }
+
+  blockUsers() {
+    this.navCtrl.push(BlockedUsersListPage);
   }
 }

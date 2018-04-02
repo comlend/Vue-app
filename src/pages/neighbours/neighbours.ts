@@ -22,8 +22,11 @@ export class NeighboursPage {
 		if (this.globals.neighboursData) {
 			
 			this.users = _.cloneDeep(this.globals.neighboursData);
-			
+			console.log('Users ', this.users);
+
 			this.removeUsersWithHiddenProfile();
+			this.removeUsersThatBlockedMe();
+			this.removeUsersThatIBlocked();
 		}
 	}
 
@@ -172,6 +175,29 @@ export class NeighboursPage {
 
 	removeUsersWithHiddenProfile() {
 		_.remove(this.users, {'hideProfile': true});
+	}
+
+	removeUsersThatBlockedMe() {
+		var blockedMe = this.globals.userData.blockedMe;
+		var blockedMeUsers = _.toArray(blockedMe);
+
+		console.log('Run Blocked Me', blockedMeUsers, this.globals.neighboursData);
+		
+		_.map(blockedMeUsers, (user) => {
+			console.log('Blocked Me Users => ', user.id);
+			_.remove(this.users, {'uId' : user.id});
+		})
+	}
+
+	removeUsersThatIBlocked() {
+		var iBlocked = this.globals.userData.blockedByMe;
+		var iBlockedUsers = _.toArray(iBlocked);
+		console.log('Run Blocked I', iBlockedUsers, this.globals.neighboursData);		
+		
+		_.map(iBlockedUsers, (user) => {
+			console.log('Blocked By Me Users => ', user.id);
+			_.remove(this.users, {'uId' : user.id});
+		})
 	}
 
 }
