@@ -23,5 +23,8 @@ export class ServiceCenterPage {
   back(){
     this.navCtrl.pop();
   }
+  newRequest(){
+    
+  }
 
 }

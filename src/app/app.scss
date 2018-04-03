@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,10 +12,8 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
-
-ion-slides{
-	height: 50%;
+ion-slides {
+    height: 50%;
 }
 
 .modal-wrapper {
@@ -27,6 +23,10 @@ ion-slides{
     left: 0;
 }
 
-		.scroll-content{
-		background-color: #EFEFF4;
-	}
+.scroll-content {
+    background-color: #EFEFF4;
+}
+
+.paddingtop {
+    margin-top: 2em !important;
+}
