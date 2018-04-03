@@ -1,0 +1,12 @@
+page-blocked-users-list {
+    .add-new {
+       ion-label {
+          color: color($colors, secondary);
+       }
+
+       .msg {
+          color: gray;
+          font-size: 0.8em;
+       }
+    }
+}
