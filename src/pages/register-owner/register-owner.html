@@ -97,9 +97,9 @@
 </ion-content>
 <ion-footer>
 	<div class="buttonspadding">
-	  		<button ion-button block type="submit" (click)="signupUser()" [disabled]="!signupForm.valid || !picUploaded">Sign up</button>
+	  		<button ion-button block type="submit" (click)="signupUser()" [disabled]="!signupForm.valid">Sign up</button>  
 		</div>
 	</ion-footer>
 
 
-	<!-- (input)="clearErrors()" -->
+	<!-- (input)="clearErrors()" || !picUploaded-->

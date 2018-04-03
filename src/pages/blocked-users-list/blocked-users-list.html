@@ -1,0 +1,25 @@
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>Blocked</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div class="blocked-list-wrapper">
+		
+	</div>
+	<div class="add-new">
+		<ion-list no-lines>
+			<ion-list-header></ion-list-header>
+			<ion-item (click)="addBlockedUser()">
+				<ion-label>Add New...</ion-label>
+			</ion-item>
+			<p class="msg">
+				Blocked contacts will no longer be able to call you or send you messages.
+			</p>
+		</ion-list>
+	</div>
+</ion-content>

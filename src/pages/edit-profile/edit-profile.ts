@@ -4,13 +4,6 @@ import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 
-/**
- * Generated class for the EditProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @Component({
 	selector: 'page-edit-profile',
 	templateUrl: 'edit-profile.html',
@@ -28,11 +21,14 @@ export class EditProfilePage {
 	oldName: string = '';
 	oldNumber: string = '';
 
+	hideProfile: boolean = false;
+
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public alertCtrl: AlertController) {
 		this.userData = this.globals.userData;
 		this.profileurl = this.globals.userData.profileurl;
 		this.fullName = this.globals.userData.firstName + ' ' + this.globals.userData.lastName;
 
+		this.hideProfile = this.userData.hideProfile;
 		if (this.fullName) {
 			this.oldName = this.fullName;
 		}
@@ -199,6 +195,13 @@ export class EditProfilePage {
 			});
 			alert.present();
 
+		});
+	}
+
+	hideMyProfile(event) {
+		this.hideProfile = event.value;
+		this.firebase.hideMyProfile(this.hideProfile).then(() => {
+			console.log('Profile Updated');
 		});
 	}
 
