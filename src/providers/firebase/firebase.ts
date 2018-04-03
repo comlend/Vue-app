@@ -17,7 +17,7 @@ export class FirebaseProvider {
 	neighbourmessages = [];
 	msgcount = 0;
 
-	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events) {
+	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events, public event: Events) {
 		console.log('Hello FirebaseProvider Provider');
 	}
 
@@ -82,6 +82,7 @@ export class FirebaseProvider {
 				userType: userType,
 				deviceToken: fcmToken,
 				phone: phone,
+				unit: unit,
 				hideProfile: false,
 				blockedByMe: 'default',
 				blockedMe: 'default'
@@ -697,5 +698,51 @@ export class FirebaseProvider {
 				reject(err);
 			});
 		});	
+	}
+	addServiceReq(userData, title, details, picture){
+		let time = this.formatAMPM(new Date());
+		let date = this.formatDate(new Date());
+		var neighboursArr = this.globals.neighboursData;
+		var admin = _.find(neighboursArr, {'userType': 'admin'});
+		var dbref = firebase.database().ref('/serviceRequests/').push();
+		return new Promise((resolve, reject) => {
+			dbref.set({
+				uId: userData.uId,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				profileurl: userData.profileurl,
+				timeofPost: moment().format(),
+				timestamp: firebase.database.ServerValue.TIMESTAMP,
+				date: date,
+				time: time,
+				title: title,
+				assignedTo: admin.uId,
+				assignedToFirstName: admin.firstName,
+				assignedToLastName: admin.lastName,
+				assignedToprofilePic: admin.profileurl,
+				userType: userData.userType,
+				id: dbref.key,
+				supportPic: picture,
+				details: details,
+				status: 'inProgress'
+			});
+			resolve();
+		});
+	}
+
+	getAllSupportReq(){
+		var userId = this.globals.userId;
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/serviceRequests').orderByChild('uId').equalTo(userId);
+			var serviceReqArr = [];
+			dbRef.on('value', (data) => {
+				if (data.val()) {
+					serviceReqArr = _.toArray(data.val());
+					this.event.publish('supportRequpdated');
+				}
+
+				resolve(serviceReqArr);
+			});
+		});
 	}
 }

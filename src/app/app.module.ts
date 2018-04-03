@@ -49,6 +49,8 @@ import { NotificationsPage } from '../pages/notifications/notifications';
 import { ProfilePage } from '../pages/profile/profile';
 import { BlockedUsersListPage } from '../pages/blocked-users-list/blocked-users-list';
 import { AddBlockedUsersPage } from '../pages/add-blocked-users/add-blocked-users';
+import { NewServiceRequestPage } from '../pages/new-service-request/new-service-request';
+import { ServiceReqDetailsPage } from '../pages/service-req-details/service-req-details';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,9 @@ import { AddBlockedUsersPage } from '../pages/add-blocked-users/add-blocked-user
     ProfilePage,
     NotificationsPage,
     BlockedUsersListPage,
-    AddBlockedUsersPage
+    AddBlockedUsersPage,
+    NewServiceRequestPage,
+    ServiceReqDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -122,7 +126,9 @@ import { AddBlockedUsersPage } from '../pages/add-blocked-users/add-blocked-user
     NotificationsPage,
     ProfilePage,
     BlockedUsersListPage,
-    AddBlockedUsersPage
+    AddBlockedUsersPage,
+    NewServiceRequestPage,
+    ServiceReqDetailsPage
   ],
   providers: [
     StatusBar,

@@ -22,18 +22,33 @@
   <div class="paddingtop">
   </div>
   <ion-list>
-    <button ion-item (click)="newRequest()">
+    <button ion-item (tap)="newRequest()">
       New Request
     </button>
   </ion-list>
     <!-- in progress requests -->
-    <div>
-
+  <ion-list>
+    <p class="serv-req" *ngIf="inProgressReqs.length > 0">Requests in progress</p>
+    <div *ngFor="let serviceReq of inProgressReqs; let i=index">
+    <button ion-item *ngIf="i <=inProgArrayLength" (tap)="serviceReqDetail(serviceReq)">
+      <h4>{{serviceReq.title}}</h4>
+      <span class="newsspan">{{serviceReq.date}}</span>
+    </button>
     </div>
+    <p class="serv-req-more" *ngIf="inProgressReqs.length > 4 && !allInProgressReqsShown" (tap)="fullInProgressReqArray()">Show More</p>
+  </ion-list>
     <!-- completed requests list -->
-    <div>
-
-    </div>
+  <ion-list>
+      <p class="serv-req" *ngIf="completedReqs.length > 0">Completed requests</p>
+      <div *ngFor="let serviceReq of completedReqs; let i=index">
+        <button ion-item *ngIf="i <=completedArrayLength " (tap)="serviceReqDetail(serviceReq)">
+          <h4>{{serviceReq.title}}</h4>
+          <span class="newsspan">{{serviceReq.date}}</span>
+        </button>
+      </div>
+    <p class="serv-req-more" *ngIf="completedReqs.length > 4 && !allCompletedReqsShown" (tap)="fullCompletedReqArray()">Show More</p>
+  </ion-list>
+  
  
 
 </ion-content>
