@@ -165,7 +165,7 @@ export class MyApp {
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/users/');
 			var neighboursArr = [];
-			dbRef.once('value', (data) => {
+			dbRef.on('value', (data) => {
 
 				if (data.val() != 'default') {
 					neighboursArr = _.toArray(data.val());
@@ -173,6 +173,7 @@ export class MyApp {
 					
 					// console.log('neighboursArray ', neighboursArr);
 					this.global.neighboursData = neighboursArr;
+					this.event.publish('neighboursUpdated');
 					resolve();
 					
 				} else {

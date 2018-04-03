@@ -19,6 +19,20 @@ export class NeighboursPage {
 	constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public globals: GlobalsProvider, private app: App, public event: Events, public eventDispatcher: EventDispatcherProvider, public _zone: NgZone) {
 		this.userId = this.globals.userId;
 		// this.getAllNeighbours()
+		this.event.subscribe('neighboursUpdated', () => {
+			this._zone.run(() => {
+				if (this.globals.neighboursData) {
+
+					this.users = _.cloneDeep(this.globals.neighboursData);
+					console.log('Users ', this.users);
+
+					this.removeUsersWithHiddenProfile();
+					this.removeUsersThatBlockedMe();
+					this.removeUsersThatIBlocked();
+				}
+			});
+		});
+
 		if (this.globals.neighboursData) {
 			
 			this.users = _.cloneDeep(this.globals.neighboursData);
@@ -30,13 +44,13 @@ export class NeighboursPage {
 		}
 	}
 
-	ionViewWillEnter() {
-		// Initialize add User Event
-		this.eventDispatcher.newUserAdded().then(() => {
-			// Listen for the app level Events
-			this.listenEventDispatcher();
-		});
-	}
+	// ionViewWillEnter() {
+	// 	// Initialize add User Event
+	// 	this.eventDispatcher.newUserAdded().then(() => {
+	// 		// Listen for the app level Events
+	// 		this.listenEventDispatcher();
+	// 	});
+	// }
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad NeighboursPage');
