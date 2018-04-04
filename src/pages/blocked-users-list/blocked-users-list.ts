@@ -41,4 +41,12 @@ export class BlockedUsersListPage {
 		this.navCtrl.push(AddBlockedUsersPage);
 	}
 
+	unblockNeighbour(neighbour) {
+		this.firebase.unblockneighbour(neighbour).then((data) => {
+
+		}).catch((err) => {
+
+		});
+	}
+
 }

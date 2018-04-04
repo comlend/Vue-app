@@ -10,6 +10,7 @@ page-blocked-users-list {
     }
 
     .add-new {
+        margin-top: 1em;
        ion-label {
           color: color($colors, secondary);
        }
@@ -17,6 +18,8 @@ page-blocked-users-list {
        .msg {
           color: gray;
           font-size: 0.8em;
+          margin-top: 4px;
+
        }
     }
 }

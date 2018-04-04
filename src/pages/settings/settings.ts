@@ -6,6 +6,7 @@ import { GlobalsProvider } from '../../providers/globals/globals';
 import { EditProfilePage } from '../edit-profile/edit-profile';
 import { TncPage } from '../tnc/tnc';
 import { BlockedUsersListPage } from '../blocked-users-list/blocked-users-list';
+import { NotificationsPage } from '../notifications/notifications';
 
 @Component({
   selector: 'page-settings',
@@ -45,5 +46,9 @@ export class SettingsPage {
 
   blockUsers() {
     this.navCtrl.push(BlockedUsersListPage);
+  }
+
+  goToNotifications() {
+    this.navCtrl.push(NotificationsPage);
   }
 }
