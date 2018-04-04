@@ -5,7 +5,7 @@ import * as firebase from 'firebase';
 import { GlobalsProvider } from '../globals/globals';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { resolve } from 'dns';
+// import { resolve } from 'dns';
 
 @Injectable()
 export class FirebaseProvider {
@@ -699,6 +699,61 @@ export class FirebaseProvider {
 			});
 		});	
 	}
+
+	/* old code getBlockedNeighboursIds() {
+		var userId = this.globals.userId;
+
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/users').child(userId).child('blockedByMe');
+
+			dbRef.on('value', (blockedNeighboursIds) => {
+				var blockedNeighboursIdsArr = [];
+
+				if (blockedNeighboursIds.val()) {
+					blockedNeighboursIdsArr = _.toArray(blockedNeighboursIds.val());
+				}
+
+				resolve(blockedNeighboursIdsArr);
+			});
+		});
+	}
+
+	old code getBlockedNeighbours() {
+		var userId = this.globals.userId;
+
+		return new Promise((resolve, reject) => {
+
+			this.getBlockedNeighboursIds().then((blockedIds: any) => {
+				if (blockedIds.length > 0) {
+					var promises = [];
+
+					for (let i = 0; i < blockedIds.length; i++) {
+						var blockedId = blockedIds[i].id;
+
+						var dbRef = firebase.database().ref('/users').child(blockedId);
+
+						promises.push(dbRef.once('value'));
+					}
+
+					Promise.all(promises).then((values) => {
+						var blockedArr = [];
+
+						for (let j = 0; j < values.length; j++) {
+							var val = values[j].val();
+							blockedArr.push(val);							
+						}
+						// console.log('OAOAO ', blockedArr)
+						resolve(blockedArr);
+					}).catch((err) => {
+						reject(err);
+					});	
+				} else {
+					resolve({success: false, msg: 'No Blocked Neighbours'});
+				}
+			});
+		});
+	} */
+
 	addServiceReq(userData, title, details, picture){
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());

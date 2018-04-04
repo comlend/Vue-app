@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
-
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'page-add-blocked-users',
@@ -22,7 +22,21 @@ export class AddBlockedUsersPage {
 	}
 
 	initializeStartData() {
-		this.neighbours = this.globals.neighboursData;
+		var neighbours = _.cloneDeep(this.globals.neighboursData);
+
+		this.neighbours = this.removeAlreadyBlocked(neighbours);
+	}
+
+	removeAlreadyBlocked(neighbours) {
+		var blockedByMe = this.globals.blockedByMe;
+		console.log('Blocked By Me Before => ', neighbours);
+
+		_.map(blockedByMe, (user) => {
+			console.log(user);
+			_.remove(neighbours, { 'uId': user.uId });
+		});
+		console.log('Blocked By Me After => ', neighbours);
+		return neighbours;
 	}
 
 	back() {

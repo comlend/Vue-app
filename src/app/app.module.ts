@@ -51,6 +51,7 @@ import { BlockedUsersListPage } from '../pages/blocked-users-list/blocked-users-
 import { AddBlockedUsersPage } from '../pages/add-blocked-users/add-blocked-users';
 import { NewServiceRequestPage } from '../pages/new-service-request/new-service-request';
 import { ServiceReqDetailsPage } from '../pages/service-req-details/service-req-details';
+import { UtilitiesProvider } from '../providers/utilities/utilities';
 
 @NgModule({
   declarations: [
@@ -139,7 +140,8 @@ import { ServiceReqDetailsPage } from '../pages/service-req-details/service-req-
     Facebook,
     GlobalsProvider,
     FCM,
-    EventDispatcherProvider
+    EventDispatcherProvider,
+    UtilitiesProvider
   ]
 })
 export class AppModule {}

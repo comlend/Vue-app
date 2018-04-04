@@ -8,8 +8,19 @@
 
 
 <ion-content>
-	<div class="blocked-list-wrapper">
+	<div class="blocked-list-wrapper" *ngIf="blockedNeighbours.length > 0">
+		<ion-list no-lines>
+			<div *ngFor="let neighbour of blockedNeighbours">
+				<ion-list-header>Blocked Neighbours</ion-list-header>
+				<ion-item tappable (tap)="blockNeighbour(neighbour)">
+					<ion-avatar item-start>
+						<img src="{{ neighbour.profileurl }}">
+					</ion-avatar>
 		
+					<p>{{ neighbour.firstName }} {{ neighbour.lastName }}</p>
+				</ion-item>
+			</div>
+		</ion-list>
 	</div>
 	<div class="add-new">
 		<ion-list no-lines>
