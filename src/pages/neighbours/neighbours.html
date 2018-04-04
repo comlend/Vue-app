@@ -16,11 +16,23 @@
 				{{user.firstName}} {{user.lastName}}
 				<span class="spanclass">Unit {{user.unit}}</span>
 			</button>
-			<button ion-item *ngIf="user.userType == 'owner'" (click)="goToNeighbour(user)">
+			<button ion-item *ngIf="user.userType == 'owner'" (tap)="goToNeighbour(user)">
 				<!-- <div *ngIf="user.uid != userId"> -->
 
 				{{user.firstName}} {{user.lastName}}
 				<span class="spanclass">Unit {{user.unit}}</span>
+			</button>
+		</div>
+	</ion-list>
+	<ion-list style="margin-top:-25px !important">
+		<div *ngFor="let user of users">
+		<ion-list-header style="margin-top:-15px; text-align:center" *ngIf="user.userType == 'admin'">
+			Building Manager
+		</ion-list-header>
+		
+			<button ion-item *ngIf="user.userType == 'admin'" (tap)="goToNeighbour(user)">
+				{{user.firstName}} {{user.lastName}}
+				<span class="spanclass">Building Manager</span>
 			</button>
 		</div>
 	</ion-list>
@@ -30,7 +42,7 @@
 		</ion-list-header>
 
 		<div *ngFor="let user of users">			
-			<button ion-item *ngIf="user.userType == 'business'" (click)="goToBusiness(user)">
+			<button ion-item *ngIf="user.userType == 'business'" (tap)="goToBusiness(user)">
 				{{user.firstName}} {{user.lastName}}
 				<span class="spanclass">{{user.name}}</span>
 			</button>
