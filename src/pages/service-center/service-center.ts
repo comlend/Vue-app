@@ -57,7 +57,7 @@ export class ServiceCenterPage {
         }
         
       }
-      console.log(this.allRequests);
+      // console.log(this.allRequests);
     });
   }
 

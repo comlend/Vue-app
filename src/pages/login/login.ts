@@ -47,7 +47,7 @@ export class LoginPage {
 		} else {
 			this.firebase.loginData(this.loginForm.value.email, this.loginForm.value.password).then(authData => {
 				console.log('AuthData ', authData);
-				this.loading.dismiss().then(() => {
+				// this.loading.dismiss().then(() => {
 					this.globals.userId = authData.uid;
 
 					console.log('new user ->', this.globals.userId);
@@ -60,6 +60,7 @@ export class LoginPage {
 						//    
 						console.log('Promise.all resolved');
 						if (this.globals.FbLoginComplete) {
+							this.loading.dismiss();
 							this.navCtrl.setRoot(TabsPage);
 						}
 						else if (!this.globals.FbLoginComplete) {
@@ -70,7 +71,7 @@ export class LoginPage {
 					}).catch((err) => {
 						console.log('Promise.all ', err);
 					});
-				});
+				// });
 			}, error => {
 				this.loading.dismiss().then(() => {
 					this.returnInvalid = true;
