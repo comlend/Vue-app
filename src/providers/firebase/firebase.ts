@@ -700,6 +700,23 @@ export class FirebaseProvider {
 		});	
 	}
 
+	unblockneighbour(neighbourToUnblock) {
+		var userId = this.globals.userId;
+		var neighbourId = neighbourToUnblock.uId;
+
+		return new Promise((resolve, reject) => {
+			var userRef = firebase.database().ref('/users').child(userId + '/blockedByMe').child(neighbourId).remove();
+
+			var neighbourRef = firebase.database().ref('/users').child(neighbourId + '/blockedMe').child(userId).remove();
+
+			Promise.all([userRef, neighbourRef]).then(() => {
+				resolve({ success: true, msg: 'User Unblocked' });
+			}).catch((err) => {
+				reject(err);
+			});
+		});
+	}
+
 	/* old code getBlockedNeighboursIds() {
 		var userId = this.globals.userId;
 
