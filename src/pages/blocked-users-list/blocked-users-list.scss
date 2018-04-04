@@ -1,4 +1,14 @@
 page-blocked-users-list {
+    .blocked-list-wrapper {
+        ion-list-header {
+            ion-label {
+                margin-bottom: 0;
+                color: gray;
+                text-align: center;
+            }
+        }
+    }
+
     .add-new {
        ion-label {
           color: color($colors, secondary);

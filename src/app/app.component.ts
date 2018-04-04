@@ -12,6 +12,7 @@ import { Storage } from '@ionic/storage';
 
 import * as _ from 'lodash';
 import { FCM } from '@ionic-native/fcm';
+import { UtilitiesProvider } from '../providers/utilities/utilities';
 @Component({
 	templateUrl: 'app.html'
 })
@@ -19,7 +20,7 @@ export class MyApp {
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone) {
+	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider) {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
@@ -174,6 +175,10 @@ export class MyApp {
 					// console.log('neighboursArray ', neighboursArr);
 					this.global.neighboursData = neighboursArr;
 					this.event.publish('neighboursUpdated');
+
+					this.utilities.filterBlockedMeUsers();
+					this.utilities.filterBlockedByMeUsers();
+
 					resolve();
 					
 				} else {
@@ -182,6 +187,7 @@ export class MyApp {
 			});
 		});
 	}
+
 	getAllChats() {
 		return new Promise((resolve, reject) => {
 			var userId = this.global.userId;
@@ -211,6 +217,7 @@ export class MyApp {
 			});
 		});
 	}
+
 	getAllLocals(){
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/locals/');
@@ -230,6 +237,7 @@ export class MyApp {
 			});
 		});
 	}
+
 	getAllNews(){
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/news/');
@@ -278,6 +286,7 @@ export class MyApp {
 			});
 		});
 	}
+
 	extractNeighbourData() {
 		this.global.neighboursData
 		this.global.chats

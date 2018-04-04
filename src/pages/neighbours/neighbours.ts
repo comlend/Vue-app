@@ -16,6 +16,9 @@ import { EventDispatcherProvider } from '../../providers/event-dispatcher/event-
 export class NeighboursPage {
 	users: any;
 	userId: any;
+
+	hasBusiness: boolean = false;
+
 	constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public globals: GlobalsProvider, private app: App, public event: Events, public eventDispatcher: EventDispatcherProvider, public _zone: NgZone) {
 		this.userId = this.globals.userId;
 		// this.getAllNeighbours()
@@ -29,6 +32,7 @@ export class NeighboursPage {
 					this.removeUsersWithHiddenProfile();
 					this.removeUsersThatBlockedMe();
 					this.removeUsersThatIBlocked();
+					this.ifBusinessExists();
 				}
 			});
 		});
@@ -41,6 +45,7 @@ export class NeighboursPage {
 			this.removeUsersWithHiddenProfile();
 			this.removeUsersThatBlockedMe();
 			this.removeUsersThatIBlocked();
+			this.ifBusinessExists();
 		}
 	}
 
@@ -58,10 +63,19 @@ export class NeighboursPage {
 	getAllNeighbours() {
 		this.firebase.getNeighbours().then((userData) => {
 			this.users = userData;
+
 			console.warn(this.users);
 		}, error => {
 			console.error(error);
 		});
+	}
+
+	ifBusinessExists() {
+		var hasBusiness = _.find(this.users, { 'userType': 'business' });
+		console.log('HASBUSINESS => ', hasBusiness);
+		if (hasBusiness) {
+			this.hasBusiness = true;
+		}
 	}
 
 	reinitialiseAllData() {
@@ -193,25 +207,31 @@ export class NeighboursPage {
 
 	removeUsersThatBlockedMe() {
 		var blockedMe = this.globals.userData.blockedMe;
-		var blockedMeUsers = _.toArray(blockedMe);
 
-		console.log('Run Blocked Me', blockedMeUsers, this.globals.neighboursData);
-		
-		_.map(blockedMeUsers, (user) => {
-			console.log('Blocked Me Users => ', user.id);
-			_.remove(this.users, {'uId' : user.id});
-		})
+		if (blockedMe != 'default') {
+			var blockedMeUsers = _.toArray(blockedMe);
+
+			console.log('Run Blocked Me', blockedMeUsers, this.globals.neighboursData);
+
+			_.map(blockedMeUsers, (user) => {
+				console.log('Blocked Me Users => ', user.id);
+				_.remove(this.users, { 'uId': user.id });
+			});	
+		}
 	}
 
 	removeUsersThatIBlocked() {
 		var iBlocked = this.globals.userData.blockedByMe;
-		var iBlockedUsers = _.toArray(iBlocked);
-		console.log('Run Blocked I', iBlockedUsers, this.globals.neighboursData);		
-		
-		_.map(iBlockedUsers, (user) => {
-			console.log('Blocked By Me Users => ', user.id);
-			_.remove(this.users, {'uId' : user.id});
-		})
+
+		if (iBlocked != 'default') {
+			var iBlockedUsers = _.toArray(iBlocked);
+			console.log('Run Blocked I', iBlockedUsers, this.globals.neighboursData);
+
+			_.map(iBlockedUsers, (user) => {
+				console.log('Blocked By Me Users => ', user.id);
+				_.remove(this.users, { 'uId': user.id });
+			});	
+		}
 	}
 
 }

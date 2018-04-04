@@ -25,17 +25,14 @@
 		</div>
 	</ion-list>
 	<ion-list style="margin-top:-25px !important">
+		<ion-list-header style="margin-top:-15px; text-align:center" *ngIf="hasBusiness">		
+			Local Businesses
+		</ion-list-header>
 
-		<div *ngFor="let user of users">
-			<ion-list-header style="margin-top:-15px; text-align:center" *ngIf="user.userType == 'business'">
-				Local Businesses
-			</ion-list-header>
-
+		<div *ngFor="let user of users">			
 			<button ion-item *ngIf="user.userType == 'business'" (click)="goToBusiness(user)">
-
 				{{user.firstName}} {{user.lastName}}
 				<span class="spanclass">{{user.name}}</span>
-
 			</button>
 		</div>
 	</ion-list>
