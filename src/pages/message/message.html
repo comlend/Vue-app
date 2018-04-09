@@ -74,12 +74,10 @@
 		<ion-col col-8>
 			<ion-item no-lines class="footer">
 				<textarea #chatMessage [rows]="messageRow" (keyup.enter)="resize()" type="text" [(ngModel)]="chat" placeholder="New Message" id = "myInput"></textarea>
-				 <!-- (keyup.enter)="resize()" -->
-				 <!-- (keyup.enter)="addnewmessage(chat,'text'); sendChatNotification(chat)" -->
 			</ion-item>
 		</ion-col>
 		<ion-col col-2>
-			<button ion-button clear type="submit" style="padding-left:0px" (click)="addnewmessage(chat,'text'); sendChatNotification(chat)">Send</button>
+			<button ion-button clear type="submit" style="padding-left:0px" tappable (click)="addnewmessage(chat,'text'); sendChatNotification(chat)">Send</button>
 		</ion-col>
 	</ion-row>
 

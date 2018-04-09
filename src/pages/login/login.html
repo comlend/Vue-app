@@ -18,7 +18,7 @@
 </ion-header>
 
 
-<ion-content text-center>
+<ion-content>
 
     <div class="paddingtop">
 
@@ -29,27 +29,29 @@
                     </ion-item>
 
                     <ion-item>
-                        <ion-input #password formControlName="password" placeholder="Password"[(ngModel)]="user.password" type="password" (input)="clearErrors()"></ion-input>
+                        <ion-input #password formControlName="password" placeholder="Password"[(ngModel)]="user.password" type="password" (input)="clearErrors()" (input)="checkPassLength()"></ion-input>
                     </ion-item>
 
 
         </ion-list>
-         <div class="error-message" *ngIf="returnInvalid">
+        <ion-label class="passwordlabel" *ngIf="showPassError">Minimum 6 characters</ion-label>
+        
+        <div class="error-message" *ngIf="returnInvalid">
                         Unable to Login, please check credentials provided
         </div>
         </form>
 
     </div>
 
-
+<div class="loginpadding" text-center>
+    <button ion-button block type="submit" (click)="loginUser()">Log In</button>
+    <p class="reset" (click)="resetPass()">Reset Password</p>
+</div>
 </ion-content>
-<ion-footer text-center>
-    <div class="loginpadding">
-        <button ion-button block type="submit" (click)="loginUser()">Log In</button>
-         <p class="reset" (click)="resetPass()">Reset Password</p>
-    </div>
+<!-- <ion-footer text-center> -->
+    
     <!-- <button ion-button block (click)="resetPass()">rEESETT</button> -->
 
    
 
-</ion-footer>
+<!-- </ion-footer> -->

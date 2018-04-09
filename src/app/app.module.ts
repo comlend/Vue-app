@@ -53,6 +53,9 @@ import { NewServiceRequestPage } from '../pages/new-service-request/new-service-
 import { ServiceReqDetailsPage } from '../pages/service-req-details/service-req-details';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 
+import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy'; 
+import { Keyboard } from '@ionic-native/keyboard';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -86,7 +89,8 @@ import { UtilitiesProvider } from '../providers/utilities/utilities';
     BlockedUsersListPage,
     AddBlockedUsersPage,
     NewServiceRequestPage,
-    ServiceReqDetailsPage
+    ServiceReqDetailsPage,
+    PrivacyPolicyPage
   ],
   imports: [
     BrowserModule,
@@ -129,7 +133,8 @@ import { UtilitiesProvider } from '../providers/utilities/utilities';
     BlockedUsersListPage,
     AddBlockedUsersPage,
     NewServiceRequestPage,
-    ServiceReqDetailsPage
+    ServiceReqDetailsPage,
+    PrivacyPolicyPage
   ],
   providers: [
     StatusBar,
@@ -141,7 +146,8 @@ import { UtilitiesProvider } from '../providers/utilities/utilities';
     GlobalsProvider,
     FCM,
     EventDispatcherProvider,
-    UtilitiesProvider
+    UtilitiesProvider,
+    Keyboard
   ]
 })
 export class AppModule {}

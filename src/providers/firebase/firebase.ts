@@ -5,6 +5,8 @@ import * as firebase from 'firebase';
 import { GlobalsProvider } from '../globals/globals';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { FCM } from '@ionic-native/fcm';
+import { Storage } from '@ionic/storage';
 // import { resolve } from 'dns';
 
 @Injectable()
@@ -17,7 +19,7 @@ export class FirebaseProvider {
 	neighbourmessages = [];
 	msgcount = 0;
 
-	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events, public event: Events) {
+	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events, public event: Events, public fcm: FCM, public storage: Storage) {
 		console.log('Hello FirebaseProvider Provider');
 	}
 
@@ -39,7 +41,11 @@ export class FirebaseProvider {
 				phone: phone,
 				hideProfile: false,
 				blockedByMe: 'default',
-				blockedMe: 'default'
+				blockedMe: 'default',
+				pushSound: 'default',
+				showMessageNotification: true,
+				showMessagePreview: true,
+				subscribedNews: true
 			};
 		
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
@@ -57,6 +63,17 @@ export class FirebaseProvider {
 						userData['profileurl'] = imageUrl;
 						
 						firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+							
+							this.fcm.subscribeToTopic("news").then(() => {
+								console.log('subscribed to news');
+								this.storage.set('subscribedToNews', true);
+								firebase.database().ref('/users/').child(newUser.uid).update({
+									subscribedNews: true
+								});
+							}).catch((error) => {
+								console.log('topic subscription error', error);
+							});
+
 							resolve(newUser);
 						});
 					});
@@ -85,7 +102,11 @@ export class FirebaseProvider {
 				unit: unit,
 				hideProfile: false,
 				blockedByMe: 'default',
-				blockedMe: 'default'
+				blockedMe: 'default',
+				pushSound: 'default',
+				showMessageNotification: true,
+				showMessagePreview: true,
+				subscribedNews: true
 			};
 			// console.log('User Data => ', userData);
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
@@ -95,6 +116,17 @@ export class FirebaseProvider {
 					// console.log('if => ', imageData);
 					userData['profileurl'] = imageData;
 					firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+
+						this.fcm.subscribeToTopic("news").then(() => {
+							console.log('subscribed to news');
+							this.storage.set('subscribedToNews', true);
+							firebase.database().ref('/users/').child(newUser.uid).update({
+								subscribedNews: true
+							});
+						}).catch((error) => {
+							console.log('topic subscription error', error);
+						});
+						
 						resolve(newUser);
 					});
 				} else {
@@ -115,7 +147,39 @@ export class FirebaseProvider {
 
 		});
 	}
+	unsubscribeFromTopic(){
+		var userId = this.globals.userId;
+		return new Promise((resolve, reject) => {
+			this.fcm.unsubscribeFromTopic("news").then(() => {
 
+				firebase.database().ref('/users/').child(userId).update({
+					subscribedNews: false
+				});
+				console.log('subscribed to news');
+			}).catch((error) => {
+				console.log('topic subscription error', error);
+			});
+
+			resolve();
+		});
+		
+
+	}
+	subscribeToTopic(){
+		var userId = this.globals.userId;
+		return new Promise((resolve, reject) => {
+			this.fcm.subscribeToTopic("news").then(() => {
+				console.log('subscribed to news');
+				firebase.database().ref('/users/').child(userId).update({
+					subscribedNews: true
+				});
+			}).catch((error) => {
+				console.log('topic subscription error', error);
+			});
+
+			resolve();
+		});
+	}
 	updateUserPic(data,userId){
 		var filename = userId+ '.jpg';
 		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
@@ -158,6 +222,8 @@ export class FirebaseProvider {
 		return new Promise((resolve, reject) => {
 			firebase.auth().signOut().then((authdata) => {
 				resolve();
+				this.storage.clear();
+				this.globals.clear();
 				// console.log('Auth DATA ', authdata);
 				// console.log(firebase.auth().onAuthStateChanged((user) => {
 				// 	console.log(user)
@@ -165,7 +231,7 @@ export class FirebaseProvider {
 				
 			});
 		})
-		// this.globals.clear();
+		
 		
 	}
 
@@ -402,9 +468,20 @@ export class FirebaseProvider {
 		});		
 	}
 
-	sendChatMsgNoti(neighbourDeviceToken, msg) {
+	sendChatMsgNoti(neighbourDeviceToken, msg, neighbourData) {
 		return new Promise((resolve, reject) => {
 			var url = 'https://fcm.googleapis.com/fcm/send';
+
+			var notificationPayload = {
+				title: 'Your neighbour ' + this.globals.userData.firstName + ' sent you a message',
+				sound: neighbourData.pushSound,
+				badge: badgeCount,
+				click_action: "FCM_PLUGIN_ACTIVITY",
+				icon: "fcm_push_icon"
+			};
+			if (neighbourData.showMessagePreview) {
+				notificationPayload['body'] = msg;
+			}
 
 			var options = {
 				headers: new HttpHeaders({
@@ -416,14 +493,7 @@ export class FirebaseProvider {
 			// let options = new HttpHeaders().set('Content-Type', 'application/json'); options.set('Authorization', 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8')
 			var badgeCount = this.globals.unreadMessages + 1;
 			console.log("unread messages", badgeCount);
-			var notificationPayload = {
-				title: 'Your neighbour '+this.globals.userData.firstName+' sent you a message',
-				body: msg,
-				sound: "default",
-				badge: badgeCount,
-				click_action: "FCM_PLUGIN_ACTIVITY",
-				icon: "fcm_push_icon"
-			};
+			
 			
 			var body = {
 				to: neighbourDeviceToken,
@@ -557,10 +627,46 @@ export class FirebaseProvider {
 				id: dbref.key, 
 				newspic: picture
 			});
+			this.sendNewsNoti();
 			resolve();
 		});
 	}
 	
+	sendNewsNoti(){
+		var userData = this.globals.userData;
+
+		return new Promise((resolve, reject) => {
+			var url = 'https://fcm.googleapis.com/fcm/send';
+
+			var options = {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					'Authorization': 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8'
+				})
+			};
+
+			var notificationPayload = {
+				title: 'A new post has been added',
+				sound: "default",
+				click_action: "FCM_PLUGIN_ACTIVITY",
+				icon: "fcm_push_icon"
+			};
+
+			var body = {
+				to: '/topics/news',
+				priority: "high",
+				notification: notificationPayload
+			};
+
+			/* console.log('Headers Before Push Post ', options);
+			console.log('Body Before Push ', JSON.stringify(body)); */
+
+			this.http.post(url, JSON.stringify(body), options).subscribe((res) => {
+				console.log('Noti Send Firbase Respone ', res);
+				resolve(res);
+			})
+		});
+	}
 
 	addCommentToNews(newsData,userData,comment,picture){
 		let time = this.formatAMPM(new Date());

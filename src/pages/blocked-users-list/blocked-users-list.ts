@@ -14,9 +14,15 @@ export class BlockedUsersListPage {
 	constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public _zone: NgZone, public globals: GlobalsProvider) {
 		this.initializeStartData();
 	}
+	ionViewWillEnter(){
+		this.initializeStartData();
+	}
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad BlockedUsersListPage');
+	}
+	back(){
+		this.navCtrl.pop();
 	}
 
 	initializeStartData() {

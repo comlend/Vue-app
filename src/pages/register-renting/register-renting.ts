@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { TabsPage } from '../tabs/tabs';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { TncPage } from '../tnc/tnc';
+import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 
 @Component({
 	selector: 'page-register-renting',
@@ -21,7 +23,7 @@ export class RegisterRentingPage {
 	imageData: any;
 	userType: string = "renting";
 	liveInProperty: boolean = false;
-	showPassError: boolean = false;
+	showPassError: boolean = true;
 	picUploaded: boolean = false;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
@@ -42,11 +44,24 @@ export class RegisterRentingPage {
 
 	}
 
+	checkVal() {
+		//Check form value for empty
+		if (this.signupForm.controls.unit.value == '' || this.signupForm.controls.mobile.value == '') {
+			this.returnInvalid = false;
+		}
+	}
+
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad RegisterOwnerPage');
 	}
 	back() {
 		this.navCtrl.pop();
+	}
+	gotoTerms() {
+		this.navCtrl.push(TncPage);
+	}
+	gotoPolicy() {
+		this.navCtrl.push(PrivacyPolicyPage);
 	}
 	checkPassLength() {
 		if (this.user.pass.length < 6) {
@@ -58,9 +73,6 @@ export class RegisterRentingPage {
 
 	signupUser() {
 		this.formData = this.signupForm.value;
-		console.log('Run signupUser');
-		console.log("data output", this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.profileurl)
-
 		// this.returnInvalid = true;
 
 		var createdAt = moment().format();
@@ -68,21 +80,30 @@ export class RegisterRentingPage {
 		if (!this.imageData) {
 			this.imageData = this.profileurl;
 		}
+
+		if (!this.signupForm.controls.firstName.valid || !this.signupForm.controls.lastName.valid ||
+			!this.signupForm.controls.email.valid || !this.signupForm.controls.password.valid ||
+			!this.signupForm.controls.unit.valid || !this.signupForm.controls.mobile.valid || !this.picUploaded) {
+			this.returnInvalid = true;
+			return;
+		} else {
+			this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.userType, this.signupForm.value.unit, this.imageData, this.signupForm.value.mobile)
+				.then((data) => {
+					console.log('test', data);
+					this.loading.dismiss().then(() => {
+
+						this.navCtrl.setRoot(TabsPage);
+					});
+				}, (error) => {
+					this.loading.dismiss().then(() => {
+						this.errormessage = error.message;
+						this.returnInvalid = true;
+
+					});
+				});
+		}
 		
-		this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.userType, this.signupForm.value.unit, this.imageData, this.signupForm.value.mobile)
-			.then((data) => {
-				console.log('test', data);
-				this.loading.dismiss().then(() => {
-
-					this.navCtrl.setRoot(TabsPage);
-				});
-			}, (error) => {
-				this.loading.dismiss().then(() => {
-					this.errormessage = error.message;
-					this.returnInvalid = true;
-
-				});
-			});
+		
 		this.loading = this.loadingCtrl.create({ content: 'Signing you up..' });
 		this.loading.present();
 	}

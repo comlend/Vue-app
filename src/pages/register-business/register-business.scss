@@ -1,11 +1,16 @@
 page-register-business {
     .buttonspadding {
-        margin-left: 1.5em;
-        margin-right: 1.5em;
-        margin-bottom: 4em !important;
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-bottom: 1em !important;
+        // position: bottom;
+        // bottom: 0;
     }
     .firstitem {
         margin-top: 1em;
+    }
+    .itemstyle {
+        margin-top: 10px !important;
     }
     ion-footer {
         background-color: #EFEFF4;
@@ -31,8 +36,13 @@ page-register-business {
         position: initial;
     }
     .passwordlabel {
-        font-size:1em;
-        padding-left:1.5em;
-        color:#A1ABB6;
+        font-size: 1em;
+        padding-left: 1.5em;
+        color: #A1ABB6;
+    }
+    .policylabel {
+        font-size: 1em;
+        color: #A1ABB6;
+        margin-bottom: 4em;
     }
 }

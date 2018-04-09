@@ -9,6 +9,11 @@
     </ion-buttons>
  
    <ion-title>REGISTER</ion-title>
+  <ion-buttons end>
+    <button ion-button icon-only color="secondary" (click)="signupUser()" [disabled]="!signupFormBiz.valid">
+      Sign up
+    </button>
+  </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -20,7 +25,7 @@
     <ion-list class="firstitem">
       <ion-row>
         <ion-col col-4>
-          <ion-item>
+          <ion-item no-lines>
             <ion-avatar item-start (click)="uploadImage()">
                 <img [src]='profileurl'>
              </ion-avatar>
@@ -35,62 +40,69 @@
           </ion-item>
         </ion-col>
         </ion-row>
+        <div class="error-message" *ngIf="returnInvalid && !picUploaded">
+          Please upload an image
+        </div>
     </ion-list>
     <ion-list>
-      <ion-item>
+      <ion-item no-lines class="itemstyle">
         
-            <ion-input #password formControlName="password" placeholder="Password" [(ngModel)]="user.pass" type="password" 
-              [class.invalid]="!signupFormBiz.controls.password.valid && signupFormBiz.controls.password.dirty && returnInvalid" (input)="checkPassLength()">
+            <ion-input #password formControlName="password" placeholder="Password" [(ngModel)]="user.pass" type="password" (input)="checkPassLength()">
               </ion-input>
       </ion-item>
     <ion-label class="passwordlabel" *ngIf="showPassError">Minimum 6 characters</ion-label>
-      <!-- <div class="error-message" *ngIf="!signupFormBiz.controls.password.valid  && signupFormBiz.controls.password.dirty && returnInvalid">
-        <p>Your password needs more than 6 characters.</p>
-      </div> -->
-    </ion-list>
-    <ion-list>
-      <ion-item>
+      
+      <ion-item no-lines class="itemstyle">
 
-        <ion-input #email formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="email"
-          [class.invalid]="!signupFormBiz.controls.email.valid && signupFormBiz.controls.email.dirty && returnInvalid" >
+        <ion-input #email formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="email">
           </ion-input>
       </ion-item>
       <div class="error-message" *ngIf="returnInvalid">
         <p>{{errormessage}}</p>
       </div>
-    </ion-list>
-    <ion-list>
-      <ion-item>
+    <!-- </ion-list>
+    <ion-list> -->
+      <ion-item no-lines class="itemstyle">
     
-        <ion-input #unit formControlName="name" placeholder="Business Name" [(ngModel)]="user.name" type="text">
+        <ion-input #unit formControlName="name" placeholder="Business Name" [(ngModel)]="user.name" type="text" (input)="checkVal()">
         </ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
-      <ion-item>
+      <div class="error-message">
+        <span *ngIf="!signupFormBiz.controls.name.valid && returnInvalid">Please enter Business name</span>
+      </div>
+      <ion-item no-lines class="itemstyle">
 
-        <ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="telephone">
+        <ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="telephone" (input)="checkVal()">
           </ion-input>
       </ion-item>
-    </ion-list>
-    
-    <ion-list>
-      <ion-item>
+      <div class="error-message">
+        <span *ngIf="!signupFormBiz.controls.mobile.valid && returnInvalid">Please enter mobile number</span>
+      </div>
+      <ion-item no-lines class="itemstyle">
       
-        <ion-textarea #unit formControlName="details" placeholder="Brief description and Location" [(ngModel)]="user.details" type="text">
+        <ion-textarea #unit formControlName="details" placeholder="Brief description and Location" [(ngModel)]="user.details" type="text" (input)="checkVal()">
         </ion-textarea>
       </ion-item>
+      <div class="error-message">
+        <span *ngIf="!signupFormBiz.controls.details.valid && returnInvalid">Please enter business details</span>
+      </div>
     </ion-list>
-
-    
   </form>
+  
+  <div class="buttonspadding">
+    <button ion-button block style="padding-left:16px" type="submit" tappable (click)="signupUser()">Sign up</button>
+  </div>
+  <div text-center no-lines class="policylabel">
+    <p>
+      By signing up, you agree to our
+      <br>
+      <span (click)="gotoTerms()">
+        <b>Terms</b>
+      </span> &
+      <span (click)="gotoPolicy()">
+        <b>Privacy Policy</b>
+      </span>
+    </p>
+  </div>
 
 </ion-content>
-<ion-footer>
-  <div class="buttonspadding">
-        <button ion-button block type="submit" (click)="signupUser()" [disabled]="!signupFormBiz.valid">Sign up</button>
-    </div>
-  </ion-footer>
-
-
-  <!-- (input)="clearErrors()"  || !picUploaded-->
