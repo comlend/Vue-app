@@ -11,8 +11,9 @@ export class UtilitiesProvider {
 		console.log('Hello UtilitiesProvider Provider');
 	}
 
-	filterBlockedMeUsers() {
-		var blockedMe = this.globals.userData.blockedMe;
+	filterBlockedMeUsers(blockedListids) {
+		
+		var blockedMe = blockedListids;
 
 		var neighbours = _.cloneDeep(this.globals.neighboursData);
 		var extracted = [];
@@ -32,8 +33,8 @@ export class UtilitiesProvider {
 		}
 	}
 
-	filterBlockedByMeUsers() {
-		var iBlocked = this.globals.userData.blockedByMe;
+	filterBlockedByMeUsers(blockedListids) {
+		var iBlocked = blockedListids;
 
 		var neighbours = _.cloneDeep(this.globals.neighboursData);
 		var extracted = [];
@@ -49,7 +50,7 @@ export class UtilitiesProvider {
 
 			this.globals.blockedByMe = extracted;
 
-			// console.log('Blocked By Me => ', extracted);
+			// console.log('Blocked By Me UTI => ', extracted);
 			
 		}
 	}

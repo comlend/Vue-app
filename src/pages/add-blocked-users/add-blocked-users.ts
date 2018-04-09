@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
@@ -13,7 +13,7 @@ export class AddBlockedUsersPage {
 	neighbours: any = [];
 	query: string = '';
 	
-	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider, public _zone: NgZone) {
 		this.initializeStartData();
 	}
 
@@ -24,7 +24,9 @@ export class AddBlockedUsersPage {
 	initializeStartData() {
 		var neighbours = _.cloneDeep(this.globals.neighboursData);
 
-		this.neighbours = this.removeAlreadyBlocked(neighbours);
+		this._zone.run(() => {
+			this.neighbours = this.removeAlreadyBlocked(neighbours);
+		});
 	}
 
 	removeAlreadyBlocked(neighbours) {
@@ -52,6 +54,7 @@ export class AddBlockedUsersPage {
 
 	blockNeighbour(neighbourToBlock) {
 		this.firebase.blockNeighbour(neighbourToBlock).then(() => {
+			_.remove(this.neighbours, { 'uId': neighbourToBlock.uId });
 			console.log('Blocked');
 		}).catch((err) => {
 			console.log('Neighbour Block Error => ', err);

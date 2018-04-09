@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 import { GlobalsProvider } from '../globals/globals';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { UtilitiesProvider } from '../utilities/utilities';
 import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 // import { resolve } from 'dns';
@@ -19,7 +20,7 @@ export class FirebaseProvider {
 	neighbourmessages = [];
 	msgcount = 0;
 
-	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events, public event: Events, public fcm: FCM, public storage: Storage) {
+	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events, public event: Events, public utilities: UtilitiesProvider, public fcm: FCM, public storage: Storage) {
 		console.log('Hello FirebaseProvider Provider');
 	}
 
@@ -799,6 +800,8 @@ export class FirebaseProvider {
 			});
 
 			Promise.all([userRef, neighbourRef]).then(() => {
+				this.getUpdatedBlockedByMeList();
+				
 				resolve({success: true, msg: 'User Blocked'});
 			}).catch((err) => {
 				reject(err);
@@ -816,12 +819,52 @@ export class FirebaseProvider {
 			var neighbourRef = firebase.database().ref('/users').child(neighbourId + '/blockedMe').child(userId).remove();
 
 			Promise.all([userRef, neighbourRef]).then(() => {
+				this.getUpdatedBlockedByMeList();
 				resolve({ success: true, msg: 'User Unblocked' });
 			}).catch((err) => {
 				reject(err);
 			});
 		});
 	}
+
+	getUpdatedBlockedByMeList() {
+		var userId = this.globals.userId;
+
+		var userRefBlockedByMe = firebase.database().ref('/users').child(userId).child('blockedByMe');
+
+		userRefBlockedByMe.once('value', (updatedList) => {
+			if (updatedList.val()) {
+				var updatedListObj = updatedList.val();
+
+				// Update Blocked Neighbours Data
+				this.utilities.filterBlockedByMeUsers(_.toArray(updatedListObj));
+
+				// console.log('Updated List Blocked By Me', updatedListObj);
+			} else {
+				this.globals.blockedByMe = [];
+			}
+		});
+	}
+
+	getUpdatedBlockedMeList() {
+		var userId = this.globals.userId;
+
+		var userRefBlockedMe = firebase.database().ref('/users').child(userId).child('blockedMe');
+
+		userRefBlockedMe.on('child_changed', (updatedList) => {
+			if (updatedList.val()) {
+				var updatedListObj = updatedList.val();
+				this.globals.blockedMe = _.toArray(updatedListObj);
+				// console.log('Updated List Blocked Me', updatedListObj);
+			} else {
+				this.globals.blockedMe = [];
+			}
+			
+		});
+	}
+
+
+	
 
 	/* old code getBlockedNeighboursIds() {
 		var userId = this.globals.userId;

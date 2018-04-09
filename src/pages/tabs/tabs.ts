@@ -5,7 +5,7 @@ import { NeighboursPage } from '../neighbours/neighbours';
 import { NewsPage } from '../news/news';
 import { MorePage } from '../more/more';
 
-// import { FirebaseProvider } from '../../providers/firebase/firebase';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Events } from 'ionic-angular';
 
@@ -21,10 +21,13 @@ export class TabsPage {
 
 	unreadMessages: number = 0;
 	unreadTabBadge: string = null;
-	constructor(/* private firebase: FirebaseProvider,  */private globals: GlobalsProvider, public _zone: NgZone, public events: Events) {
+	constructor(private firebase: FirebaseProvider, private globals: GlobalsProvider, public _zone: NgZone, public events: Events) {
 		//  console.log('neighbours data from globals- ',this.globals.neighboursData);
 		console.log(this.globals.unreadMessages);
 		this.listenForEvents();		
+
+		// Update Blocked List
+		this.firebase.getUpdatedBlockedMeList();
 	}
 
 	listenForEvents() {

@@ -79,6 +79,7 @@ export class MyApp {
 
 				// loading.present();
 				this.global.userId = user.uid;
+
 				// console.log('new user ->',this.global.userId);
 				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
 				Promise.all(promises).then((values) => {
@@ -221,8 +222,8 @@ export class MyApp {
 					this.global.neighboursData = neighboursArr;
 					this.event.publish('neighboursUpdated');
 
-					this.utilities.filterBlockedMeUsers();
-					this.utilities.filterBlockedByMeUsers();
+					this.utilities.filterBlockedMeUsers(this.global.userData.blockedMe);
+					this.utilities.filterBlockedByMeUsers(this.global.userData.blockedByMe);
 
 					resolve();
 					
