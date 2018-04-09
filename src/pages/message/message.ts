@@ -80,16 +80,24 @@ export class MessagePage {
 			this.myInput.nativeElement.style.height = '20px';
 			console.warn(success);
 		}, error => {
+			this.chat = '';
+			this.myInput.nativeElement.style.height = '20px';
 			console.error(error);
 		});
 	}
 
 	sendChatNotification(msg) {
 		var neighbourDeviceToken = this.neighbourData.deviceToken;
-		console.log('Chat and Neighbour Device Token ', msg, neighbourDeviceToken);
-		this.firebase.sendChatMsgNoti(neighbourDeviceToken, msg).then(() => {
-			console.log('Notification Sent.');
-		});
+		var neighbourData = this.neighbourData;
+		// console.log('Chat and Neighbour Device Token ', msg, neighbourDeviceToken);
+		if (this.neighbourData.showMessageNotification){
+			this.firebase.sendChatMsgNoti(neighbourDeviceToken, msg, neighbourData).then(() => {
+				console.log('Notification Sent.');
+			});
+		}
+		else{
+			console.log('no message notification is to be sent');
+		}
 	}
 
 	// getAllMessages() {

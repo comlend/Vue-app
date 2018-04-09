@@ -1,6 +1,11 @@
 <ion-header>
 
-	<ion-navbar>
+	<ion-navbar hideBackButton>
+		<ion-buttons start>
+			<button ion-button icon-only (click)="back()">
+				<ion-icon name="arrow-back" color="secondary"></ion-icon>
+			</button>
+		</ion-buttons>
 		<ion-title>Blocked</ion-title>
 	</ion-navbar>
 
@@ -10,7 +15,7 @@
 <ion-content>
 	<div class="add-new">
 		<ion-list no-lines>
-			<ion-item (click)="addBlockedUser()">
+			<ion-item (tap)="addBlockedUser()" tappable>
 				<ion-label>Add New...</ion-label>
 			</ion-item>
 			<p class="msg">
@@ -20,9 +25,9 @@
 	</div>
 
 	<div class="blocked-list-wrapper" *ngIf="blockedNeighbours.length > 0">
-		<ion-list no-lines>
-			<div *ngFor="let neighbour of blockedNeighbours">
-				<ion-item-sliding>
+		<ion-list>
+			<!-- <div> -->
+				<ion-item-sliding *ngFor="let neighbour of blockedNeighbours">
 					<ion-item>
 						<ion-avatar item-start>
 							<img src="{{ neighbour.profileurl }}">
@@ -31,11 +36,11 @@
 					</ion-item>
 
 					<ion-item-options side="right">
-						<button ion-button color="secondary" (tap)="unblockNeighbour(neighbour)">Unblock</button>
+						<button ion-button color="danger" (tap)="unblockNeighbour(neighbour)">Unblock</button>
 					</ion-item-options>
 				</ion-item-sliding>
 				
-			</div>
+			<!-- </div> -->
 		</ion-list>
 	</div>
 </ion-content>

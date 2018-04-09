@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { TabsPage } from '../tabs/tabs';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { TncPage } from '../tnc/tnc';
+import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 
 @Component({
 	selector: 'page-register-business',
@@ -12,16 +14,16 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 })
 export class RegisterBusinessPage {
 	public signupFormBiz;
-	user: { firstName?: any, lastName?: any, email?: any, pass?: any, unit?: any, details?: any, mobile?: any } = {};
+	user: { firstName?: any, lastName?: any, email?: any, pass?: any, name?: any, details?: any, mobile?: any } = {};
 	formData: any;
 	loading: any;
 	errormessage: any;
-	returnInvalid: boolean;
+	returnInvalid: boolean = false;
 	profileurl: any = '';
 	imageData: any;
 	userType: string = "business";
 	liveInProperty: boolean = false;
-	showPassError: boolean = false;
+	showPassError: boolean = true;
 	picUploaded: boolean = false;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
@@ -30,12 +32,12 @@ export class RegisterBusinessPage {
 	}
 	initializeForm(): void {
 		this.signupFormBiz = this.formBuilder.group({
-			firstName: ['', Validators.compose([Validators.required])],
+			firstName: ['', Validators.compose([Validators.minLength(1),Validators.required])],
 			lastName: ['', Validators.compose([Validators.required])],
 			name: ['', Validators.compose([Validators.required])],
 			email: ['', Validators.compose([Validators.required])],
 			password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
-			mobile: ['', Validators.compose([Validators.required])],
+			mobile: ['', Validators.compose([Validators.minLength(9),Validators.required])],
 			details: ['', Validators.compose([Validators.required])],
 		});
 
@@ -47,12 +49,24 @@ export class RegisterBusinessPage {
 	back() {
 		this.navCtrl.pop();
 	}
+	gotoTerms(){
+		this.navCtrl.push(TncPage);
+	}
+	gotoPolicy() {
+		this.navCtrl.push(PrivacyPolicyPage);
+	}
 	checkPassLength() {
 		if (this.user.pass.length < 6) {
 			this.showPassError = true;
 		}
 		else
 			this.showPassError = false;
+	}
+	checkVal() {
+		//Check form value for empty
+		if (this.signupFormBiz.controls.name.value == '' || this.signupFormBiz.controls.details.value == '' || this.signupFormBiz.controls.mobile.value == '') {
+			this.returnInvalid = false;
+		}
 	}
 
 	signupUser() {
@@ -67,21 +81,31 @@ export class RegisterBusinessPage {
 		if (!this.imageData) {
 			this.imageData = this.profileurl;
 		}
+
+		if (!this.signupFormBiz.controls.firstName.valid || !this.signupFormBiz.controls.lastName.valid ||
+			!this.signupFormBiz.controls.email.valid || !this.signupFormBiz.controls.password.valid ||
+			!this.signupFormBiz.controls.name.valid || !this.signupFormBiz.controls.details.valid || !this.signupFormBiz.controls.mobile.valid || !this.picUploaded) {
+			this.returnInvalid = true;
+			return;
+		} else {
+			this.firebase.signupBizUser(this.signupFormBiz.value.email, this.signupFormBiz.value.password, this.signupFormBiz.value.firstName, this.signupFormBiz.value.lastName, createdAt, this.profileurl, this.signupFormBiz.value.name, this.userType, this.signupFormBiz.value.details, this.imageData, this.signupFormBiz.value.mobile)
+				.then((data) => {
+					console.log('test', data);
+					this.loading.dismiss()
+					// .then(() => {
+
+					// 	this.navCtrl.setRoot(TabsPage);
+					// });
+				}, (error) => {
+					this.loading.dismiss().then(() => {
+						this.errormessage = error.message;
+						this.returnInvalid = true;
+
+					});
+				});
+		}
 		
-		this.firebase.signupBizUser(this.signupFormBiz.value.email, this.signupFormBiz.value.password, this.signupFormBiz.value.firstName, this.signupFormBiz.value.lastName, createdAt, this.profileurl, this.signupFormBiz.value.name, this.userType, this.signupFormBiz.value.details, this.imageData, this.signupFormBiz.value.mobile)
-			.then((data) => {
-				console.log('test', data);
-				this.loading.dismiss().then(() => {
-
-					this.navCtrl.setRoot(TabsPage);
-				});
-			}, (error) => {
-				this.loading.dismiss().then(() => {
-					this.errormessage = error.message;
-					this.returnInvalid = true;
-
-				});
-			});
+		
 		this.loading = this.loadingCtrl.create({ content: 'Signing you up..' });
 		this.loading.present();
 	}

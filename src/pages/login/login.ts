@@ -18,6 +18,7 @@ export class LoginPage {
 	returnInvalid: boolean = false;
 	user: { email?: any, password?: any } = {};
 	loading: any;
+	showPassError: boolean= true;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private firebase: FirebaseProvider, public globals: GlobalsProvider, public formBuilder: FormBuilder, public loadingCtrl: LoadingController, public event: Events) {
 		this.initializeForm()
@@ -36,7 +37,13 @@ export class LoginPage {
 	back() {
 		this.navCtrl.pop();
 	}
-
+	checkPassLength() {
+		if (this.user.password.length < 6) {
+			this.showPassError = true;
+		}
+		else
+			this.showPassError = false;
+	}
 
 
 	loginUser(): void {
@@ -47,7 +54,7 @@ export class LoginPage {
 		} else {
 			this.firebase.loginData(this.loginForm.value.email, this.loginForm.value.password).then(authData => {
 				console.log('AuthData ', authData);
-				// this.loading.dismiss().then(() => {
+				this.loading.dismiss().then(() => {
 					this.globals.userId = authData.uid;
 
 					console.log('new user ->', this.globals.userId);
@@ -60,7 +67,7 @@ export class LoginPage {
 						//    
 						console.log('Promise.all resolved');
 						if (this.globals.FbLoginComplete) {
-							this.loading.dismiss();
+							// this.loading.dismiss();
 							this.navCtrl.setRoot(TabsPage);
 						}
 						else if (!this.globals.FbLoginComplete) {
@@ -71,7 +78,7 @@ export class LoginPage {
 					}).catch((err) => {
 						console.log('Promise.all ', err);
 					});
-				// });
+				});
 			}, error => {
 				this.loading.dismiss().then(() => {
 					this.returnInvalid = true;

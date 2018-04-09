@@ -19,9 +19,15 @@ export class BlockedUsersListPage {
 	ionViewWillEnter() {
 		this.initializeStartData();
 	}
+	ionViewWillEnter(){
+		this.initializeStartData();
+	}
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad BlockedUsersListPage');
+	}
+	back(){
+		this.navCtrl.pop();
 	}
 
 	initializeStartData() {		

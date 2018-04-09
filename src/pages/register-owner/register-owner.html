@@ -9,6 +9,11 @@
     </ion-buttons>
  
    <ion-title>REGISTER</ion-title>
+<ion-buttons end>
+	<button ion-button icon-only color="secondary" (click)="signupUser()" [disabled]="!signupForm.valid">
+		Sign up
+	</button>
+</ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -20,7 +25,7 @@
 		<ion-list class="firstitem">
 			<ion-row>
 				<ion-col col-4>
-					<ion-item>
+					<ion-item no-lines>
 						<ion-avatar item-start (click)="uploadImage()">
 							<img [src]="profileurl">
 					      <!-- <img [src]='profileurl'> -->
@@ -36,70 +41,70 @@
 					</ion-item>
 				</ion-col>
 				</ion-row>
+				<div class="error-message" *ngIf="returnInvalid && !picUploaded">
+					Please upload an image
+				</div>
 		</ion-list>
 		<ion-list>
-			<ion-item>
-						<ion-input #password formControlName="password" placeholder="Password" [(ngModel)]="user.pass" type="password" 
-							[class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty && returnInvalid" (input)="checkPassLength()">
+			<ion-item no-lines class="itemstyle">
+						<ion-input #password formControlName="password" placeholder="Password" [(ngModel)]="user.pass" type="password" (input)="checkPassLength()">
 							</ion-input>
 			</ion-item>
 			<ion-label class="passwordlabel" *ngIf="showPassError">Minimum 6 characters</ion-label>
-			<!-- <div class="error-message" *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty && returnInvalid">
-				<p>Your password needs more than 6 characters.</p>
-			</div> -->
-		</ion-list>
-		<ion-list>
-			<ion-item>
+			<ion-item no-lines class="itemstyle">
 
-				<ion-input #email formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="email"
-					[class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty && returnInvalid" >
+				<ion-input #email formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="email">
 					</ion-input>
 			</ion-item>
 			<div class="error-message" *ngIf="returnInvalid">
 				<p>{{errormessage}}</p>
 			</div>
-		</ion-list>
+			<ion-item no-lines class="itemstyle">
 		
-		<ion-list>
-			<ion-item>
-		
-				<ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="telephone">
+				<ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="telephone" (input)="checkVal()">
 				</ion-input>
 			</ion-item>
-		</ion-list>
+			<div class="error-message">
+				<span *ngIf="!signupForm.controls.mobile.valid && returnInvalid">Please enter mobile number</span>
+			</div>
+			<ion-item no-lines class="itemstyle">
 
-		<ion-list>
-			<ion-item>
-
-				<ion-input #unit formControlName="unit" placeholder="Unit Number" [(ngModel)]="user.unit" type="text">
+				<ion-input #unit formControlName="unit" placeholder="Unit Number" [(ngModel)]="user.unit" type="text" (input)="checkVal()">
 					</ion-input>
 			</ion-item>
+			<div class="error-message">
+				<span *ngIf="!signupForm.controls.unit.valid && returnInvalid">Please enter unit number</span>
+			</div>
 
-		
-		</ion-list>
-		<ion-list radio-group>
+			<div radio-group>
 
-		  <ion-item>
-		    <ion-label>I live in the property</ion-label>
-		    <ion-radio checked="true" value="go"></ion-radio>
-		  </ion-item>
+			<ion-item no-lines class="itemstyle">
+				<ion-label>I live in the property</ion-label>
+				<ion-radio checked="true" value="go"></ion-radio>
+			</ion-item>
 
-		  <ion-item>
-		    <ion-label>I rent it out</ion-label>
-		    <ion-radio value="rust"></ion-radio>
-		  </ion-item>
-
+			<ion-item no-lines class="itemstyle">
+				<ion-label>I rent it out</ion-label>
+				<ion-radio value="rust"></ion-radio>
+			</ion-item>
+			</div>
 		</ion-list>
 
 		
 	</form>
-
+<div class="buttonspadding">
+	<button ion-button style="padding-left:16px" block type="submit" (click)="signupUser()">Sign up</button>
+</div>
+<div text-center no-lines class="policylabel">
+	<p>
+		By signing up, you agree to our
+		<br>
+		<span (click)="gotoTerms()">
+			<b>Terms</b>
+		</span> &
+		<span (click)="gotoPolicy()">
+			<b>Privacy Policy</b>
+		</span>
+	</p>
+</div>
 </ion-content>
-<ion-footer>
-	<div class="buttonspadding">
-	  		<button ion-button block type="submit" (click)="signupUser()" [disabled]="!signupForm.valid">Sign up</button>  
-		</div>
-	</ion-footer>
-
-
-	<!-- (input)="clearErrors()" || !picUploaded-->

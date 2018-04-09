@@ -32,7 +32,7 @@
 	<div *ngIf="chats.length > 0">
 		<ion-list>
 			<div *ngIf="!editable">
-				<ion-item *ngFor="let chat of chats" (click)="goToChatPage(chat)" detail-push>
+				<ion-item *ngFor="let chat of chats" tappable (tap)="goToChatPage(chat)" detail-push>
 					<ion-avatar item-start id="badge-container">
 						<img src="{{ chat.receiverData.profileurl }}">
 						<ion-badge id="badge" *ngIf="chat.unreadMessages > 0" item-end>{{ chat.unreadMessages }}</ion-badge>
