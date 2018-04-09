@@ -4,6 +4,8 @@ import { AddBlockedUsersPage } from '../add-blocked-users/add-blocked-users';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 
+import * as _ from "lodash";
+
 @Component({
 	selector: 'page-blocked-users-list',
 	templateUrl: 'blocked-users-list.html',
@@ -11,7 +13,10 @@ import { GlobalsProvider } from '../../providers/globals/globals';
 export class BlockedUsersListPage {
 	blockedNeighbours: any = [];
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public _zone: NgZone, public globals: GlobalsProvider) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public _zone: NgZone, public globals: GlobalsProvider) {		
+	}
+
+	ionViewWillEnter() {
 		this.initializeStartData();
 	}
 
@@ -19,8 +24,9 @@ export class BlockedUsersListPage {
 		console.log('ionViewDidLoad BlockedUsersListPage');
 	}
 
-	initializeStartData() {
-		this.blockedNeighbours = this.globals.blockedByMe;		
+	initializeStartData() {		
+		console.log('List Page ', this.globals.blockedByMe);
+		this.blockedNeighbours = this.globals.blockedByMe;
 		// this.getBlockedNeighbours();
 	}
 
@@ -43,7 +49,8 @@ export class BlockedUsersListPage {
 
 	unblockNeighbour(neighbour) {
 		this.firebase.unblockneighbour(neighbour).then((data) => {
-
+			_.remove(this.blockedNeighbours, { 'uId': neighbour.uId });
+			console.log('Unblocked');
 		}).catch((err) => {
 
 		});
