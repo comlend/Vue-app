@@ -118,15 +118,15 @@ export class FirebaseProvider {
 					userData['profileurl'] = imageData;
 					firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
 
-						this.fcm.subscribeToTopic("news").then(() => {
-							console.log('subscribed to news');
-							this.storage.set('subscribedToNews', true);
-							firebase.database().ref('/users/').child(newUser.uid).update({
-								subscribedNews: true
-							});
-						}).catch((error) => {
-							console.log('topic subscription error', error);
-						});
+						// this.fcm.subscribeToTopic("news").then(() => {
+						// 	console.log('subscribed to news');
+						// 	this.storage.set('subscribedToNews', true);
+						// 	firebase.database().ref('/users/').child(newUser.uid).update({
+						// 		subscribedNews: true
+						// 	});
+						// }).catch((error) => {
+						// 	console.log('topic subscription error', error);
+						// });
 						
 						resolve(newUser);
 					});

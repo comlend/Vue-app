@@ -30,10 +30,12 @@ export class MyApp {
 			// this.initializeApp();
 
 			if (platform.is('ios')) {
+				this.global.cordovaPlatform = true;
 				this.initializeFcmNotification();	
 			}
 
 			else if (platform.is('android')) {
+				this.global.cordovaPlatform = true;
 				this.initializeFcmNotification();
 			}
 
@@ -80,20 +82,9 @@ export class MyApp {
 					this.getAllNews();
 					this.getAllLocals();
 					console.log('all data loaded');
-					
-					// this.fcm.subscribeToTopic("news").then(() => {
-					// 	console.log('subscribed to news');
-					// }).catch((error) => {
-					// 	console.log('topic subscription error',error);
-					// });
-					
-					// this.getUserData();
-					//    
-					// console.log('Promise.all resolved');
+
 					if (this.global.FbLoginComplete) {
 						this.rootPage = TabsPage;
-						// loading.dismiss();
-						// return;
 						// unsubscribe();
 					}
 					else if (!this.global.FbLoginComplete) { 
@@ -102,7 +93,7 @@ export class MyApp {
 					}
 					
 				}).catch((err) => {
-					// console.log('Promise.all ', err);
+					console.log('Promise.all ', err);
 				});
 				
 		}
@@ -192,7 +183,7 @@ export class MyApp {
 				if (data.val() != 'default') {
 					userArr = data.val();
 					this.global.userData = userArr;
-					// console.warn(' Component User Data ', this.global.userData);
+					console.warn(' Component User Data ', this.global.userData);
 					resolve(userArr);
 				} else {
 					reject({ msg: 'No Users Found' });
