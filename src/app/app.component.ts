@@ -23,7 +23,7 @@ export class MyApp {
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
 		platform.ready().then(() => {
-			if (platform.is('browser')) {
+			if (platform.is('mobileweb')) {
 				this.global.cordovaPlatform = true;
 				this.initializePwaNotification();
 			}
@@ -73,13 +73,13 @@ export class MyApp {
 			else {
 				this.global.userId = user.uid;
 
-				// console.log('new user ->',this.global.userId);
+				console.log('new user ->',this.global.userId);
 				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
 				Promise.all(promises).then((values) => {
 					this.extractNeighbourData();
 					this.getAllNews();
 					this.getAllLocals();
-
+					console.log('all data loaded');
 					
 					// this.fcm.subscribeToTopic("news").then(() => {
 					// 	console.log('subscribed to news');
