@@ -51,7 +51,7 @@ export class SignupPage {
 
             firebase.database().ref('/users/').once('value', (data) => {
 
-              console.log('User Exists ', data.child(this.userProfile.uid).exists());
+              // console.log('User Exists ', data.child(this.userProfile.uid).exists());
               if (data.child(this.userProfile.uid).exists() == true) {
                 this.navCtrl.setRoot(TabsPage);
                 // this.events.publish('fbloggedin',true);

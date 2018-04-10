@@ -2,8 +2,6 @@ import { Component, NgZone } from '@angular/core';
 import { Platform, ModalController, Events, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { SplashPage } from '../pages/splash/splash';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import * as firebase from 'firebase';
@@ -25,7 +23,7 @@ export class MyApp {
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
 		platform.ready().then(() => {
-			if (platform.is('cordova')) {
+			if (platform.is('browser')) {
 				this.global.cordovaPlatform = true;
 				this.initializePwaNotification();
 			}
@@ -73,11 +71,6 @@ export class MyApp {
 			} 
 			
 			else {
-				// let loading = this.loadingCtrl.create({
-				// 	content: 'Logging you in...'
-				// });
-
-				// loading.present();
 				this.global.userId = user.uid;
 
 				// console.log('new user ->',this.global.userId);
