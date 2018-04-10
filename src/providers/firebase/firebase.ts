@@ -61,6 +61,7 @@ export class FirebaseProvider {
 						userRef.update({
 							profileurl: imageData
 						});
+						resolve(newUser);
 					} else {
 						this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
 							this.globals.userData.profileurl = imageUrl;
@@ -142,6 +143,7 @@ export class FirebaseProvider {
 						userRef.update({
 							profileurl: imageData
 						});
+						resolve(newUser);
 					} else {
 						this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
 							this.globals.userData.profileurl = imageUrl;
