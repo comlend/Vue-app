@@ -146,8 +146,8 @@ export class RegisterOwnerPage {
 	selectImage(type) {
 		let options: CameraOptions = {
 			quality: 90,
-			targetWidth: 300,
-			targetHeight: 300,
+			targetWidth: 100,
+			targetHeight: 100,
 			allowEdit: true,
 			destinationType: this.camera.DestinationType.DATA_URL,
 			encodingType: this.camera.EncodingType.JPEG,
