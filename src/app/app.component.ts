@@ -81,8 +81,17 @@ export class MyApp {
 					this.extractNeighbourData();
 					this.getAllNews();
 					this.getAllLocals();
-					console.log('all data loaded');
-
+					console.log('all data loaded', values);
+					
+					// this.fcm.subscribeToTopic("news").then(() => {
+					// 	console.log('subscribed to news');
+					// }).catch((error) => {
+					// 	console.log('topic subscription error',error);
+					// });
+					
+					// this.getUserData();
+					//    
+					// console.log('Promise.all resolved');
 					if (this.global.FbLoginComplete) {
 						this.rootPage = TabsPage;
 						// unsubscribe();
