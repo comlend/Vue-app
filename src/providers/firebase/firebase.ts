@@ -131,13 +131,12 @@ export class FirebaseProvider {
 						resolve(newUser);
 					});
 				} else {
-					this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
-						// console.log("else data output", email, firstName, lastName, createdAt, imageUrl);
-						userData['profileurl'] = imageUrl;
-						
-						firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+					firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+						this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
+							// console.log("else data output", email, firstName, lastName, createdAt, imageUrl);
+							userData['profileurl'] = imageUrl;
 							resolve(newUser);
-						});
+						});						
 					});
 				}
 			}).catch((error) => {
