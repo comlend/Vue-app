@@ -83,7 +83,7 @@ export class RegisterRentingPage {
 
 		if (!this.signupForm.controls.firstName.valid || !this.signupForm.controls.lastName.valid ||
 			!this.signupForm.controls.email.valid || !this.signupForm.controls.password.valid ||
-			!this.signupForm.controls.unit.valid || !this.signupForm.controls.mobile.valid || !this.picUploaded) {
+			!this.signupForm.controls.unit.valid || !this.signupForm.controls.mobile.valid) {
 			this.returnInvalid = true;
 			return;
 		} else {

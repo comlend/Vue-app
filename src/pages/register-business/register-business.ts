@@ -84,7 +84,7 @@ export class RegisterBusinessPage {
 
 		if (!this.signupFormBiz.controls.firstName.valid || !this.signupFormBiz.controls.lastName.valid ||
 			!this.signupFormBiz.controls.email.valid || !this.signupFormBiz.controls.password.valid ||
-			!this.signupFormBiz.controls.name.valid || !this.signupFormBiz.controls.details.valid || !this.signupFormBiz.controls.mobile.valid || !this.picUploaded) {
+			!this.signupFormBiz.controls.name.valid || !this.signupFormBiz.controls.details.valid || !this.signupFormBiz.controls.mobile.valid) {
 			this.returnInvalid = true;
 			return;
 		} else {
