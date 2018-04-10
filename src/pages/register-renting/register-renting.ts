@@ -8,6 +8,9 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { TncPage } from '../tnc/tnc';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 
+import { FCM } from '@ionic-native/fcm';
+import { Storage } from '@ionic/storage';
+
 @Component({
 	selector: 'page-register-renting',
 	templateUrl: 'register-renting.html',
@@ -26,7 +29,7 @@ export class RegisterRentingPage {
 	showPassError: boolean = true;
 	picUploaded: boolean = false;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController, public fcm: FCM, public storage: Storage) {
 		this.initializeForm();
 		this.profileurl = 'assets/imgs/imgPlaceholder.png';
 	}
@@ -90,9 +93,14 @@ export class RegisterRentingPage {
 			this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.userType, this.signupForm.value.unit, this.imageData, this.signupForm.value.mobile)
 				.then((data) => {
 					console.log('test', data);
-					this.loading.dismiss().then(() => {
-
+					this.fcm.subscribeToTopic("news").then(() => {
+						console.log('subscribed to news');
+						this.storage.set('subscribedToNews', true);
+						this.loading.dismiss();
 						this.navCtrl.setRoot(TabsPage);
+					}).catch((error) => {
+						console.log('topic subscription error', error);
+						this.loading.dismiss();
 					});
 				}, (error) => {
 					this.loading.dismiss().then(() => {
@@ -135,8 +143,8 @@ export class RegisterRentingPage {
 	selectImage(type) {
 		let options: CameraOptions = {
 			quality: 90,
-			targetWidth: 300,
-			targetHeight: 300,
+			targetWidth: 100,
+			targetHeight: 100,
 			allowEdit: true,
 			destinationType: this.camera.DestinationType.DATA_URL,
 			encodingType: this.camera.EncodingType.JPEG,
