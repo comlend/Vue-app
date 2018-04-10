@@ -113,7 +113,27 @@ export class FirebaseProvider {
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 				userData['uId'] = newUser.uid;
 
-				if (imageData == 'assets/imgs/imgPlaceholder.png') {
+				userData['profileurl'] = 'default';
+
+				firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+					var userRef = firebase.database().ref('/users').child(newUser.uid);
+					if (imageData == 'assets/imgs/imgPlaceholder.png') {
+						this.globals.userData.profileurl = imageData;
+						userRef.update({
+							profileurl: imageData
+						});
+					} else {
+						this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
+							this.globals.userData.profileurl = imageUrl;
+							userRef.update({
+								profileurl: imageUrl
+							});
+							resolve(newUser);
+						});
+					}
+					
+				});
+				/* if (imageData == 'assets/imgs/imgPlaceholder.png') {
 					// console.log('if => ', imageData);
 					userData['profileurl'] = imageData;
 					firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
@@ -138,7 +158,7 @@ export class FirebaseProvider {
 							resolve(newUser);
 						});						
 					});
-				}
+				} */
 			}).catch((error) => {
 				console.log('Error getting location', error);
 				reject(error);

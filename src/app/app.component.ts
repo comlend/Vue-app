@@ -79,7 +79,7 @@ export class MyApp {
 					this.extractNeighbourData();
 					this.getAllNews();
 					this.getAllLocals();
-					console.log('all data loaded');
+					console.log('all data loaded', values);
 					
 					// this.fcm.subscribeToTopic("news").then(() => {
 					// 	console.log('subscribed to news');
