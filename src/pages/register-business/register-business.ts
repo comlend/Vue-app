@@ -8,6 +8,10 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { TncPage } from '../tnc/tnc';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 
+import { FCM } from '@ionic-native/fcm';
+import { Storage } from '@ionic/storage';
+
+
 @Component({
 	selector: 'page-register-business',
 	templateUrl: 'register-business.html',
@@ -26,7 +30,7 @@ export class RegisterBusinessPage {
 	showPassError: boolean = true;
 	picUploaded: boolean = false;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public firebase: FirebaseProvider, public loadingCtrl: LoadingController, private camera: Camera, public actionSheetCtrl: ActionSheetController, public fcm: FCM, public storage: Storage) {
 		this.initializeForm();
 		this.profileurl = 'assets/imgs/imgPlaceholder.png';
 	}
@@ -91,7 +95,14 @@ export class RegisterBusinessPage {
 			this.firebase.signupBizUser(this.signupFormBiz.value.email, this.signupFormBiz.value.password, this.signupFormBiz.value.firstName, this.signupFormBiz.value.lastName, createdAt, this.profileurl, this.signupFormBiz.value.name, this.userType, this.signupFormBiz.value.details, this.imageData, this.signupFormBiz.value.mobile)
 				.then((data) => {
 					console.log('test', data);
-					this.loading.dismiss()
+					this.fcm.subscribeToTopic("news").then(() => {
+						console.log('subscribed to news');
+						this.storage.set('subscribedToNews', true);
+						this.loading.dismiss();
+					}).catch((error) => {
+						console.log('topic subscription error', error);
+						this.loading.dismiss();
+					});
 					// .then(() => {
 
 					// 	this.navCtrl.setRoot(TabsPage);
