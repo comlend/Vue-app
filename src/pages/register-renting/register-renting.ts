@@ -97,7 +97,7 @@ export class RegisterRentingPage {
 						console.log('subscribed to news');
 						this.storage.set('subscribedToNews', true);
 						this.loading.dismiss();
-						this.navCtrl.setRoot(TabsPage);
+						// this.navCtrl.setRoot(TabsPage);
 					}).catch((error) => {
 						console.log('topic subscription error', error);
 						this.loading.dismiss();

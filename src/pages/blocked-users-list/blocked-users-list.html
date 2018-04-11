@@ -26,21 +26,14 @@
 
 	<div class="blocked-list-wrapper" *ngIf="blockedNeighbours.length > 0">
 		<ion-list>
-			<!-- <div> -->
-				<ion-item-sliding *ngFor="let neighbour of blockedNeighbours">
-					<ion-item>
+				<ion-item *ngFor="let neighbour of blockedNeighbours">
 						<ion-avatar item-start>
 							<img src="{{ neighbour.profileurl }}">
 						</ion-avatar>
 						<p>{{ neighbour.firstName }} {{ neighbour.lastName }}</p>
-					</ion-item>
-
-					<ion-item-options side="right">
-						<button ion-button color="danger" (tap)="unblockNeighbour(neighbour)">Unblock</button>
-					</ion-item-options>
-				</ion-item-sliding>
+						<button ion-button outline small item-end color="danger" (tap)="unblockNeighbour(neighbour)">Unblock</button>
+				</ion-item>
 				
-			<!-- </div> -->
 		</ion-list>
 	</div>
 </ion-content>

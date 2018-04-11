@@ -21,14 +21,15 @@ export class EditProfilePage {
 	oldName: string = '';
 	oldNumber: string = '';
 
-	hideProfile: boolean = false;
+	hideProfile: boolean;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public alertCtrl: AlertController) {
 		this.userData = this.globals.userData;
 		this.profileurl = this.globals.userData.profileurl;
 		this.fullName = this.globals.userData.firstName + ' ' + this.globals.userData.lastName;
 
-		this.hideProfile = this.userData.hideProfile;
+		this.hideProfile = this.globals.userData.hideProfile;
+
 		if (this.fullName) {
 			this.oldName = this.fullName;
 		}
@@ -142,8 +143,8 @@ export class EditProfilePage {
 	selectImage(type) {
 		let options: CameraOptions = {
 			quality: 90,
-			targetWidth: 300,
-			targetHeight: 300,
+			targetWidth: 100,
+			targetHeight: 100,
 			allowEdit: true,
 			destinationType: this.camera.DestinationType.DATA_URL,
 			encodingType: this.camera.EncodingType.JPEG,
@@ -200,8 +201,9 @@ export class EditProfilePage {
 
 	hideMyProfile(event) {
 		this.hideProfile = event.value;
+		this.globals.userData.hideMyProfile = event.value;
 		this.firebase.hideMyProfile(this.hideProfile).then(() => {
-			console.log('Profile Updated');
+			console.log('Profile Updated',event.value);
 		});
 	}
 

@@ -45,21 +45,22 @@
         </div> -->
     </ion-list>
     <ion-list>
-      <ion-item no-lines class="itemstyle">
-            <ion-input #password formControlName="password" placeholder="Password" [(ngModel)]="user.pass" type="password" (input)="checkPassLength()">
-              </ion-input>
-      </ion-item>
-      <ion-label class="passwordlabel" *ngIf="showPassError">Minimum 6 characters</ion-label>
-      <div class="error-message" *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty && returnInvalid">
-        <p>Your password needs more than 6 characters.</p>
-      </div>
-      <ion-item no-lines class="itemstyle">
+      
+      <ion-item no-lines class="itemstyle2">
 
         <ion-input #email formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="email">
           </ion-input>
       </ion-item>
       <div class="error-message" *ngIf="returnInvalid">
         <p>{{errormessage}}</p>
+      </div>
+      <ion-item no-lines class="itemstyle">
+        <ion-input #password formControlName="password" placeholder="Password" [(ngModel)]="user.pass" type="password" (input)="checkPassLength()">
+        </ion-input>
+      </ion-item>
+      <ion-label class="passwordlabel" *ngIf="showPassError">Minimum 6 characters</ion-label>
+      <div class="error-message" *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty && returnInvalid">
+        <p>Your password needs more than 6 characters.</p>
       </div>
       <ion-item no-lines class="itemstyle">
     

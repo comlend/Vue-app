@@ -8,6 +8,8 @@ import { FbprofilePage } from '../fbprofile/fbprofile';
 import { TabsPage } from '../tabs/tabs';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { FCM } from '@ionic-native/fcm';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { SplashPage } from '../splash/splash';
 
 @Component({
   selector: 'page-signup',
@@ -17,7 +19,7 @@ export class SignupPage {
   userProfile: any = null;
   loading: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public events: Events, public globals: GlobalsProvider, private fcm: FCM) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private facebook: Facebook, public loadingCtrl: LoadingController, public events: Events, public globals: GlobalsProvider, private fcm: FCM, public splashScreen: SplashScreen) {
    
   }
 
@@ -89,6 +91,7 @@ export class SignupPage {
       this.fcm.getToken().then(token => {
         console.log('Device Token ', token);
         this.globals.fcmToken = token;
+        this.splashScreen.hide();
       });
     // }
   }

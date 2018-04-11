@@ -15,7 +15,7 @@
 
 <ion-content>
 	<div class="paddingtop"></div>
-	<div *ngIf="neighbours.length == 0">No Neighbours Yet!</div>
+	<div *ngIf="neighbours.length == 0" style="padding-left:16px">No Neighbours Yet!</div>
 	<div class="neighbours-list-wrapper" *ngIf="neighbours.length > 0">
 		<ion-list no-lines *ngFor="let neighbour of neighbours">
 				<ion-item tappable (tap)="blockNeighbour(neighbour)">

@@ -45,21 +45,21 @@
         </div> -->
     </ion-list>
     <ion-list>
+      <ion-item no-lines class="itemstyle2">
+      
+        <ion-input #email formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="email">
+        </ion-input>
+      </ion-item>
+      <div class="error-message" *ngIf="returnInvalid">
+        <p>{{errormessage}}</p>
+      </div>
+
       <ion-item no-lines class="itemstyle">
         
             <ion-input #password formControlName="password" placeholder="Password" [(ngModel)]="user.pass" type="password" (input)="checkPassLength()">
               </ion-input>
       </ion-item>
     <ion-label class="passwordlabel" *ngIf="showPassError">Minimum 6 characters</ion-label>
-      
-      <ion-item no-lines class="itemstyle">
-
-        <ion-input #email formControlName="email" placeholder="Email" [(ngModel)]="user.email" type="email">
-          </ion-input>
-      </ion-item>
-      <div class="error-message" *ngIf="returnInvalid">
-        <p>{{errormessage}}</p>
-      </div>
     <!-- </ion-list>
     <ion-list> -->
       <ion-item no-lines class="itemstyle">

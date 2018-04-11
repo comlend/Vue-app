@@ -56,6 +56,7 @@ export class AddBlockedUsersPage {
 		this.firebase.blockNeighbour(neighbourToBlock).then(() => {
 			_.remove(this.neighbours, { 'uId': neighbourToBlock.uId });
 			console.log('Blocked');
+			this.navCtrl.pop();
 		}).catch((err) => {
 			console.log('Neighbour Block Error => ', err);
 		})

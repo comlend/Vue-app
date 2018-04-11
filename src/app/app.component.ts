@@ -18,7 +18,7 @@ export class MyApp {
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController) {
+	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController) {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
@@ -42,7 +42,7 @@ export class MyApp {
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.
 			statusBar.styleDefault();
-			splashScreen.hide();
+			
 			
 			// navCtrl.setRoot(HomePage);
 			// let splash = modalCtrl.create(SplashPage);
@@ -68,6 +68,7 @@ export class MyApp {
 		firebase.initializeApp(config);
 		const unsubscribe = firebase.auth().onAuthStateChanged(user => {
 			if (!user) {
+				this.splashScreen.hide();
 				this.rootPage = SignupPage;
 				// unsubscribe();
 			} 
@@ -82,7 +83,7 @@ export class MyApp {
 					this.getAllNews();
 					this.getAllLocals();
 					console.log('all data loaded', values);
-					
+					this.splashScreen.hide();
 					// this.fcm.subscribeToTopic("news").then(() => {
 					// 	console.log('subscribed to news');
 					// }).catch((error) => {
@@ -97,7 +98,7 @@ export class MyApp {
 						// unsubscribe();
 					}
 					else if (!this.global.FbLoginComplete) { 
-						
+						this.splashScreen.hide();
 						return;
 					}
 					
