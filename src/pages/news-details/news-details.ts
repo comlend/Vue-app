@@ -79,7 +79,7 @@ export class NewsDetailsPage {
 
 			// Send Push Notification
 			if (this.newsDetails.deviceToken) {
-				var newsPublisherDeviceToken = this.newsDetails.deviceToken;
+				var newsPublisherDeviceToken = this.newsDetails;
 				this.firebase.sendNewsCommentNoti(newsPublisherDeviceToken).then(() => {
 					// Notification Sent
 				}).catch((err) => {

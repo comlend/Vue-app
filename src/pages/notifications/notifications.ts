@@ -29,7 +29,7 @@ export class NotificationsPage {
 	}
 	unsubscribeFromNews(){
 		this.firebase.unsubscribeFromTopic().then((data)=>{
-
+			
 		});
 	}
 	subscribeToNews(){

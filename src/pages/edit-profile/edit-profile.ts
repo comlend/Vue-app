@@ -201,7 +201,7 @@ export class EditProfilePage {
 
 	hideMyProfile(event) {
 		this.hideProfile = event.value;
-		this.globals.userData.hideMyProfile = event.value;
+		this.globals.userData.hideProfile = event.value;
 		this.firebase.hideMyProfile(this.hideProfile).then(() => {
 			console.log('Profile Updated',event.value);
 		});

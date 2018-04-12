@@ -391,6 +391,26 @@ export class FirebaseProvider {
 		var userId = this.globals.userId;
 		// console.log(userId);
 		var firechats = firebase.database().ref('/chats/');
+		
+		
+		for (let index = 0; index < this.globals.userData.blockedByMe.length; index++) {
+			var blockedUserArr = [];
+
+			blockedUserArr.push(this.globals.userData.blockedByMe[index]);
+
+			console.log('blocked user array', blockedUserArr);
+			// if (neighbourId == blockedUserArr.id[index]) {
+			// 	console.log('dude, this user is blocked');
+			// }
+		}
+		
+		
+		// for (let index = 0; index < this.globals.userData.length; index++) {
+		// 	if (neighbourId == this.globals.userData.blockedByMe.getVal().id[index]) {
+		// 		console.log('dude, this user is blocked');
+		// 	}
+			
+		// }
 
 		if (neighbourId) {
 			var promise = new Promise((resolve, reject) => {
@@ -553,6 +573,16 @@ export class FirebaseProvider {
 
 	sendNewsCommentNoti(newsPublisherDeviceToken) {
 		var userData = this.globals.userData;
+		var publisherDeviceToken = newsPublisherDeviceToken.deviceToken;
+		var publisherId = newsPublisherDeviceToken.uId;
+		var sendNoti:boolean;
+
+		for (let index = 0; index < this.globals.neighboursData.length; index++) {
+			if (publisherId == this.globals.neighboursData[index].uId) {
+				sendNoti = this.globals.neighboursData[index].subscribedNews;
+			}
+			
+		}
 		
 		return new Promise((resolve, reject) => {
 			var url = 'https://fcm.googleapis.com/fcm/send';
@@ -572,18 +602,20 @@ export class FirebaseProvider {
 			};
 
 			var body = {
-				to: newsPublisherDeviceToken,
+				to: publisherDeviceToken,
 				priority: "high",
 				notification: notificationPayload
 			};
 
 			/* console.log('Headers Before Push Post ', options);
 			console.log('Body Before Push ', JSON.stringify(body)); */
-
-			this.http.post(url, JSON.stringify(body), options).subscribe((res) => {
-				console.log('Noti Send Firbase Respone ', res);
-				resolve(res);
-			})
+			if (sendNoti) {
+				this.http.post(url, JSON.stringify(body), options).subscribe((res) => {
+					console.log('Noti Send Firbase Respone ', res);
+					resolve(res);
+				})
+			}
+			
 		});
 	}
 
