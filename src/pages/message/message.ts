@@ -73,6 +73,8 @@ export class MessagePage {
 	}
 
 	addnewmessage(chat, type) {
+		this.chat = '';
+		this.myInput.nativeElement.style.height = '20px';
 		console.log('Chat Before ', chat, this.neighbourData.uId);
 		this.firebase.addnewmessage(chat, this.neighbourData.uId, type).then(success => {
 			// this.chats = userData;

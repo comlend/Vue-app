@@ -413,8 +413,11 @@ export class FirebaseProvider {
 				var userBlocked: boolean = false;
 				// Add Unique Key
 				msgObj.id = uniqueMsgKey;
-
-				if (_.find(this.globals.blockedMe, { 'id': neighbourId }) || _.find(this.globals.blockedByMe, { 'id': neighbourId })) {
+				console.log('I blocked Neighbour id',_.find(this.globals.blockedByMe, { 'uId': neighbourId }));
+				console.log('Neighbour blocked me id', _.find(this.globals.blockedMe, { 'uId': neighbourId }));
+				
+				// console.warn(this.globals.blockedByMe);
+				if (_.find(this.globals.blockedMe, { 'uId': neighbourId }) || _.find(this.globals.blockedByMe, { 'id': neighbourId })) {
 					userBlocked = true;
 				} else {
 					userBlocked = false;
@@ -422,8 +425,11 @@ export class FirebaseProvider {
 
 				// console.log('Message To be Sent ', uniqueMsgKey, msgObj);
 				saveMsgSender.set(msgObj).then(() => {
+
 					var saveMsgReceiver = firechats.child(neighbourId).child(userId).child(uniqueMsgKey);
+					
 					if (!userBlocked) {
+						console.log('this user is blocked?',userBlocked);
 						saveMsgReceiver.set(msgObj).then(() => {
 							resolve(true);
 						}).catch((err) => {

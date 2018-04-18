@@ -27,7 +27,7 @@ export class UtilitiesProvider {
 				// console.log('Blocked Me Users => ', user.id);
 				extracted.push(_.find(neighbours, { 'uId': user.id }));
 			});
-			this.globals.blockedByMe = extracted;
+			this.globals.blockedMe = extracted;
 			// console.log('Blocked Me => ', extracted);
 			
 		}
