@@ -16,22 +16,24 @@
 <ion-content>
   <div class="paddingtop"></div>
   <ion-list>
-    <ion-item (tap)="buildingInfo()" detail-push>
+    <ion-item (tap)="buildingInfo()" tappable detail-push>
       <img class="item-image" item-start src="assets/imgs/buildinginfo.png"/> Building Info
     </ion-item>
-    <ion-item (tap)="serviceCenter()" detail-push>
+    <ion-item (tap)="serviceCenter()" tappable detail-push>
       <img class="item-image" item-start src="assets/imgs/servicecenter.png" /> Service Center
     </ion-item>
-    <ion-item (tap)="liveLocal()" detail-push>
+    <ion-item (tap)="liveLocal()" tappable detail-push>
       <img class="item-image" item-start src="assets/imgs/livelocal.png" />Live Local
     </ion-item>
     </ion-list>
     <div class="paddingtop"></div>
     <ion-list>
-    <button ion-item (tap)="settings()">
-      <ion-icon name="settings" item-start></ion-icon>
-      Settings
-    </button>
-  </ion-list>
+      <ion-item (tap)="settings()" tappable detail-push>
+        <img class="item-image" item-start src="assets/imgs/settingsicon.png" />
+        Settings
+      </ion-item>
+    </ion-list>
 
 </ion-content>
+
+

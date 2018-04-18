@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, NgZone } from '@angular/core';
+import { NavController, NavParams, Events } from 'ionic-angular';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 /**
  * Generated class for the ServiceReqDetailsPage page.
@@ -14,9 +15,19 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ServiceReqDetailsPage {
   serviceReqDetails: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  allNotes: any;
+  reqhasNotes: boolean = false;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public events: Events, public zone: NgZone) {
     this.serviceReqDetails = this.navParams.get('serviceRequest');
-    console.log(this.serviceReqDetails)
+    // newNoteAdded
+    this.getAllNotes();
+
+    this.events.subscribe('newNoteAdded', () => {
+      this.zone.run(() => {
+        this.getAllNotes();
+      });
+    });
   }
 
   ionViewDidLoad() {
@@ -24,6 +35,17 @@ export class ServiceReqDetailsPage {
   }
   back() {
     this.navCtrl.pop();
+  }
+  getAllNotes() {
+    this.firebase.getAllServiceReqNotes(this.serviceReqDetails.id).then((data) => {
+      if (data) {
+        this.allNotes = data;
+      }
+     
+      // console.log('all notes',this.allNotes);
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
 }

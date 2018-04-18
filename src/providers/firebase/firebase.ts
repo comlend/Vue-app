@@ -391,26 +391,6 @@ export class FirebaseProvider {
 		var userId = this.globals.userId;
 		// console.log(userId);
 		var firechats = firebase.database().ref('/chats/');
-		
-		
-		for (let index = 0; index < this.globals.userData.blockedByMe.length; index++) {
-			var blockedUserArr = [];
-
-			blockedUserArr.push(this.globals.userData.blockedByMe[index]);
-
-			console.log('blocked user array', blockedUserArr);
-			// if (neighbourId == blockedUserArr.id[index]) {
-			// 	console.log('dude, this user is blocked');
-			// }
-		}
-		
-		
-		// for (let index = 0; index < this.globals.userData.length; index++) {
-		// 	if (neighbourId == this.globals.userData.blockedByMe.getVal().id[index]) {
-		// 		console.log('dude, this user is blocked');
-		// 	}
-			
-		// }
 
 		if (neighbourId) {
 			var promise = new Promise((resolve, reject) => {
@@ -430,19 +410,27 @@ export class FirebaseProvider {
 
 
 				var uniqueMsgKey = saveMsgSender.key;
-
+				var userBlocked: boolean = false;
 				// Add Unique Key
 				msgObj.id = uniqueMsgKey;
 
+				if (_.find(this.globals.blockedMe, { 'id': neighbourId }) || _.find(this.globals.blockedByMe, { 'id': neighbourId })) {
+					userBlocked = true;
+				} else {
+					userBlocked = false;
+				}
 
 				// console.log('Message To be Sent ', uniqueMsgKey, msgObj);
 				saveMsgSender.set(msgObj).then(() => {
 					var saveMsgReceiver = firechats.child(neighbourId).child(userId).child(uniqueMsgKey);
-					saveMsgReceiver.set(msgObj).then(() => {
-						resolve(true);
-					}).catch((err) => {
-						reject(false);
-					});
+					if (!userBlocked) {
+						saveMsgReceiver.set(msgObj).then(() => {
+							resolve(true);
+						}).catch((err) => {
+							reject(false);
+						});
+					}
+					
 				});
 			});
 			return promise;
@@ -1015,12 +1003,14 @@ export class FirebaseProvider {
 				assignedToLastName: admin.lastName,
 				assignedToprofilePic: admin.profileurl,
 				userType: userData.userType,
+				unit: userData.unit,
 				id: dbref.key,
 				supportPic: picture,
 				details: details,
 				status: 'inProgress'
 			});
 			resolve();
+			// this.event.publish('serviceReqAdded');
 		});
 	}
 
@@ -1032,10 +1022,33 @@ export class FirebaseProvider {
 			dbRef.on('value', (data) => {
 				if (data.val()) {
 					serviceReqArr = _.toArray(data.val());
-					this.event.publish('supportRequpdated');
+					// this.event.publish('supportRequpdated');
 				}
 
 				resolve(serviceReqArr);
+			});
+		});
+	}
+	getAllServiceReqNotes(id) {
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/serviceRequests/' + id + '/Notes/');
+			var allNotes = [];
+			dbRef.on('value', (data) => {
+
+				if (data.val() != 'default') {
+					allNotes = _.toArray(data.val());
+					// this.removeSelfFromNeighbours(newsArr);
+					// console.log('All Neighbours ', newsArr);
+					if (allNotes.length > 0) {
+						// console.log('users Array ', userArr);
+						this.event.publish('newNoteAdded');
+						resolve(allNotes);
+					} else {
+						reject({ msg: 'No notes Found' });
+					}
+				} else {
+					reject({ msg: 'No notes Found' });
+				}
 			});
 		});
 	}

@@ -43,10 +43,41 @@
   </p>
   <p>{{serviceReqDetails.assignedToFirstName}} {{serviceReqDetails.assignedToLastName}} <span class="building-span">Building Manager</span></p>
 </ion-item>
-<ion-item no-lines>
-  <p><b>Notes</b></p>
-  <p>{{serviceReqDetails.Notes.Message}}</p>
+<div *ngIf="serviceReqDetails.Notes">
+  <ion-item no-lines>
+    <p>
+      <b>Notes</b>
+    </p>
+  </ion-item>
 
-</ion-item>
+  <ion-item no-lines *ngFor="let note of allNotes">
+    <ion-row align-items-center>
+      <ion-col col-2>
+        <ion-avatar item-start>
+          <img src="{{ note.addedByProfile }}">
+        </ion-avatar>
+      </ion-col>
+      <ion-col col-6>
+        <h5>{{ note.addedByFirstName }} {{ note.addedByLastName }}</h5>
+        <p class="building-span">Building Manager</p>
+      </ion-col>
+      <ion-col col-4 style="padding-left:0px;">
+        <p item-end class="serv-span">{{ note.time }}, {{note.dateofPost}}</p>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12>
+        <p style="white-space:normal">{{note.note}}</p>
+      </ion-col>
+    </ion-row>
+
+
+  </ion-item>
+  <div padding>
+
+  </div>
+</div>
 
 </ion-content>
