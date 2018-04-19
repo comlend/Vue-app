@@ -413,8 +413,8 @@ export class FirebaseProvider {
 				var userBlocked: boolean = false;
 				// Add Unique Key
 				msgObj.id = uniqueMsgKey;
-				console.log('I blocked Neighbour id',_.find(this.globals.blockedByMe, { 'uId': neighbourId }));
-				console.log('Neighbour blocked me id', _.find(this.globals.blockedMe, { 'uId': neighbourId }));
+				// console.log('I blocked Neighbour id',_.find(this.globals.blockedByMe, { 'uId': neighbourId }));
+				// console.log('Neighbour blocked me id', _.find(this.globals.blockedMe, { 'uId': neighbourId }));
 				
 				// console.warn(this.globals.blockedByMe);
 				if (_.find(this.globals.blockedMe, { 'uId': neighbourId }) || _.find(this.globals.blockedByMe, { 'id': neighbourId })) {
@@ -560,7 +560,8 @@ export class FirebaseProvider {
 			console.log('Headers Before Push Post ', options);
 			console.log('Body Before Push ', JSON.stringify(body));
 			this.http.post(url, JSON.stringify(body), options).subscribe((res) => {
-				console.log('Noti Send Firbase Respone ', res);
+				console.log('Noti Send Firbase Respone ')
+				console.log(res);
 			})
 		});
 	}
