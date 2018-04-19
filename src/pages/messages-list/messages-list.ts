@@ -23,15 +23,16 @@ export class MessagesListPage {
 	chatsToDelete: any = [];
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events, public app: App, public firebaseProvider: FirebaseProvider) {
 		// this.chats = this.globals.chats;
+		this.firebaseProvider.getUpdatedBlockedMeList();
 		
 	}
 
 	ionViewWillEnter() {		
 		this.getAllChats().then(() => {				
-			this.chats = this.globals.chats;
+			/* this.chats = this.globals.chats;
 			this.showLastMessage();
 
-			this.unreadMessages();
+			this.unreadMessages(); */
 		});
 		// console.log('Chats Available Message ', this.chats);
 		// console.log('last message', this.lastMsg);
@@ -72,8 +73,9 @@ export class MessagesListPage {
 			var userId = this.globals.userId;
 			// console.log('User ID ', userId);
 			var dbRef = firebase.database().ref('chats').child(userId);
-			var chatArr = [];
-			dbRef.once('value', (chats) => {
+			dbRef.on('value', (chats) => {
+				var chatArr = [];
+				
 				var chatObj = chats.val();
 				for (let chat in chatObj) {
 					var chatObjTemp = {};
@@ -93,12 +95,19 @@ export class MessagesListPage {
 				console.log('Chat Arr ', chatArr);
 				
 				this.extractNeighbourData();
+
+
+				this.chats = this.globals.chats;
+				this.showLastMessage();
+
+				this.unreadMessages();
 				resolve();
 			});
 		});
 	}
 
 	extractNeighbourData() {
+		// console.log('RUN EXTRACTED');
 		this.globals.neighboursData
 		this.globals.chats
 
