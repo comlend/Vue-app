@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 import * as _ from 'lodash';
 import { FCM } from '@ionic-native/fcm';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
+import { FirebaseProvider } from '../providers/firebase/firebase';
 @Component({
 	templateUrl: 'app.html'
 })
@@ -18,7 +19,7 @@ export class MyApp {
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController) {
+	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController, public firebaseProvider: FirebaseProvider) {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
@@ -57,15 +58,6 @@ export class MyApp {
 	}
 
 	initializeFirebase() {
-		var config = {
-			apiKey: "AIzaSyCBSL955KUTWPvkJYNE-WzzFrN0UjidXMk",
-			authDomain: "aptapp-3b622.firebaseapp.com",
-			databaseURL: "https://aptapp-3b622.firebaseio.com",
-			projectId: "aptapp-3b622",
-			storageBucket: "aptapp-3b622.appspot.com",
-			messagingSenderId: "587368411111"
-		};
-		firebase.initializeApp(config);
 		const unsubscribe = firebase.auth().onAuthStateChanged(user => {
 			if (!user) {
 				this.splashScreen.hide();
@@ -82,6 +74,10 @@ export class MyApp {
 					this.extractNeighbourData();
 					this.getAllNews();
 					this.getAllLocals();
+
+
+					this.firebaseProvider.getUpdatedBlockedByMeList();
+					this.firebaseProvider.getUpdatedBlockedMeList();
 
 					console.log('all data loaded', values);
 					this.splashScreen.hide();

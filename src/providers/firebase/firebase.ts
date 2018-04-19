@@ -417,7 +417,7 @@ export class FirebaseProvider {
 				// console.log('Neighbour blocked me id', _.find(this.globals.blockedMe, { 'uId': neighbourId }));
 				
 				// console.warn(this.globals.blockedByMe);
-				if (_.find(this.globals.blockedMe, { 'uId': neighbourId }) || _.find(this.globals.blockedByMe, { 'id': neighbourId })) {
+				if (_.find(this.globals.blockedMe, { 'uId': neighbourId }) || _.find(this.globals.blockedByMe, { 'uId': neighbourId })) {
 					userBlocked = true;
 				} else {
 					userBlocked = false;
@@ -922,7 +922,9 @@ export class FirebaseProvider {
 		userRefBlockedMe.on('value', (updatedList) => {
 			if (updatedList.val()) {
 				var updatedListObj = updatedList.val();
-				this.globals.blockedMe = _.toArray(updatedListObj);
+
+				// Update Blocked Neighbours Data
+				this.utilities.filterBlockedMeUsers(_.toArray(updatedListObj));
 				// console.log('Updated List Blocked Me', updatedListObj);
 			} else {
 				this.globals.blockedMe = [];
