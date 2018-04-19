@@ -82,6 +82,7 @@ export class MyApp {
 					this.extractNeighbourData();
 					this.getAllNews();
 					this.getAllLocals();
+
 					console.log('all data loaded', values);
 					this.splashScreen.hide();
 					// this.fcm.subscribeToTopic("news").then(() => {

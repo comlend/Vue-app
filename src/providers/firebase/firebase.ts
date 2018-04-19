@@ -900,7 +900,7 @@ export class FirebaseProvider {
 
 		var userRefBlockedByMe = firebase.database().ref('/users').child(userId).child('blockedByMe');
 
-		userRefBlockedByMe.once('value', (updatedList) => {
+		userRefBlockedByMe.on('value', (updatedList) => {
 			if (updatedList.val()) {
 				var updatedListObj = updatedList.val();
 
@@ -919,7 +919,7 @@ export class FirebaseProvider {
 
 		var userRefBlockedMe = firebase.database().ref('/users').child(userId).child('blockedMe');
 
-		userRefBlockedMe.on('child_changed', (updatedList) => {
+		userRefBlockedMe.on('value', (updatedList) => {
 			if (updatedList.val()) {
 				var updatedListObj = updatedList.val();
 				this.globals.blockedMe = _.toArray(updatedListObj);
