@@ -56,6 +56,18 @@ import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy'; 
 import { Keyboard } from '@ionic-native/keyboard';
 
+
+import * as firebase from 'firebase';
+var config = {
+  apiKey: "AIzaSyCBSL955KUTWPvkJYNE-WzzFrN0UjidXMk",
+  authDomain: "aptapp-3b622.firebaseapp.com",
+  databaseURL: "https://aptapp-3b622.firebaseio.com",
+  projectId: "aptapp-3b622",
+  storageBucket: "aptapp-3b622.appspot.com",
+  messagingSenderId: "587368411111"
+};
+firebase.initializeApp(config);
+
 @NgModule({
   declarations: [
     MyApp,

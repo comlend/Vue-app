@@ -22,8 +22,7 @@ export class MessagesListPage {
 	editable: boolean = false;
 	chatsToDelete: any = [];
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events, public app: App, public firebaseProvider: FirebaseProvider) {
-		// this.chats = this.globals.chats;
-		this.firebaseProvider.getUpdatedBlockedMeList();
+		// this.chats = this.globals.chats;		
 		
 	}
 
