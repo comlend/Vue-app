@@ -1,14 +1,14 @@
 {
-  "name": "Apt App",
-  "short_name": "Ionic",
+  "name": "Horizon App",
+  "short_name": "Horizon",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
-    "src": "assets/imgs/logo.png",
+    "src": "assets/imgs/icon.png",
     "sizes": "512x512",
     "type": "image/png"
   }],
   "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7",
-  "gcm_sender_id": "103953800507"
+  "theme_color": "#0DACC8",
+  "gcm_sender_id": "587368411111"
 }

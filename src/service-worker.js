@@ -47,7 +47,7 @@ messaging.setBackgroundMessageHandler(function (payload) {
   const notificationTitle = 'Background Message Title';
   const notificationOptions = {
     body: 'Background Message body.',
-    icon: '/firebase-logo.png'
+    icon: 'assets/imgs/icon.png'
   };
 
   return self.registration.showNotification(notificationTitle, notificationOptions);
