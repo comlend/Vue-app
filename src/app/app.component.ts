@@ -91,6 +91,7 @@ export class MyApp {
 					//    
 					// console.log('Promise.all resolved');
 					if (this.global.FbLoginComplete) {
+						// this.navCtrl.setRoot(TabsPage,{tabIndex: 2});
 						this.rootPage = TabsPage;
 						// unsubscribe();
 					}

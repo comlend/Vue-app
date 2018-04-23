@@ -25,6 +25,7 @@ export class EditProfilePage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public alertCtrl: AlertController) {
 		this.userData = this.globals.userData;
+		console.log(this.userData);
 		this.profileurl = this.globals.userData.profileurl;
 		this.fullName = this.globals.userData.firstName + ' ' + this.globals.userData.lastName;
 

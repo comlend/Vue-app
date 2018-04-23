@@ -7,6 +7,7 @@ import { EditProfilePage } from '../edit-profile/edit-profile';
 import { TncPage } from '../tnc/tnc';
 import { BlockedUsersListPage } from '../blocked-users-list/blocked-users-list';
 import { NotificationsPage } from '../notifications/notifications';
+import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 
 @Component({
   selector: 'page-settings',
@@ -40,8 +41,17 @@ export class SettingsPage {
   editProfile(){
     this.navCtrl.push(EditProfilePage);
   }
+  
+  aboutPage(){
+    this.navCtrl.push(TncPage);
+  }
+
   TncPage(){
     this.navCtrl.push(TncPage);
+  }
+
+  privacyPage(){
+    this.navCtrl.push(PrivacyPolicyPage);
   }
 
   blockUsers() {

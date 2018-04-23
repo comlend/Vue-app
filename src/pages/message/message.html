@@ -35,7 +35,7 @@
 
 <ion-content #content>
 	<ion-item no-lines *ngFor="let chat of chats; let i = index" text-wrap>
-		<div class="spanclass" *ngIf="chat.sentby == neighbourData.uId">{{neighbourData.firstName}} {{neighbourData.lastName}}</div>
+		<div class="spanclass" *ngIf="chat.sentby == neighbourData.uId">{{chat.timeofmsg}}</div>
 		<div class="userchatmsg" *ngIf="chat.sentby == neighbourData.uId">
 
 			<ion-avatar item-start style="display: inline-block;float: left;">

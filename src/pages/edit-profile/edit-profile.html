@@ -52,6 +52,22 @@
 			<!-- <ion-input type="phone" [(ngModel)]="userData.email"></ion-input> -->
 		</ion-item>
 	</ion-list>
+	<ion-list *ngIf="userData.userType == 'business'">
+		<ion-list-header>
+			<span class="newsspan">Business Name</span>
+		</ion-list-header>
+		<ion-item no-lines>
+			<ion-input type="phone" [(ngModel)]="userData.name" placeholder="Business name" (ionChange)="valueChanged($event, 'name')"></ion-input>
+		</ion-item>
+	</ion-list>
+	<ion-list *ngIf="userData.userType == 'business'">
+		<ion-list-header>
+			<span class="newsspan">Business Details</span>
+		</ion-list-header>
+		<ion-item no-lines>
+			<ion-textarea type="phone" [(ngModel)]="userData.details" placeholder="Business name" (ionChange)="valueChanged($event, 'details')"></ion-textarea>
+		</ion-item>
+	</ion-list>
 
 	<ion-list>
 		<ion-list-header></ion-list-header>

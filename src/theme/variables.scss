@@ -45,6 +45,17 @@ $colors: (
 );
 
 $radio-ios-color-on: color($colors, secondary);
+// $tabs-background: #193C6F;
+$tabs-md-tab-background-active: red;
+// Change the color of the segment button text
+$tabs-md-tab-icon-color-active: #0B8ECC;
+$tabs-md-tab-color-active: #0B8ECC;
+// $tabs-md-tab-icon-color-inactive: #fff;
+// $tabs-md-tab-color-inactive: #fff;
+$tabs-ios-tab-icon-color-active: #0B8ECC;
+$tabs-ios-tab-color-active: #0B8ECC;
+// $tabs-ios-tab-icon-color-inactive: #fff;
+// $tabs-ios-tab-color-inactive: #fff;
 
 // App iOS Variables
 // --------------------------------------------------

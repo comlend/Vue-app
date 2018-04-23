@@ -18,6 +18,7 @@ export class TabsPage {
 	tab2Root = NeighboursPage;
 	tab3Root = NewsPage;
 	tab4Root = MorePage;
+	tabIndex: Number = 2;
 
 	unreadMessages: number = 0;
 	unreadTabBadge: string = null;
