@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -11,6 +11,8 @@ import * as _ from 'lodash';
 	templateUrl: 'edit-profile.html',
 })
 export class EditProfilePage {
+	@ViewChild('bizTextarea') bizTextarea: ElementRef;
+
 	userData: any;
 	profileurl: any;
 	fullName: any;
@@ -59,6 +61,11 @@ export class EditProfilePage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad EditProfilePage');
+
+		setTimeout(() => {
+			this.resizeTextarea();
+			
+		}, 100);
 	}
 	back() {
 		this.navCtrl.pop();
@@ -283,4 +290,9 @@ export class EditProfilePage {
 		});
 	}
 
+	resizeTextarea() {
+		console.log('Text Area Scroll Height', this.bizTextarea.nativeElement.scrollHeight);
+
+		this.bizTextarea.nativeElement.style.height = this.bizTextarea.nativeElement.scrollHeight + 'px';
+	}
 }

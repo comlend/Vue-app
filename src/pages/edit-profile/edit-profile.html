@@ -65,8 +65,11 @@
 			<span class="newsspan">Business Details</span>
 		</ion-list-header>
 		<ion-item no-lines>
-			<ion-textarea type="text" [(ngModel)]="userData.details" placeholder="Business name" (ionChange)="valueChanged($event, 'bizDetails')"></ion-textarea>
+			<!-- <ion-textarea type="text" [(ngModel)]="userData.details" placeholder="Business name" (ionChange)="valueChanged($event, 'bizDetails')"></ion-textarea> -->
+
+			<textarea #bizTextarea id="bizTextarea" [(ngModel)]="userData.details" placeholder="Business Details" (input)="valueChanged($event, 'bizDetails')" (keyup)="resizeTextarea()"></textarea>
 		</ion-item>
+		
 	</ion-list>
 
 	<ion-list>
