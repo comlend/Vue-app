@@ -75,7 +75,7 @@ export class EditProfilePage {
 					this.numberChange = true;
 				}
 			}
-		}
+		} 
 
 
 		switch (true) {
@@ -178,26 +178,51 @@ export class EditProfilePage {
 			firstName = this.fullName.substr(0, this.fullName.indexOf(' '));
 			lastName = this.fullName.substr(this.fullName.indexOf(' ') + 1);
 		}
+		if (this.globals.userData.userType == 'business') {
+			this.firebase.updateBusinessUserData(firstName, lastName, this.userData.phone, this.userData.name, this.userData.details, this.userData.uId).then(()=>{
+				this.globals.userData.firstName = firstName;
+				this.globals.userData.lastName = lastName;
+				this.globals.userData.phone = this.userData.phone;
+				this.globals.userData.name = this.userData.name;
+				this.globals.userData.details = this.userData.details;
+				this.valueChange = true;
 
-		this.firebase.updateUserData(firstName, lastName, this.userData.phone, this.userData.uId).then(() => {
-			console.log('user data updated');
-			this.globals.userData.firstName = firstName;
-			this.globals.userData.lastName = lastName;
-			this.globals.userData.phone = this.userData.phone;
-			this.valueChange = true;
-			let alert = this.alertCtrl.create({
-				title: 'User Profile',
-				subTitle: 'User Profile has been updated',
-				buttons: [
-					{
-						text: 'Ok',
-						role: 'cancel'
-					}
-				]
+				let alert = this.alertCtrl.create({
+					title: 'User Profile',
+					subTitle: 'User Profile has been updated',
+					buttons: [
+						{
+							text: 'Ok',
+							role: 'cancel'
+						}
+					]
+				});
+				alert.present();
+
 			});
-			alert.present();
+		}
+		else {
+			this.firebase.updateUserData(firstName, lastName, this.userData.phone, this.userData.uId).then(() => {
+				console.log('user data updated');
+				this.globals.userData.firstName = firstName;
+				this.globals.userData.lastName = lastName;
+				this.globals.userData.phone = this.userData.phone;
+				this.valueChange = true;
+				let alert = this.alertCtrl.create({
+					title: 'User Profile',
+					subTitle: 'User Profile has been updated',
+					buttons: [
+						{
+							text: 'Ok',
+							role: 'cancel'
+						}
+					]
+				});
+				alert.present();
 
-		});
+			});
+		}
+		
 	}
 
 	hideMyProfile(event) {

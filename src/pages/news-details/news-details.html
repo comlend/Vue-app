@@ -13,6 +13,14 @@
       </button>
     </ion-buttons>
     <ion-title>Post</ion-title>
+    <ion-buttons end *ngIf="newsDetails.uId == userId">
+      <button *ngIf="!editNews" ion-button color="secondary" (click)="edit()">
+       Edit
+      </button>
+      <button *ngIf="editNews" ion-button color="secondary" (click)="saveData()">
+        Save
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -32,8 +40,11 @@
           </ion-col>
         </ion-row>
 
-  <ion-row>
+  <ion-row *ngIf="!editNews">
     <p style="white-space:normal;padding-top:10px ">{{newsDetails.news}}</p>
+  </ion-row>
+  <ion-row>
+  <textarea *ngIf="editNews" type="text" [(ngModel)]="newsDetails.news" style="overflow:hidden;width:100%;border:none"></textarea>
   </ion-row>
     <div text-center *ngIf="newsDetails.newspic != 'Default'" style="padding-top:1em">
       <img [src]=newsDetails.newspic />

@@ -26,26 +26,32 @@ export class LastMsgTimePipe implements PipeTransform {
     console.log('days ', days); */
     
     switch (true) {
-      case days > 1:
+      case days >= 1 && days < 2:
+        modifiedTime = _.round(days) + ' day ago';
+        // console.log('Modified Time 1', modifiedTime);
+
+        break;
+
+      case days > 2:
         modifiedTime = _.round(days) + ' days ago';
         // console.log('Modified Time 1', modifiedTime);
         
         break;
       
       case hours >= 1 && hours < 24:
-        modifiedTime = _.round(hours) + ' h ago';
+        modifiedTime = _.round(hours) + 'h ago';
         // console.log('Modified Time 2', modifiedTime);
         
         break;
 
       case minutes >= 1 && minutes < 60:
-        modifiedTime = _.round(minutes) + ' m ago';
+        modifiedTime = _.round(minutes) + 'm ago';
         // console.log('Modified Time 3', modifiedTime);
         
         break;
 
       case seconds <= 60:
-        modifiedTime = _.round(seconds) + ' s ago';
+        modifiedTime = _.round(seconds) + 's ago';
         // console.log('Modified Time 4', modifiedTime);
         
         break;

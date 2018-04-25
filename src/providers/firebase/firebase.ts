@@ -253,6 +253,19 @@ export class FirebaseProvider {
 		});
 
 	}
+	updateBusinessUserData(firstName, lastName, phone, name, details, userId){
+		return new Promise((resolve, reject) => {
+			firebase.database().ref('/users/').child(userId).update({
+				firstName: firstName,
+				lastName: lastName,
+				phone: phone,
+				name: name,
+				details: details
+			});
+
+			resolve();
+		});
+	}
 
 
 	loginData(email: string, password: string) {
@@ -1059,6 +1072,15 @@ export class FirebaseProvider {
 					reject({ msg: 'No notes Found' });
 				}
 			});
+		});
+	}
+	updateNews(newsId, newsData){
+		return new Promise((resolve, reject) => {
+			firebase.database().ref('/news/').child(newsId).update({
+				news: newsData
+			});
+
+			resolve();
 		});
 	}
 }

@@ -30,6 +30,7 @@ export class NewsDetailsPage {
 	commentPicUrl: any = 'Default';
 	hasCommentPhoto: boolean = false;
 	commentRow: number = 1;
+	editNews: boolean = false;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public events: Events, public zone: NgZone) {
 		this.newsDetails = this.navParams.get('news');
@@ -175,6 +176,17 @@ export class NewsDetailsPage {
 		// this.messageRow = this.messageRow + 1;
 		// }
 
+	}
+
+	edit(){
+		this.editNews = true;
+	}
+
+	saveData(){
+		this.firebase.updateNews(this.newsDetails.id ,this.newsDetails.news).then(() => {
+			console.log('news data updated');
+			this.editNews = false;
+		});
 	}
 
 

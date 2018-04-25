@@ -13,11 +13,11 @@
       </button>
     </ion-buttons>
     <ion-title>Post</ion-title>
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button icon-only color="secondary" (click)="addNews()" [disabled]="hasNoContent">
         Post
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 
 </ion-header>
@@ -33,10 +33,20 @@
     <img [src]=newsPicUrl />
   </ion-item>
  <div padding>
-  <button ion-button icon-left outline small color="secondary" (click)="addPhototoNews()">
-    <ion-icon name="images"></ion-icon>
-    Add Photo
-  </button>
+   <ion-row>
+     <ion-col col-5>
+      <button ion-button icon-left outline small color="secondary" (click)="addPhototoNews()">
+        <ion-icon name="images"></ion-icon>
+        Add Photo
+      </button>
+     </ion-col>
+     <ion-col col-7>
+          <button ion-button block small color="login" (click)="addNews()" [disabled]="hasNoContent">
+            Post
+          </button>
+     </ion-col>
+   </ion-row>
+  
  </div>
 
 </ion-content>
