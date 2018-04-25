@@ -1,15 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Renderer, ElementRef } from '@angular/core';
 import { NavController, NavParams, App, ActionSheetController } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-
-/**
- * Generated class for the AddNewsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
   selector: 'page-add-news',
@@ -22,13 +16,22 @@ export class AddNewsPage {
   hasPhoto: boolean = false;
   hasNoContent: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider, public app: App, private camera: Camera, public actionSheetCtrl: ActionSheetController ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider, public app: App, private camera: Camera, public actionSheetCtrl: ActionSheetController, public keyboard: Keyboard, private renderer: Renderer, private elementRef: ElementRef) {
     this.userData = this.globals.userData;
     console.log(this.userData);
   }
 
+  ionViewDidEnter() {
+    this.openKeyboardSetFocus();
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddNewsPage');
+  }
+
+  
+  ionViewWillLeave() {
+    this.keyboard.disableScroll(false);
   }
   back(){
     this.app.getRootNav().pop();
@@ -101,6 +104,19 @@ export class AddNewsPage {
           console.log('Camera Error ', err);
         });
     });
+  }
+
+  openKeyboardSetFocus() {
+    this.keyboard.disableScroll(true);
+
+    setTimeout(() => {
+      // Set Focus
+      let ele = this.elementRef.nativeElement.querySelector('textarea');
+      this.renderer.invokeElementMethod(ele, 'focus', []);
+
+      // Open Keyboard
+      this.keyboard.show();
+    }, 150);
   }
 
 }

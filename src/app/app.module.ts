@@ -107,7 +107,7 @@ firebase.initializeApp(config);
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp, { mode: 'ios', autoFocusAssist: true }),
+    IonicModule.forRoot(MyApp, { mode: 'ios', autoFocusAssist: true, tabsHideOnSubPages: true }),
     HttpModule,
     IonicStorageModule.forRoot(),
     PipesModule

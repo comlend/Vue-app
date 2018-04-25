@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Renderer, ElementRef } from '@angular/core';
 import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Keyboard } from '@ionic-native/keyboard';
 
 /**
  * Generated class for the AddLocalPage page.
@@ -23,16 +24,25 @@ export class AddLocalPage {
   localPicUrl: any = 'Default';
   hasPhoto: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public keyboard: Keyboard, private renderer: Renderer, private elementRef: ElementRef) {
     this.userData = this.globals.userData;
   }
   back(){
     this.navCtrl.pop();
   }
 
+  ionViewDidEnter() {
+    this.openKeyboardSetFocus();
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddLocalPage');
   }
+
+  ionViewWillLeave() {
+    this.keyboard.disableScroll(false);
+  }
+
   addContent() {
     if (this.local != null || this.localPicUrl != 'Default') {
       this.hasNoContent = false;
@@ -96,6 +106,19 @@ export class AddLocalPage {
           console.log('Camera Error ', err);
         });
     });
+  }
+
+  openKeyboardSetFocus() {
+    this.keyboard.disableScroll(true);
+
+    setTimeout(() => {
+      // Set Focus
+      let ele = this.elementRef.nativeElement.querySelector('textarea');
+      this.renderer.invokeElementMethod(ele, 'focus', []);
+
+      // Open Keyboard
+      this.keyboard.show();
+    }, 150);
   }
 
 }

@@ -4,6 +4,8 @@ import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 
+import * as _ from 'lodash';
+
 @Component({
 	selector: 'page-edit-profile',
 	templateUrl: 'edit-profile.html',
@@ -16,15 +18,22 @@ export class EditProfilePage {
 
 	nameChange: boolean = null;
 	numberChange: boolean = null;
+
+	bizNameChange: boolean = null;
+	bizDetailsChange: boolean = null;
+
 	
 
 	oldName: string = '';
 	oldNumber: string = '';
 
+	oldBizName: string = '';
+	oldBizDetails: string = '';
+
 	hideProfile: boolean;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public alertCtrl: AlertController) {
-		this.userData = this.globals.userData;
+		this.userData = _.cloneDeep(this.globals.userData);
 		console.log(this.userData);
 		this.profileurl = this.globals.userData.profileurl;
 		this.fullName = this.globals.userData.firstName + ' ' + this.globals.userData.lastName;
@@ -38,6 +47,14 @@ export class EditProfilePage {
 		if (this.userData.phone) {
 			this.oldNumber = this.userData.phone;			
 		}
+
+		if (this.userData.name) {
+			this.oldBizName = this.userData.name;
+		}
+
+		if (this.userData.details) {
+			this.oldBizDetails = this.userData.details;
+		}
 	}
 
 	ionViewDidLoad() {
@@ -50,7 +67,16 @@ export class EditProfilePage {
 	valueChanged(event, type) {
 		console.log(this.valueChange, type);
 		// console.log('Event ', event);
-		if (type == 'name') {
+		// Now we only need to handle if any value is empty or not
+		if (this.fullName == '' || this.userData.phone == '' || this.userData.name == '' || this.userData.details == '') {
+			this.valueChange = true;
+		} else {
+			this.valueChange = false;
+		}
+		
+
+		// Lot of conditions need to be handled, its good if we activate the update button even if single value changes, changed to above code
+		/* if (type == 'name') {
 			if (this.fullName == '') {
 				this.nameChange = false;
 			} else {
@@ -75,11 +101,35 @@ export class EditProfilePage {
 					this.numberChange = true;
 				}
 			}
+		} else if (type == 'bizName') {
+			if (this.userData.name == '') {
+				this.bizNameChange = false;
+			} else {
+				if (this.oldBizName == this.userData.name) {
+					console.log('ifnum ', this.oldBizName, this.userData.name);
+					this.bizNameChange = false;
+				} else {
+					console.log('elsenum ', this.oldBizName, this.userData.name);
+					this.bizNameChange = true;
+				}
+			}
+		} else if (type == 'bizDetails') {
+			if (this.userData.details == '') {
+				this.bizDetailsChange = false;
+			} else {
+				if (this.oldBizDetails == this.userData.details) {
+					console.log('ifnum ', this.oldBizDetails, this.userData.details);
+					this.bizDetailsChange = false;
+				} else {
+					console.log('elsenum ', this.oldBizDetails, this.userData.details);					
+					this.bizDetailsChange = true;
+				}
+			}
 		} 
 
 
 		switch (true) {
-			case (this.nameChange && this.numberChange):
+			case (this.nameChange && this.numberChange && this.bizNameChange && this.bizDetailsChange):
 				// console.log('1', this.nameChange, this.numberChange);
 				this.valueChange = false;
 				break;
@@ -113,7 +163,7 @@ export class EditProfilePage {
 			default:
 				console.log('No Case Found');
 				break;
-		}
+		} */
 	}
 
 	editPhoto() {

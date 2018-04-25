@@ -1,17 +1,11 @@
-import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, ViewChild, ElementRef, NgZone, Renderer } from '@angular/core';
 import { NavController, NavParams, Content, App, Events, ActionSheetController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import * as _ from 'lodash';
 
-/**
- * Generated class for the NewsDetailsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
 	selector: 'page-news-details',
@@ -32,7 +26,7 @@ export class NewsDetailsPage {
 	commentRow: number = 1;
 	editNews: boolean = false;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public events: Events, public zone: NgZone) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public events: Events, public zone: NgZone, public keyboard: Keyboard, private renderer: Renderer, private elementRef: ElementRef) {
 		this.newsDetails = this.navParams.get('news');
 
 		this.events.subscribe('newsupdated', () => {
@@ -56,6 +50,16 @@ export class NewsDetailsPage {
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad NewsDetailsPage');
 	}
+
+	ionViewDidEnter() {
+		this.openKeyBoardSetFocus();
+	}
+
+	ionViewWillLeave() {
+		this.keyboard.disableScroll(false);		
+	}
+
+
 	back() {
 		this.app.getRootNav().pop();
 	}
@@ -63,7 +67,7 @@ export class NewsDetailsPage {
 		if (this.comment != null) {
 			this.hasNoComment = false;
 		}
-		else if (this.comment = null) {
+		else if (this.comment == null) {
 			this.hasNoComment = true;
 		}
 	}
@@ -187,6 +191,19 @@ export class NewsDetailsPage {
 			console.log('news data updated');
 			this.editNews = false;
 		});
+	}
+
+
+	openKeyBoardSetFocus() {
+		this.keyboard.disableScroll(true);
+		setTimeout(() => {
+			// Set Focus
+			let element = this.elementRef.nativeElement.querySelector('textarea');
+			this.renderer.invokeElementMethod(element, 'focus', []);
+
+			// Open Keyboard
+			this.keyboard.show();
+		}, 150);
 	}
 
 
