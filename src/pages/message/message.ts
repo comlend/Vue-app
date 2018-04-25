@@ -1,8 +1,10 @@
-import { Component, ViewChild, NgZone, ElementRef } from '@angular/core';
+import { Component, ViewChild, NgZone, ElementRef, Renderer } from '@angular/core';
 import { NavController, NavParams, Content, Events, ActionSheetController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
 	selector: 'page-message',
@@ -22,7 +24,7 @@ export class MessagePage {
 	compensateUnreadMsg: number = 0;
 	// imgornot: any = '';
 
-	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, private camera: Camera) {
+	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, private camera: Camera, public keyboard: Keyboard, private renderer: Renderer, private elementRef: ElementRef) {
 		this.userId = this.globals.userId;
 		this.userProfile = this.globals.userData.profileurl;
 
@@ -51,6 +53,10 @@ export class MessagePage {
 		this.compensateUnreadMessagesVal();
 	}
 
+	ionViewDidEnter() {
+		this.openKeyboardSetFocus();
+	}
+
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad MessagePage');
 	
@@ -66,6 +72,10 @@ export class MessagePage {
 		}).catch((err) => {
 			console.log('Error ', err);
 		});		
+	}
+
+	ionViewWillLeave() {
+		this.keyboard.disableScroll(false);
 	}
 
 	back(){
@@ -252,5 +262,18 @@ export class MessagePage {
 		// this.messageRow = this.messageRow + 1;
 		// }
 		
+	}
+
+	openKeyboardSetFocus() {
+		this.keyboard.disableScroll(true);
+
+		setTimeout(() => {
+			// Set Focus
+			let ele = this.elementRef.nativeElement.querySelector('textarea');
+			this.renderer.invokeElementMethod(ele, 'focus', []);
+
+			// Open Keyboard
+			this.keyboard.show();
+		}, 150);
 	}
 }

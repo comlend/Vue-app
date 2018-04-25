@@ -55,7 +55,7 @@ export class NewsDetailsPage {
 		this.openKeyBoardSetFocus();
 	}
 
-	ionViewDidLeave() {
+	ionViewWillLeave() {
 		this.keyboard.disableScroll(false);		
 	}
 
