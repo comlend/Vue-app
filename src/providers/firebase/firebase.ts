@@ -703,7 +703,7 @@ export class FirebaseProvider {
 				date: date,
 				time: time,
 				news: news,
-				unit: userData.unit,
+				// unit: userData.unit,
 				userType: userData.userType,
 				deviceToken: userData.deviceToken,
 				id: dbref.key, 
@@ -763,7 +763,7 @@ export class FirebaseProvider {
 				date: date,
 				time: time,
 				comment: comment,
-				unit: userData.unit,
+				// unit: userData.unit,
 				id: dbref.key,
 				newsId: newsData.id,
 				commentPic: picture
@@ -785,7 +785,7 @@ export class FirebaseProvider {
 				profileurl: userData.profileurl,
 				date: date,
 				time: time,
-				unit: userData.unit,
+				// unit: userData.unit,
 				id: dbref.key,
 				newsId: newsData.id
 			});
