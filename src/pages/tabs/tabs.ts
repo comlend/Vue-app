@@ -14,6 +14,7 @@ import { Events } from 'ionic-angular';
 })
 export class TabsPage {
 
+	chats: any[];
 	tab1Root = MessagesListPage;
 	tab2Root = NeighboursPage;
 	tab3Root = NewsPage;
@@ -24,11 +25,12 @@ export class TabsPage {
 	unreadTabBadge: string = null;
 	constructor(private firebase: FirebaseProvider, private globals: GlobalsProvider, public _zone: NgZone, public events: Events) {
 		//  console.log('neighbours data from globals- ',this.globals.neighboursData);
-		console.log(this.globals.unreadMessages);
+		// console.log(this.globals.unreadMessages);
+
 		this.listenForEvents();		
 
 		// Update Blocked List
-		this.firebase.getUpdatedBlockedMeList();
+		// this.firebase.getUpdatedBlockedMeList();
 	}
 
 	listenForEvents() {
@@ -36,9 +38,8 @@ export class TabsPage {
 			this._zone.run(() => {
 				this.unreadMessages = this.globals.unreadMessages;
 				this.unreadTabBadge = String(this.globals.unreadMessages);
-				console.log('Unread Badge ', this.unreadMessages, this.unreadTabBadge);
+				// console.log('Unread Badge ', this.unreadMessages, this.unreadTabBadge);
 			});
 		});
 	}
-
 }

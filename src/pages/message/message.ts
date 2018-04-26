@@ -30,10 +30,10 @@ export class MessagePage {
 		this.userProfile = this.globals.userData.profileurl;
 
 		this.neighbourData = this.navParams.get('neighbour');
-		console.log('neighbors data', this.neighbourData);
+		// console.log('neighbors data', this.neighbourData);
 		this.compensateUnreadMsg = this.navParams.get('unreadCompensation');
 
-		// console.log('Neighbour Data ', this.neighbourData, ' Unread Compensation ', this.compensateUnreadMsg);
+		console.log(/* 'Neighbour Data ', this.neighbourData,  */' Unread Compensation ', this.compensateUnreadMsg);
 		// this.scrollto();
 		
 		this.firebase.getnewMsg(this.neighbourData.uId).then((message) => {
@@ -254,9 +254,10 @@ export class MessagePage {
 	}
 
 	compensateUnreadMessagesVal() {
-		this.globals.unreadMessages -= this.compensateUnreadMsg;
+		console.log('Total Uread => ', this.globals.unreadMessages, 'Unread To Remove => ', this.compensateUnreadMsg);
+		// this.globals.unreadMessages = this.globals.unreadMessages - this.compensateUnreadMsg;
 		this.events.publish('unread:messages');
-		// console.log('Compensated Unread ', this.globals.unreadMessages);
+		console.log('Unread After Compensation ', this.globals.unreadMessages);
 	}
 
 

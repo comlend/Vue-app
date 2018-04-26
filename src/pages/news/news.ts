@@ -7,6 +7,7 @@ import { NewsDetailsPage } from '../news-details/news-details';
 import { MessagePage } from '../message/message';
 
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 @Component({
@@ -14,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 	templateUrl: 'news.html',
 })
 export class NewsPage {
+	chats: any[];
 	news: any;
 	searchQuery: string = '';
 	userId: any;
@@ -33,11 +35,13 @@ export class NewsPage {
 			});
 		});
 
-
+		// FOR UNREAD MESSAGES TAB BADGE UPDATE
+		this.unreadMessagesMet();		
 	}
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad NewsPage');
+		// console.log('handleAlreadyLikedPosts Ended => ', moment().format('X'));
 
 		// Hiding Splashscreen here because page variables taking long time
 		this.splashScreen.hide();
@@ -109,13 +113,14 @@ export class NewsPage {
 				eachNews.postLiked = false;
 			}			
 		}
-
+		
 		console.log('Likes Handled ', this.news);
 	}
 	updatedProfilePicture(){
 		var news = this.news;
 		var user = this.global.userData;
 		var neighbours = this.global.neighboursData;
+		// console.log('handleAlreadyLikedPosts Started => ', moment().format('X'));
 
 		for (let i = 0; i < news.length; i++) {
 			var eachNews = news[i];
@@ -138,6 +143,37 @@ export class NewsPage {
 					break;
 			}
 			
+		}
+	}
+
+
+	unreadMessagesMet() {
+		var userId = this.global.userId;
+		this.chats = this.global.chats;
+		// alert(JSON.stringify(this.chats));
+		var totalUnreadMessages = 0;
+		for (let i = 0; i < this.chats.length; i++) {
+			var chat = this.chats[i];
+			chat.unreadMessages = 0;
+			var messages = chat.messages;
+			// console.log('Chat ', chat, ' Messages ', messages);
+			for (let j = messages.length - 1; j >= 0; j--) {
+				var message = messages[j];
+				// console.log(j + ' ' + message.message + ' ' + message.status);
+
+				if (userId != message.sentby && message.status == 'Delivered') {
+					chat.unreadMessages++;
+				}
+			}
+			// console.log('Each Chat Unread Message ', chat.unreadMessages);
+			totalUnreadMessages += chat.unreadMessages;
+		}
+		// console.log('Total Unread Messages ', totalUnreadMessages);
+
+		if (totalUnreadMessages > 0) {
+			this.global.unreadMessages = totalUnreadMessages;
+
+			this.events.publish('unread:messages');
 		}
 	}
 
