@@ -157,7 +157,11 @@ export class MessagesListPage {
 			this.globals.unreadMessages = totalUnreadMessages;
 			
 			this.events.publish('unread:messages');
-		}	
+		} else {
+			this.globals.unreadMessages = 0;
+		}
+
+		console.log('Total Uread in LIst=> ', this.globals.unreadMessages);
 	}
 
 	onSearchInput(event) {

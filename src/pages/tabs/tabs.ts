@@ -38,7 +38,7 @@ export class TabsPage {
 			this._zone.run(() => {
 				this.unreadMessages = this.globals.unreadMessages;
 				this.unreadTabBadge = String(this.globals.unreadMessages);
-				console.log('Unread Badge ', this.unreadMessages, this.unreadTabBadge);
+				// console.log('Unread Badge ', this.unreadMessages, this.unreadTabBadge);
 			});
 		});
 	}
