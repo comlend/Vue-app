@@ -7,6 +7,7 @@ import { NewsDetailsPage } from '../news-details/news-details';
 import { MessagePage } from '../message/message';
 
 import * as _ from 'lodash';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 @Component({
 	selector: 'page-news',
@@ -20,7 +21,7 @@ export class NewsPage {
 	commentsLength: any;
 	commentsArr = [];
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone, public splashScreen: SplashScreen) {
 		
 		this.initializeData();
 
@@ -37,6 +38,10 @@ export class NewsPage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad NewsPage');
+
+		// Hiding Splashscreen here because page variables taking long time
+		this.splashScreen.hide();
+		
 	}
 
 	initializeData() {

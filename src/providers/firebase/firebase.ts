@@ -911,39 +911,47 @@ export class FirebaseProvider {
 	getUpdatedBlockedByMeList() {
 		var userId = this.globals.userId;
 
-		var userRefBlockedByMe = firebase.database().ref('/users').child(userId).child('blockedByMe');
+		return new Promise((resolve, reject) => {
+			var userRefBlockedByMe = firebase.database().ref('/users').child(userId).child('blockedByMe');
 
-		userRefBlockedByMe.on('value', (updatedList) => {
-			if (updatedList.val() != 'default') {
-				var updatedListObj = updatedList.val();
+			userRefBlockedByMe.on('value', (updatedList) => {
+				if (updatedList.val() != 'default') {
+					var updatedListObj = updatedList.val();
 
-				// Update Blocked Neighbours Data
-				this.utilities.filterBlockedByMeUsers(_.toArray(updatedListObj));
+					// Update Blocked Neighbours Data
+					this.utilities.filterBlockedByMeUsers(_.toArray(updatedListObj));
 
-				// console.log('Updated List Blocked By Me', updatedListObj);
-			} else {
-				this.globals.blockedByMe = [];
-			}
-		});
+					resolve();
+					// console.log('Updated List Blocked By Me', updatedListObj);
+				} else {
+					this.globals.blockedByMe = [];
+					resolve();
+				}
+			});
+		});		
 	}
 
 	getUpdatedBlockedMeList() {
 		var userId = this.globals.userId;
 
-		var userRefBlockedMe = firebase.database().ref('/users').child(userId).child('blockedMe');
+		return new Promise((resolve, reject) => {
+			var userRefBlockedMe = firebase.database().ref('/users').child(userId).child('blockedMe');
 
-		userRefBlockedMe.on('value', (updatedList) => {
-			if (updatedList.val()!='default') {
-				var updatedListObj = updatedList.val();
+			userRefBlockedMe.on('value', (updatedList) => {
+				if (updatedList.val() != 'default') {
+					var updatedListObj = updatedList.val();
 
-				// Update Blocked Neighbours Data
-				this.utilities.filterBlockedMeUsers(_.toArray(updatedListObj));
-				// console.log('Updated List Blocked Me', updatedListObj);
-			} else {
-				this.globals.blockedMe = [];
-			}
-			
-		});
+					// Update Blocked Neighbours Data
+					this.utilities.filterBlockedMeUsers(_.toArray(updatedListObj));
+					resolve();
+					// console.log('Updated List Blocked Me', updatedListObj);
+				} else {
+					this.globals.blockedMe = [];
+					resolve();
+				}
+
+			});
+		});		
 	}
 
 

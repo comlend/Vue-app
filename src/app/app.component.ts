@@ -69,18 +69,13 @@ export class MyApp {
 				this.global.userId = user.uid;
 
 				console.log('new user ->',this.global.userId);
-				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats(), this.getAllNews(), this.getAllLocals(), this.extractNeighbourData()];
+				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats(), this.getAllNews(), this.getAllLocals(), this.extractNeighbourData(), this.firebaseProvider.getUpdatedBlockedByMeList(), this.firebaseProvider.getUpdatedBlockedMeList()];
 				Promise.all(promises).then((values) => {
 					// this.extractNeighbourData();
 					// this.getAllNews();
 					// this.getAllLocals();
-
-
-					this.firebaseProvider.getUpdatedBlockedByMeList();
-					this.firebaseProvider.getUpdatedBlockedMeList();
-
+					
 					console.log('all data loaded', values);
-					this.splashScreen.hide();
 					// this.fcm.subscribeToTopic("news").then(() => {
 					// 	console.log('subscribed to news');
 					// }).catch((error) => {
@@ -94,6 +89,7 @@ export class MyApp {
 						// this.navCtrl.setRoot(TabsPage,{tabIndex: 2});
 						// this.splashScreen.hide();
 						this.rootPage = TabsPage;
+						
 						// unsubscribe();
 					}
 					else if (!this.global.FbLoginComplete) { 
