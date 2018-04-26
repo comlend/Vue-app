@@ -202,6 +202,7 @@ export class NewsDetailsPage {
 	openKeyBoardSetFocus() {
 		this.keyboard.disableScroll(true);
 		this.keyboard.hideKeyboardAccessoryBar(true);
+
 		setTimeout(() => {
 			// Set Focus
 			let element = this.elementRef.nativeElement.querySelector('textarea');
@@ -214,6 +215,10 @@ export class NewsDetailsPage {
 					this.footerDiv.nativeElement.style.bottom = data.keyboardHeight + "px";
 				}
 				
+			});
+			this.keyboard.onKeyboardHide().subscribe(() => {
+				if (this.footerDiv && this.footerDiv.nativeElement)
+					this.footerDiv.nativeElement.style.bottom = "0px";
 			});
 		}, 150);
 	}

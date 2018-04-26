@@ -13,6 +13,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 export class MessagePage {
 	@ViewChild('chatMessage') myInput: ElementRef;
 	@ViewChild('content') content: Content;
+	@ViewChild('footer') footerDiv: ElementRef;
 	neighbourData: any;
 	chat: any = '';
 	chats: any;
@@ -76,6 +77,10 @@ export class MessagePage {
 
 	ionViewWillLeave() {
 		this.keyboard.disableScroll(false);
+		this.keyboard.onKeyboardHide().subscribe(() => {
+			if (this.footerDiv && this.footerDiv.nativeElement)
+				this.footerDiv.nativeElement.style.bottom = "0px";
+		});
 	}
 
 	back(){
@@ -274,6 +279,16 @@ export class MessagePage {
 
 			// Open Keyboard
 			this.keyboard.show();
+			this.keyboard.onKeyboardShow().subscribe(data => {
+				if (this.footerDiv && this.footerDiv.nativeElement) {
+					this.footerDiv.nativeElement.style.bottom = data.keyboardHeight + "px";
+				}
+
+			});
+			this.keyboard.onKeyboardHide().subscribe(() => {
+				if (this.footerDiv && this.footerDiv.nativeElement)
+					this.footerDiv.nativeElement.style.bottom = "0px";
+			});
 		}, 150);
 	}
 }

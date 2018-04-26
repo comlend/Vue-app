@@ -104,8 +104,8 @@
 
 
 
-<ion-footer>
-  <div #footer style="position:absolute;">
+<ion-footer>   
+  <div #footer id="footer">
   
     <div *ngIf="hasCommentPhoto">
       <img style="max-height:100px;padding-left: 10px;padding-top: 10px" [src]="commentPicUrl" />
@@ -128,5 +128,4 @@
     </ion-row>
   
   </div>
-
 </ion-footer>

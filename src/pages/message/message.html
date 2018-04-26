@@ -67,6 +67,7 @@
 
 </ion-content>
 <ion-footer>
+	<div #footer id="footer">
 	<ion-row align-items-center>
 		<ion-col col-2 style="text-align:center" (click)="uploadPic()">
 			<ion-icon class="attachicon" ios="ios-camera-outline" md="md-camera"></ion-icon>
@@ -80,5 +81,5 @@
 			<button ion-button clear type="submit" style="padding-left:0px" tappable (click)="addnewmessage(chat,'text'); sendChatNotification(chat)">Send</button>
 		</ion-col>
 	</ion-row>
-
+</div>
 </ion-footer>

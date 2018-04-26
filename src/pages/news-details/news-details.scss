@@ -34,8 +34,7 @@ page-news-details {
     #myInput {
         // width: calc(100% - 10px);
         border: 0;
-        border-radius: 0;
-        background: transparent;
+        border-radius: 0; // background: transparent;
         height: 20px;
         position: initial;
     }
@@ -58,6 +57,8 @@ page-news-details {
     }
     #footer {
         bottom: 0;
+        width: 100%;
+        background-color: #EFEFF4;
+        position:absolute;
     }
-    
 }
