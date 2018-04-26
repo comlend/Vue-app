@@ -9,6 +9,9 @@ import { GlobalsProvider } from '../providers/globals/globals';
 import { Storage } from '@ionic/storage';
 
 import * as _ from 'lodash';
+import * as moment from 'moment';
+
+
 import { FCM } from '@ionic-native/fcm';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FirebaseProvider } from '../providers/firebase/firebase';
@@ -76,6 +79,7 @@ export class MyApp {
 					// this.getAllLocals();
 					
 					console.log('all data loaded', values);
+					
 					// this.fcm.subscribeToTopic("news").then(() => {
 					// 	console.log('subscribed to news');
 					// }).catch((error) => {
@@ -84,7 +88,7 @@ export class MyApp {
 					
 					// this.getUserData();
 					//    
-					// console.log('Promise.all resolved');
+					// console.log('Promise.all resolved', this.global.FbLoginComplete);
 					if (this.global.FbLoginComplete) {
 						// this.navCtrl.setRoot(TabsPage,{tabIndex: 2});
 						// this.splashScreen.hide();
