@@ -98,30 +98,35 @@
 
 
   </ion-item>
-
-
-
 </ion-content>
-<ion-footer>
-  <div *ngIf="hasCommentPhoto">
-    <img style="max-height:100px;padding-left: 10px;padding-top: 10px" [src]="commentPicUrl" />
-  </div>
-  <ion-row align-items-center>
-    <ion-col col-2 style="text-align:center" (click)="uploadPic()">
-      <ion-icon class="attachicon" ios="ios-camera-outline" md="md-camera"></ion-icon>
-    </ion-col>
-    <ion-col col-8>
-      <ion-item no-lines class="footer">
-        <textarea #commentInput [rows]="commentRow" (keyup.enter)="resize()" type="text" [(ngModel)]="comment" placeholder="Comment on this Post"
-          id="myInput" (input)="hasComment()"></textarea>
-        <!-- <ion-input type="text" [(ngModel)]="comment" placeholder="Comment on this Post" (input)="hasComment()"></ion-input> -->
-      </ion-item>
-    </ion-col>
-    <ion-col col-2 style="text-align:left">
-      <button ion-button clear (click)="addComment()" style="padding-left:0px" [disabled]="hasNoComment">Post</button>
-      <!-- <p></p> -->
-    </ion-col>
-  </ion-row>
 
+
+
+
+
+<ion-footer>
+  <div #footer style="position:absolute;">
+  
+    <div *ngIf="hasCommentPhoto">
+      <img style="max-height:100px;padding-left: 10px;padding-top: 10px" [src]="commentPicUrl" />
+    </div>
+    <ion-row align-items-center>
+      <ion-col col-2 style="text-align:center" (click)="uploadPic()">
+        <ion-icon class="attachicon" ios="ios-camera-outline" md="md-camera"></ion-icon>
+      </ion-col>
+      <ion-col col-8>
+        <ion-item no-lines class="footer">
+          <textarea #commentInput [rows]="commentRow" (keyup.enter)="resize()" type="text" [(ngModel)]="comment" placeholder="Comment on this Post"
+            id="myInput" (input)="hasComment()"></textarea>
+          <!-- <ion-input type="text" [(ngModel)]="comment" placeholder="Comment on this Post" (input)="hasComment()"></ion-input> -->
+        </ion-item>
+      </ion-col>
+      <ion-col col-2 style="text-align:left">
+        <button ion-button clear (click)="addComment()" style="padding-left:0px" [disabled]="hasNoComment">Post</button>
+        <!-- <p></p> -->
+      </ion-col>
+    </ion-row>
+  
+  </div>
 
 </ion-footer>

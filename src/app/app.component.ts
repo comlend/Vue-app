@@ -69,11 +69,11 @@ export class MyApp {
 				this.global.userId = user.uid;
 
 				console.log('new user ->',this.global.userId);
-				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
+				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats(), this.getAllNews(), this.getAllLocals(), this.extractNeighbourData()];
 				Promise.all(promises).then((values) => {
-					this.extractNeighbourData();
-					this.getAllNews();
-					this.getAllLocals();
+					// this.extractNeighbourData();
+					// this.getAllNews();
+					// this.getAllLocals();
 
 
 					this.firebaseProvider.getUpdatedBlockedByMeList();
@@ -92,6 +92,7 @@ export class MyApp {
 					// console.log('Promise.all resolved');
 					if (this.global.FbLoginComplete) {
 						// this.navCtrl.setRoot(TabsPage,{tabIndex: 2});
+						// this.splashScreen.hide();
 						this.rootPage = TabsPage;
 						// unsubscribe();
 					}
@@ -328,22 +329,26 @@ export class MyApp {
 	extractNeighbourData() {
 		this.global.neighboursData
 		this.global.chats
+		return new Promise((resolve, reject) => {
+			for (let i = 0; i < this.global.chats.length; i++) {
+				let chat = this.global.chats[i];
+				let receiver = chat.receiver;
 
-		for (let i = 0; i < this.global.chats.length; i++) {
-			let chat = this.global.chats[i];
-			let receiver = chat.receiver;
-			
-			for (let j = 0; j < this.global.neighboursData.length; j++) {
-				let eachNeighbour = this.global.neighboursData[j];
-				let neighbourId = eachNeighbour.uId;
-				if (receiver == neighbourId) {
-					chat.receiverData = eachNeighbour; 
+				for (let j = 0; j < this.global.neighboursData.length; j++) {
+					let eachNeighbour = this.global.neighboursData[j];
+					let neighbourId = eachNeighbour.uId;
+					if (receiver == neighbourId) {
+						chat.receiverData = eachNeighbour;
 
-					break;
-				}				
+						break;
+					}
+				}
 			}
+			resolve();
 
+		});
+		
 			// console.log('All Chats Modified ', this.global.chats);
-		}
+		
 	}
 }
