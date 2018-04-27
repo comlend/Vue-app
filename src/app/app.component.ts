@@ -27,7 +27,7 @@ export class MyApp {
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
 		platform.ready().then(() => {
-			if (platform.is('core')) {
+			if (platform.is('core') || platform.is('mobileweb')) {
 				this.global.cordovaPlatform = true;
 				this.initializePwaNotification();
 			}
