@@ -14,6 +14,7 @@ export class MessagePage {
 	@ViewChild('chatMessage') myInput: ElementRef;
 	@ViewChild('content') content: Content;
 	@ViewChild('footer') footerDiv: ElementRef;
+	@ViewChild('messageDiv') messageDiv: ElementRef;
 	neighbourData: any;
 	chat: any = '';
 	chats: any;
@@ -279,16 +280,25 @@ export class MessagePage {
 			this.renderer.invokeElementMethod(ele, 'focus', []);
 
 			// Open Keyboard
-			this.keyboard.show();
+			// this.keyboard.show();
 			this.keyboard.onKeyboardShow().subscribe(data => {
 				if (this.footerDiv && this.footerDiv.nativeElement) {
 					this.footerDiv.nativeElement.style.bottom = data.keyboardHeight + "px";
+				}
+				if (this.messageDiv && this.messageDiv.nativeElement) {
+					
+					this.messageDiv.nativeElement.style.bottom = 65 + data.keyboardHeight + "px";
+					console.log(this.messageDiv.nativeElement.style.bottom);
 				}
 
 			});
 			this.keyboard.onKeyboardHide().subscribe(() => {
 				if (this.footerDiv && this.footerDiv.nativeElement)
 					this.footerDiv.nativeElement.style.bottom = "0px";
+				
+				if (this.messageDiv && this.messageDiv.nativeElement) {
+					this.messageDiv.nativeElement.style.bottom = "72px";
+				}
 			});
 		}, 150);
 	}

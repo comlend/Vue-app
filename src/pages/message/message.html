@@ -34,6 +34,7 @@
 
 
 <ion-content #content>
+	<div #messageDiv id="messageDiv">
 	<ion-item no-lines *ngFor="let chat of chats; let i = index" text-wrap>
 		<div class="spanclass" *ngIf="chat.sentby == neighbourData.uId">{{chat.timestamp | lastMsgTime}}</div>
 		<div class="userchatmsg" *ngIf="chat.sentby == neighbourData.uId">
@@ -63,7 +64,7 @@
 		<p *ngIf="chat.sentby == userId" style="position: relative;clear: both;float: right;font-size: 9px;right: 65px;">{{ chat.status }}</p>
 	</ion-item>
 
-
+</div>
 
 </ion-content>
 <ion-footer>
