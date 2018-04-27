@@ -82,5 +82,13 @@ page-message {
         width: 100%;
         background-color: #EFEFF4;
         position: absolute;
+        transition: 0.3s;
+    }
+    #messageDiv {
+        bottom: 72px;
+        width: 100%;
+        position: absolute;
+        transition: 0.3s;
+        overflow: auto;
     }
 }
