@@ -273,11 +273,12 @@ export class MessagePage {
 
 	openKeyboardSetFocus() {
 		this.keyboard.disableScroll(true);
+		// this.scrollto();
 
 		setTimeout(() => {
 			// Set Focus
-			let ele = this.elementRef.nativeElement.querySelector('textarea');
-			this.renderer.invokeElementMethod(ele, 'focus', []);
+			// let ele = this.elementRef.nativeElement.querySelector('textarea');
+			// this.renderer.invokeElementMethod(ele, 'focus', []);
 
 			// Open Keyboard
 			// this.keyboard.show();
@@ -287,8 +288,10 @@ export class MessagePage {
 				}
 				if (this.messageDiv && this.messageDiv.nativeElement) {
 					
-					this.messageDiv.nativeElement.style.bottom = 65 + data.keyboardHeight + "px";
-					console.log(this.messageDiv.nativeElement.style.bottom);
+					this.messageDiv.nativeElement.style.marginBottom = 65 + data.keyboardHeight + "px";
+					console.log(this.messageDiv.nativeElement.style); 
+					this.content.scrollToBottom();
+
 				}
 
 			});
@@ -297,7 +300,7 @@ export class MessagePage {
 					this.footerDiv.nativeElement.style.bottom = "0px";
 				
 				if (this.messageDiv && this.messageDiv.nativeElement) {
-					this.messageDiv.nativeElement.style.bottom = "72px";
+					this.messageDiv.nativeElement.style.marginBottom = "72px";
 				}
 			});
 		}, 150);

@@ -256,12 +256,13 @@ export class FirebaseProvider {
 			});
 		});
 	}
-	updateUserData(firstName,lastName,phone,userId)
+	updateUserData(firstName,lastName,phone,unit,userId)
 	{	return new Promise((resolve, reject) => {
 			firebase.database().ref('/users/').child(userId).update({
 				firstName: firstName,
 				lastName: lastName,
-				phone: phone
+				phone: phone,
+				unit: unit
 			});
 
 			resolve();

@@ -75,7 +75,7 @@ export class EditProfilePage {
 		console.log(this.valueChange, type);
 		// console.log('Event ', event);
 		// Now we only need to handle if any value is empty or not
-		if (this.fullName == '' || this.userData.phone == '' || this.userData.name == '' || this.userData.details == '') {
+		if (this.fullName == '' || this.userData.phone == '' || this.userData.name == '' || this.userData.details == '' || this.userData.unit == '') {
 			this.valueChange = true;
 		} else {
 			this.valueChange = false;
@@ -259,11 +259,12 @@ export class EditProfilePage {
 			});
 		}
 		else {
-			this.firebase.updateUserData(firstName, lastName, this.userData.phone, this.userData.uId).then(() => {
+			this.firebase.updateUserData(firstName, lastName, this.userData.phone, this.userData.unit, this.userData.uId).then(() => {
 				console.log('user data updated');
 				this.globals.userData.firstName = firstName;
 				this.globals.userData.lastName = lastName;
 				this.globals.userData.phone = this.userData.phone;
+				this.globals.userData.unit = this.userData.unit;
 				this.valueChange = true;
 				let alert = this.alertCtrl.create({
 					title: 'User Profile',
