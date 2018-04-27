@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
   <title>Horizon App</title>
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  
+
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
 
@@ -21,18 +22,24 @@
 
   <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
 
-   <!-- un-comment this code to enable service worker -->
+  <!-- un-comment this code to enable service worker -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('service worker installed'))
         .catch(err => console.error('Error', err));
+
+
+      navigator.serviceWorker.register('firebase-messaging-sw.js')
+        .then(() => console.log('firebase service worker installed'))
+        .catch(err => console.error('firebase Error', err));
     }
   </script>
 
   <link href="build/main.css" rel="stylesheet">
 
 </head>
+
 <body>
 
   <!-- Ionic's root component and where the app will load -->
@@ -49,4 +56,5 @@
   <script src="build/main.js"></script>
 
 </body>
+
 </html>

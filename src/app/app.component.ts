@@ -27,7 +27,7 @@ export class MyApp {
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
 		platform.ready().then(() => {
-			if (platform.is('mobileweb')) {
+			if (platform.is('core')) {
 				this.global.cordovaPlatform = true;
 				this.initializePwaNotification();
 			}
@@ -140,11 +140,16 @@ export class MyApp {
 
 	initializePwaNotification(){
 		var messaging = firebase.messaging();
-		return messaging.requestPermission().then(() => {
+		messaging.requestPermission().then(() => {
 			console.log('Permission granted');
+			messaging.getToken().then((token) => {
+				console.log('PWA Token => ', token);
+				this.global.pwaDeviceToken = token;
+
+			});
 			// token might change - we need to listen for changes to it and update it
-			this.setupOnTokenRefresh();
-			return this.updateToken();
+			/* this.setupOnTokenRefresh();
+			return this.updateToken(); */
 		});
 	}
 	private updateToken() {
@@ -154,7 +159,6 @@ export class MyApp {
 
 		return messaging.getToken().then((currentToken) => {
 			if (currentToken) {
-					
 				// we've got the token from Firebase, now let's store it in the database
 					dbRef.update({
 						deviceToken: currentToken
