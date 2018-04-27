@@ -16,6 +16,7 @@ export class GlobalsProvider {
 
 	blockedMe: any = [];
 	blockedByMe: any = [];
+	pwaDeviceToken: string = '';
 
 	constructor() {
 		console.log('Hello GlobalsProvider Provider');

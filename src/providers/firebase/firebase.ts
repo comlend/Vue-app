@@ -29,6 +29,7 @@ export class FirebaseProvider {
 		
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
+			var pwaDeviceToken = this.globals.pwaDeviceToken;
 
 			var userData = {
 				email: email,
@@ -38,7 +39,7 @@ export class FirebaseProvider {
 				userType: userType,
 				name: name,
 				details: details,
-				deviceToken: fcmToken,
+				deviceToken: '',
 				phone: phone,
 				hideProfile: false,
 				blockedByMe: 'default',
@@ -48,6 +49,12 @@ export class FirebaseProvider {
 				showMessagePreview: true,
 				subscribedNews: true
 			};
+
+			if (fcmToken != '') {
+				userData.deviceToken = fcmToken;
+			} else if (pwaDeviceToken != '') {
+				userData.deviceToken = pwaDeviceToken;
+			}
 		
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 				userData['uId'] = newUser.uid;
@@ -112,6 +119,7 @@ export class FirebaseProvider {
 		// console.log('Image Data => ', imageData);
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
+			var pwaDeviceToken = this.globals.pwaDeviceToken;
 			
 			var userData = {
 				email: email,
@@ -119,7 +127,7 @@ export class FirebaseProvider {
 				lastName: lastName,
 				createdAt: createdAt,
 				userType: userType,
-				deviceToken: fcmToken,
+				deviceToken: '',
 				phone: phone,
 				unit: unit,
 				hideProfile: false,
@@ -130,6 +138,13 @@ export class FirebaseProvider {
 				showMessagePreview: true,
 				subscribedNews: true
 			};
+
+			if (fcmToken != '') {
+				userData.deviceToken = fcmToken;
+			} else if (pwaDeviceToken != '') {
+				userData.deviceToken = pwaDeviceToken;
+			}
+
 			// console.log('User Data => ', userData);
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
 				userData['uId'] = newUser.uid;
