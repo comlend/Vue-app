@@ -43,6 +43,14 @@
 			<ion-input type="phone" [(ngModel)]="userData.phone" placeholder="+61 414 386 772" (ionChange)="valueChanged($event, 'number')"></ion-input>
 		</ion-item>
 	</ion-list>
+	<ion-list *ngIf="userData.userType != 'business'">
+		<ion-list-header>
+			<span class="newsspan">Unit Number</span>
+		</ion-list-header>
+		<ion-item no-lines>
+			<ion-input type="phone" [(ngModel)]="userData.unit" placeholder="101" (ionChange)="valueChanged($event, 'unit')"></ion-input>
+		</ion-item>
+	</ion-list>
 	<ion-list>
 		<ion-list-header>
 			<span class="newsspan">EMAIL</span>
