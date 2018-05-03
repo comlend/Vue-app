@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { FCM } from '@ionic-native/fcm';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FirebaseProvider } from '../providers/firebase/firebase';
+import { Badge } from '@ionic-native/badge';
 @Component({
 	templateUrl: 'app.html'
 })
@@ -22,7 +23,7 @@ export class MyApp {
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController, public firebaseProvider: FirebaseProvider) {
+	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController, public firebaseProvider: FirebaseProvider, public badge: Badge) {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
@@ -116,8 +117,9 @@ export class MyApp {
 		console.log('FCM Notification initialised');
 		this.fcm.onNotification().subscribe(data => {
 			console.log(data);
-			alert('Received Notification Successfully!');
+			// alert('Received Notification Successfully!');
 			if (data.wasTapped) {
+				this.badge.set(this.global.unreadMessages);
 				console.log("Received in background");
 			} else {
 				console.log("Received in foreground");

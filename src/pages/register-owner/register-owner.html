@@ -62,7 +62,7 @@
 			<ion-label class="passwordlabel" *ngIf="showPassError">Minimum 6 characters</ion-label>
 			<ion-item no-lines class="itemstyle">
 		
-				<ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="telephone" (input)="checkVal()">
+				<ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="tel" (input)="checkVal()">
 				</ion-input>
 			</ion-item>
 			<div class="error-message">
@@ -70,7 +70,7 @@
 			</div>
 			<ion-item no-lines class="itemstyle">
 
-				<ion-input #unit formControlName="unit" placeholder="Unit Number" [(ngModel)]="user.unit" type="text" (input)="checkVal()">
+				<ion-input #unit formControlName="unit" placeholder="Unit Number" [(ngModel)]="user.unit" type="number" (input)="checkVal()">
 					</ion-input>
 			</ion-item>
 			<div class="error-message">

@@ -55,6 +55,7 @@ import { UtilitiesProvider } from '../providers/utilities/utilities';
 
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy'; 
 import { Keyboard } from '@ionic-native/keyboard';
+import { Badge } from '@ionic-native/badge';
 
 
 import * as firebase from 'firebase';
@@ -159,7 +160,8 @@ firebase.initializeApp(config);
     FCM,
     EventDispatcherProvider,
     UtilitiesProvider,
-    Keyboard
+    Keyboard,
+    Badge
   ]
 })
 export class AppModule {}

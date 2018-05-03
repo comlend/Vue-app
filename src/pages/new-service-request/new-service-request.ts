@@ -3,6 +3,7 @@ import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
+import { Keyboard } from '@ionic-native/keyboard';
 
 /**
  * Generated class for the NewServiceRequestPage page.
@@ -23,9 +24,10 @@ export class NewServiceRequestPage {
   userData: any;
   allRequests: any =[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public globals: GlobalsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public globals: GlobalsProvider, public keyboard: Keyboard) {
     this.userData = this.globals.userData;
     console.log(this.userData);
+    this.keyboard.disableScroll(true);
   }
 
   ionViewDidLoad() {

@@ -9,7 +9,7 @@ var config = {
    databaseURL: "https://aptapp-3b622.firebaseio.com",
    projectId: "aptapp-3b622",
    storageBucket: "aptapp-3b622.appspot.com",
-   messagingSenderId: "587368411111"
+    messagingSenderId: "103953800507"
 };
 firebase.initializeApp(config);
 
