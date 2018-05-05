@@ -204,6 +204,56 @@ export class FirebaseProvider {
 
 		});
 	}
+	signupManager(email: string, password: string, firstName: string, lastName: string, createdAt: string, userType: string, imageData: any, phone: any) {
+		return new Promise((resolve, reject) => {
+			var fcmToken = this.globals.fcmToken;
+
+			var userData = {
+				email: email,
+				firstName: firstName,
+				lastName: lastName,
+				createdAt: createdAt,
+				userType: userType,
+				deviceToken: fcmToken,
+				phone: phone,
+				hideProfile: false,
+				blockedByMe: 'default',
+				blockedMe: 'default',
+				pushSound: 'default',
+				showMessageNotification: true,
+				showMessagePreview: true,
+				subscribedNews: true
+			};
+			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
+				userData['uId'] = newUser.uid;
+
+				userData['profileurl'] = 'default';
+
+				firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+					var userRef = firebase.database().ref('/users').child(newUser.uid);
+					if (imageData == 'assets/imgs/imgPlaceholder.png') {
+						this.globals.userData.profileurl = imageData;
+						userRef.update({
+							profileurl: imageData
+						});
+						resolve(newUser);
+					} else {
+						this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
+							this.globals.userData.profileurl = imageUrl;
+							userRef.update({
+								profileurl: imageUrl
+							});
+							resolve(newUser);
+						});
+					}
+
+				});
+			}).catch((error) => {
+				console.log('Error getting location', error);
+				reject(error);
+			});
+		});
+	}
 	unsubscribeFromTopic(){
 		var userId = this.globals.userId;
 		return new Promise((resolve, reject) => {
@@ -560,7 +610,7 @@ export class FirebaseProvider {
 			var notificationPayload = {
 				title: 'Your neighbour ' + this.globals.userData.firstName + ' sent you a message',
 				sound: neighbourData.pushSound,
-				badge: badgeCount,
+				// badge: badgeCount,
 				click_action: "FCM_PLUGIN_ACTIVITY",
 				icon: "fcm_push_icon"
 			};
@@ -1075,6 +1125,21 @@ export class FirebaseProvider {
 			});
 		});
 	}
+	loadAllAdminSupportReqs(){
+		return new Promise((resolve, reject) => {
+			var dbRef = firebase.database().ref('/serviceRequests');
+			var allServiceReqArr = [];
+			dbRef.on('value', (data) => {
+				if (data.val()) {
+					allServiceReqArr = _.toArray(data.val());
+					// this.globals.allSupportReqs = allServiceReqArr;
+					this.event.publish('allSupportRequpdated');
+				}
+
+				resolve(allServiceReqArr);
+			});
+		});
+	}
 	getAllServiceReqNotes(id) {
 		return new Promise((resolve, reject) => {
 			var dbRef = firebase.database().ref('/serviceRequests/' + id + '/Notes/');
@@ -1105,6 +1170,41 @@ export class FirebaseProvider {
 			});
 
 			resolve();
+		});
+	}
+	completeSupportReq(id) {
+		var dbRef = firebase.database().ref('/serviceRequests').child(id);
+		return new Promise((resolve, reject) => {
+			dbRef.update({
+				status: 'completed'
+			}).then(() => {
+				resolve();
+			});
+
+		});
+	}
+	addNotesToServiceReq(serviceReq, notes) {
+		let time = this.formatAMPM(new Date());
+		var userData = this.globals.userData;
+		var dbRef = firebase.database().ref('/serviceRequests').child(serviceReq.id + '/Notes').push();
+
+		return new Promise((resolve, reject) => {
+			dbRef.set({
+				dateofPost: moment().format('DD/MM/YYYY'),
+				timestamp: firebase.database.ServerValue.TIMESTAMP,
+				time: time,
+				note: notes,
+				addedBy: this.globals.userId,
+				addedByFirstName: userData.firstName,
+				addedByLastName: userData.lastName,
+				addedByProfile: userData.profileurl,
+				id: dbRef.key
+
+			}).then(() => {
+				this.events.publish('noteAdded');
+				resolve();
+			});
+
 		});
 	}
 }

@@ -8,6 +8,7 @@ import { MorePage } from '../more/more';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Events } from 'ionic-angular';
+import { Badge } from '@ionic-native/badge';
 
 @Component({
 	templateUrl: 'tabs.html'
@@ -23,12 +24,16 @@ export class TabsPage {
 
 	unreadMessages: number = 0;
 	unreadTabBadge: string = null;
-	constructor(private firebase: FirebaseProvider, private globals: GlobalsProvider, public _zone: NgZone, public events: Events) {
+	constructor(private firebase: FirebaseProvider, private globals: GlobalsProvider, public _zone: NgZone, public events: Events, public badge: Badge) {
 		//  console.log('neighbours data from globals- ',this.globals.neighboursData);
 		// console.log(this.globals.unreadMessages);
-
-		this.listenForEvents();		
-
+		// this.events.subscribe('newmessage', () => {
+		// 	this._zone.run(() => {
+		// 		this.listenForEvents();		
+		// 	});
+		// });
+		this.listenForEvents();	
+			
 		// Update Blocked List
 		// this.firebase.getUpdatedBlockedMeList();
 	}
@@ -38,8 +43,20 @@ export class TabsPage {
 			this._zone.run(() => {
 				this.unreadMessages = this.globals.unreadMessages;
 				this.unreadTabBadge = String(this.globals.unreadMessages);
+				if (this.globals.unreadMessages != 0) {
+					// alert(this.globals.unreadMessages);
+					this.badge.set(this.globals.unreadMessages);
+				}
+				if (this.globals.unreadMessages == 0) {
+
+					// alert(this.globals.unreadMessages);
+					this.badge.clear();
+				}
+				
 				// console.log('Unread Badge ', this.unreadMessages, this.unreadTabBadge);
 			});
 		});
 	}
+
+	
 }

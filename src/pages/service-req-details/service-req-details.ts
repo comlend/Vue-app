@@ -1,6 +1,7 @@
-import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, Events } from 'ionic-angular';
+import { Component, NgZone, ViewChild, ElementRef, } from '@angular/core';
+import { NavController, NavParams, Content, Events } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
+import { GlobalsProvider } from '../../providers/globals/globals';
 
 /**
  * Generated class for the ServiceReqDetailsPage page.
@@ -14,16 +15,22 @@ import { FirebaseProvider } from '../../providers/firebase/firebase';
   templateUrl: 'service-req-details.html',
 })
 export class ServiceReqDetailsPage {
+  @ViewChild('commentInput') myInput: ElementRef;
+  @ViewChild('content') content: Content;
   serviceReqDetails: any;
-  allNotes: any;
+  allNotes: any = [];
   reqhasNotes: boolean = false;
+  userType: any;
+  notes: any;
+  notesRow: number = 1;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public events: Events, public zone: NgZone) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public events: Events, public zone: NgZone, public globals: GlobalsProvider) {
     this.serviceReqDetails = this.navParams.get('serviceRequest');
     // newNoteAdded
     this.getAllNotes();
+    this.userType = this.globals.userData.userType;
 
-    this.events.subscribe('newNoteAdded', () => {
+    this.events.subscribe('noteAdded', () => {
       this.zone.run(() => {
         this.getAllNotes();
       });
@@ -46,6 +53,24 @@ export class ServiceReqDetailsPage {
     }).catch((err) => {
       console.log(err);
     });
+  }
+
+  completeSupportReq() {
+    this.firebase.completeSupportReq(this.serviceReqDetails.id).then((data) => {
+      this.serviceReqDetails.status = 'completed';
+    });
+  }
+  addNotes() {
+    this.firebase.addNotesToServiceReq(this.serviceReqDetails, this.notes).then((data) => {
+      this.notes = '';
+      this.myInput.nativeElement.style.height = '20px';
+    });
+  }
+
+  resize() {
+    console.log(this.myInput.nativeElement.style.height);
+    this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
+
   }
 
 }

@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { RegisterBusinessPage } from '../register-business/register-business';
 import { RegisterRentingPage } from '../register-renting/register-renting';
 import { RegisterOwnerPage } from '../register-owner/register-owner';
+import { RegisterBuildingManagerPage } from '../register-building-manager/register-building-manager';
 
 /**
  * Generated class for the RegisterPage page.
@@ -34,6 +35,9 @@ export class RegisterPage {
   }
   renting(){
   	this.navCtrl.push(RegisterRentingPage);
+  }
+  admin(){
+    this.navCtrl.push(RegisterBuildingManagerPage);
   }
 
 }

@@ -9,4 +9,19 @@ page-service-req-details {
         font-size: 10px;
         text-align: left;
     }
+    ion-footer {
+        background-color: #EFEFF4;
+    }
+    ion-item.footer {
+        border-radius: 10px;
+        border: solid 0.5px #b2b2b2 !important;
+    }
+    #myInput {
+        // width: calc(100% - 10px);
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        height: 20px;
+        position: initial;
+    }
 }

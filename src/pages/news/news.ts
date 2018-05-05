@@ -9,6 +9,7 @@ import { MessagePage } from '../message/message';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Storage } from '@ionic/storage';
 
 @Component({
 	selector: 'page-news',
@@ -23,7 +24,7 @@ export class NewsPage {
 	commentsLength: any;
 	commentsArr = [];
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone, public splashScreen: SplashScreen) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone, public splashScreen: SplashScreen, public storage: Storage) {
 		
 		this.initializeData();
 
@@ -36,7 +37,7 @@ export class NewsPage {
 		});
 
 		// FOR UNREAD MESSAGES TAB BADGE UPDATE
-		this.unreadMessagesMet();		
+		this.unreadMessagesMet();				
 	}
 
 	ionViewDidLoad() {
@@ -172,7 +173,8 @@ export class NewsPage {
 
 		if (totalUnreadMessages > 0) {
 			this.global.unreadMessages = totalUnreadMessages;
-
+			this.storage.set('unreadMessages', totalUnreadMessages);
+			// alert(this.global.unreadMessages);
 			this.events.publish('unread:messages');
 		}
 	}

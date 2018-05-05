@@ -4,6 +4,7 @@ import { ServiceCenterPage } from '../service-center/service-center';
 import { BuildingInfoPage } from '../building-info/building-info';
 import { LiveLocalPage } from '../live-local/live-local';
 import { SettingsPage } from '../settings/settings';
+import { CreateEventPage } from '../create-event/create-event';
 
 /**
  * Generated class for the MorePage page.
@@ -36,6 +37,9 @@ export class MorePage {
   }
   settings(){
     this.navCtrl.push(SettingsPage);
+  }
+  createEvent(){
+    this.navCtrl.push(CreateEventPage);
   }
 
 }
