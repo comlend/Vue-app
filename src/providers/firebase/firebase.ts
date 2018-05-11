@@ -580,13 +580,15 @@ export class FirebaseProvider {
 		updateSenderRef.update({
 			status: 'Read'
 		}).then(() => {
-			var updateReceiverRef = firebase.database().ref('/chats').child(neighbourId).child(userId).child(chat.id);
+			return ({ success: true, msg: 'Chat Message Status Updated' });
+			
+			/* var updateReceiverRef = firebase.database().ref('/chats').child(neighbourId).child(userId).child(chat.id);
 			updateReceiverRef.update({
 				status: 'Read'
 			}).then(() => {
 				// Update msg status event
 				return({success: true, msg: 'Chat Message Status Updated'});
-			});
+			}); */
 		});
 	}
 
