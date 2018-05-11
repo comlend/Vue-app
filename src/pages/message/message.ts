@@ -27,6 +27,7 @@ export class MessagePage {
 	// imgornot: any = '';
 
 	constructor(public navCtrl: NavController, public firebase: FirebaseProvider, public navParams: NavParams, public zone: NgZone, public events: Events, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, private camera: Camera, public keyboard: Keyboard, private renderer: Renderer, private elementRef: ElementRef) {
+
 		this.userId = this.globals.userId;
 		this.userProfile = this.globals.userData.profileurl;
 
@@ -133,7 +134,7 @@ export class MessagePage {
 		if (this.content) {
 			setTimeout(() => {
 				this.content.scrollToBottom();
-			}, 500);	
+			}, 1500);	
 		}
 	}
 
@@ -292,8 +293,9 @@ export class MessagePage {
 				if (this.messageDiv && this.messageDiv.nativeElement) {
 					
 					this.messageDiv.nativeElement.style.marginBottom = 65 + data.keyboardHeight + "px";
-					console.log(this.messageDiv.nativeElement.style); 
-					this.content.scrollToBottom();
+					console.log(this.messageDiv.nativeElement.style);
+					this.scrollto();
+					// this.content.scrollToBottom();
 
 				}
 

@@ -1,5 +1,5 @@
-import { Component, NgZone } from '@angular/core';
-import { Platform, ModalController, Events, LoadingController, ToastController } from 'ionic-angular';
+import { Component, NgZone, ViewChild } from '@angular/core';
+import { Platform, ModalController, Events, LoadingController, ToastController, NavController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SignupPage } from '../pages/signup/signup';
@@ -19,11 +19,14 @@ import { Badge } from '@ionic-native/badge';
 @Component({
 	templateUrl: 'app.html'
 })
+
 export class MyApp {
+	@ViewChild('pageNav') nav: NavController;
+
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, public storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController, public firebaseProvider: FirebaseProvider, public badge: Badge, public toastCtrl: ToastController) {
+	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, public storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController, public firebaseProvider: FirebaseProvider, public badge: Badge, public toastCtrl: ToastController,) {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
@@ -54,18 +57,13 @@ export class MyApp {
 			// splash.present();
 		});
 	}
-	// initializeApp() {
-	// 	if (this.global.cordovaPlatform) {
-	// 		// Initialize Push Notification
-	// 		this.initializeFcmNotification();	
-	// 	}
-	// }
 
 	initializeFirebase() {
 		const unsubscribe = firebase.auth().onAuthStateChanged(user => {
 			if (!user) {
 				this.splashScreen.hide();
 				this.rootPage = SignupPage;
+				this.badge.clear();
 				// unsubscribe();
 			} 
 			
@@ -84,6 +82,10 @@ export class MyApp {
 					this.extractNeighbourData();
 					this.firebaseProvider.getUpdatedBlockedByMeList();
 					this.firebaseProvider.getUpdatedBlockedMeList();
+					if (this.global.userData.unreadMessages) {
+						this.storage.set('unreadMessages', this.global.userData.unreadMessages);
+					}
+					
 					// this.fcm.subscribeToTopic("news").then(() => {
 					// 	console.log('subscribed to news');
 					// }).catch((error) => {
@@ -119,21 +121,22 @@ export class MyApp {
 		this.fcm.onNotification().subscribe(data => {
 			console.log(data);
 			this.storage.get('unreadMessages').then((val) => {
-				console.log('unread message is', val);
+				// console.log('unread message is', val);
 				var unreadMessages = val + 1;
 				this.badge.set(unreadMessages);
 				this.storage.set('unreadMessages', unreadMessages);
 			});
-			
-			
-			
-			// this.badge.set(2);
+
 			let toast = this.toastCtrl.create({
 				message: data.aps.alert.title,
 				duration: 3000,
 				position: 'top'
 			});
-			toast.present();
+
+			if (this.nav.getActive().name != 'TabsPage') {
+				toast.present();
+			}
+			
 			// alert(data.aps.alert.title);
 			if (data.wasTapped) {
 				

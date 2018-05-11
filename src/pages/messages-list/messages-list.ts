@@ -151,10 +151,11 @@ export class MessagesListPage {
 			totalUnreadMessages += chat.unreadMessages;
 		}
 		// console.log('Total Unread Messages ', totalUnreadMessages);
-
+		// this.firebaseProvider.setUnreadMessageCount(totalUnreadMessages, this.globals.userId);
 		if (totalUnreadMessages > 0) {
 			this.globals.unreadMessages = totalUnreadMessages;
-			this.storage.set('unreadMessages', totalUnreadMessages);
+			// this.firebaseProvider.setUnreadMessageCount(totalUnreadMessages, this.globals.userId);
+			// this.storage.set('unreadMessages', totalUnreadMessages);
 			this.events.publish('unread:messages');
 		} else {
 			this.globals.unreadMessages = 0;

@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { UtilitiesProvider } from '../utilities/utilities';
 import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
+import { Badge } from '@ionic-native/badge';
 // import { resolve } from 'dns';
 
 @Injectable()
@@ -20,7 +21,7 @@ export class FirebaseProvider {
 	neighbourmessages = [];
 	msgcount = 0;
 
-	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events, public event: Events, public utilities: UtilitiesProvider, public fcm: FCM, public storage: Storage) {
+	constructor(private http: HttpClient, public globals: GlobalsProvider, public events: Events, public event: Events, public utilities: UtilitiesProvider, public fcm: FCM, public storage: Storage, public badge: Badge) {
 		console.log('Hello FirebaseProvider Provider');
 	}
 
@@ -345,6 +346,7 @@ export class FirebaseProvider {
 				resolve();
 				this.storage.clear();
 				this.globals.clear();
+				this.badge.clear();
 				// console.log('Auth DATA ', authdata);
 				// console.log(firebase.auth().onAuthStateChanged((user) => {
 				// 	console.log(user)
@@ -1205,6 +1207,12 @@ export class FirebaseProvider {
 				resolve();
 			});
 
+		});
+	}
+	setUnreadMessageCount(unreadMessageCount, userId){
+		var userRef = firebase.database().ref('/users').child(userId);
+		userRef.update({
+			unreadMessages: unreadMessageCount
 		});
 	}
 }

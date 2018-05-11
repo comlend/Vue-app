@@ -170,10 +170,11 @@ export class NewsPage {
 			totalUnreadMessages += chat.unreadMessages;
 		}
 		// console.log('Total Unread Messages ', totalUnreadMessages);
-
+		this.firebase.setUnreadMessageCount(totalUnreadMessages, this.global.userId);
 		if (totalUnreadMessages > 0) {
 			this.global.unreadMessages = totalUnreadMessages;
 			this.storage.set('unreadMessages', totalUnreadMessages);
+			// this.firebase.setUnreadMessageCount(totalUnreadMessages, this.global.userId);
 			// alert(this.global.unreadMessages);
 			this.events.publish('unread:messages');
 		}
