@@ -64,7 +64,7 @@
       </div>
       <ion-item no-lines class="itemstyle">
     
-        <ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="telephone" (input)="checkVal()">
+        <ion-input #unit formControlName="mobile" placeholder="Mobile Number" [(ngModel)]="user.mobile" type="tel" (input)="checkVal()">
         </ion-input>
       </ion-item>
       <div class="error-message">
@@ -73,7 +73,7 @@
 
       <ion-item no-lines class="itemstyle">
 
-        <ion-input #unit formControlName="unit" placeholder="Unit Number" [(ngModel)]="user.unit" type="text" (input)="checkVal()">
+        <ion-input #unit formControlName="unit" placeholder="Unit Number" [(ngModel)]="user.unit" type="number" pattern="^-?(?:[0-9]+|[0-9]*\,[0-9]+)$" (input)="checkVal()">
           </ion-input>
       </ion-item>
       <div class="error-message">

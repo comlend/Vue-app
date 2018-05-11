@@ -12,7 +12,7 @@ page-message {
         margin-top:2px; // max-width: 80%;
         .left-msg {
             float: left;
-            padding: 10px 18px;
+            padding: 8px 18px;
             background: #EFEFF4;
             max-width: 70%;
         }
@@ -20,7 +20,7 @@ page-message {
             float: right;
             background: #0B8ECC;
             color: #fff;
-            padding: 10px 18px;
+            padding: 8px 18px;
             max-width: 70%;
         }
     }
@@ -95,6 +95,7 @@ page-message {
     #messageDiv {
         margin-bottom: 72px;
         width: 100%;
+        padding-top:5px;
         // position: absolute;
         // transition: 0.3s;
         overflow: auto;

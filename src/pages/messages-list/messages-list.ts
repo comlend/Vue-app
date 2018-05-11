@@ -7,6 +7,7 @@ import { MessagePage } from "../message/message";
 import * as firebase from 'firebase';
 import * as _ from 'lodash';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -21,17 +22,15 @@ export class MessagesListPage {
 
 	editable: boolean = false;
 	chatsToDelete: any = [];
-	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events, public app: App, public firebaseProvider: FirebaseProvider) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public _zone: NgZone, public events: Events, public app: App, public firebaseProvider: FirebaseProvider, public storage: Storage) {
 		// this.chats = this.globals.chats;		
 		
 	}
 
-	ionViewWillEnter() {		
+	ionViewWillEnter() {	
+		
 		this.getAllChats().then(() => {				
-			/* this.chats = this.globals.chats;
-			this.showLastMessage();
-
-			this.unreadMessages(); */
+	
 		});
 		// console.log('Chats Available Message ', this.chats);
 		// console.log('last message', this.lastMsg);
@@ -152,10 +151,11 @@ export class MessagesListPage {
 			totalUnreadMessages += chat.unreadMessages;
 		}
 		// console.log('Total Unread Messages ', totalUnreadMessages);
-
+		// this.firebaseProvider.setUnreadMessageCount(totalUnreadMessages, this.globals.userId);
 		if (totalUnreadMessages > 0) {
 			this.globals.unreadMessages = totalUnreadMessages;
-			
+			// this.firebaseProvider.setUnreadMessageCount(totalUnreadMessages, this.globals.userId);
+			// this.storage.set('unreadMessages', totalUnreadMessages);
 			this.events.publish('unread:messages');
 		} else {
 			this.globals.unreadMessages = 0;

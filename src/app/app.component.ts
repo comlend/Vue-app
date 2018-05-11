@@ -1,5 +1,5 @@
-import { Component, NgZone } from '@angular/core';
-import { Platform, ModalController, Events, LoadingController } from 'ionic-angular';
+import { Component, NgZone, ViewChild } from '@angular/core';
+import { Platform, ModalController, Events, LoadingController, ToastController, NavController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SignupPage } from '../pages/signup/signup';
@@ -15,14 +15,18 @@ import * as moment from 'moment';
 import { FCM } from '@ionic-native/fcm';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FirebaseProvider } from '../providers/firebase/firebase';
+import { Badge } from '@ionic-native/badge';
 @Component({
 	templateUrl: 'app.html'
 })
+
 export class MyApp {
+	@ViewChild('pageNav') nav: NavController;
+
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController, public firebaseProvider: FirebaseProvider) {
+	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, modalCtrl: ModalController, private global: GlobalsProvider, public storage: Storage, public event: Events, private fcm: FCM, public _zone: NgZone, public utilities: UtilitiesProvider, public loadingCtrl: LoadingController, public firebaseProvider: FirebaseProvider, public badge: Badge, public toastCtrl: ToastController,) {
 		this.initializeFirebase();
 		this.fbLoginComplete = this.global.FbLoginComplete;
 
@@ -53,22 +57,18 @@ export class MyApp {
 			// splash.present();
 		});
 	}
-	initializeApp() {
-		if (this.global.cordovaPlatform) {
-			// Initialize Push Notification
-			this.initializeFcmNotification();	
-		}
-	}
 
 	initializeFirebase() {
 		const unsubscribe = firebase.auth().onAuthStateChanged(user => {
 			if (!user) {
 				this.splashScreen.hide();
 				this.rootPage = SignupPage;
+				this.badge.clear();
 				// unsubscribe();
 			} 
 			
 			else {
+				
 				this.global.userId = user.uid;
 
 				console.log('new user ->',this.global.userId);
@@ -82,6 +82,10 @@ export class MyApp {
 					this.extractNeighbourData();
 					this.firebaseProvider.getUpdatedBlockedByMeList();
 					this.firebaseProvider.getUpdatedBlockedMeList();
+					if (this.global.userData.unreadMessages) {
+						this.storage.set('unreadMessages', this.global.userData.unreadMessages);
+					}
+					
 					// this.fcm.subscribeToTopic("news").then(() => {
 					// 	console.log('subscribed to news');
 					// }).catch((error) => {
@@ -116,8 +120,26 @@ export class MyApp {
 		console.log('FCM Notification initialised');
 		this.fcm.onNotification().subscribe(data => {
 			console.log(data);
-			alert('Received Notification Successfully!');
+			this.storage.get('unreadMessages').then((val) => {
+				// console.log('unread message is', val);
+				var unreadMessages = val + 1;
+				this.badge.set(unreadMessages);
+				this.storage.set('unreadMessages', unreadMessages);
+			});
+
+			let toast = this.toastCtrl.create({
+				message: data.aps.alert.title,
+				duration: 3000,
+				position: 'top'
+			});
+
+			if (this.nav.getActive().name != 'TabsPage') {
+				toast.present();
+			}
+			
+			// alert(data.aps.alert.title);
 			if (data.wasTapped) {
+				
 				console.log("Received in background");
 			} else {
 				console.log("Received in foreground");
@@ -257,6 +279,7 @@ export class MyApp {
 				}
 
 				this.global.chats = chatArr;
+				// this.event.publish('new-message');
 				resolve();
 				// console.log('Chat Arr ', chatArr);
 			}).catch((err) => {

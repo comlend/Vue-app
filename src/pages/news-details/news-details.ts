@@ -179,11 +179,12 @@ export class NewsDetailsPage {
 	}
 
 	resize() {
-		console.log(this.myInput.nativeElement.style.height);
+		// console.log(this.myInput.nativeElement.style.height);
 		// if (this.myInput.nativeElement.style.height) {
+		if (this.myInput.nativeElement.scrollHeight < 115) {
 		this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
 		// this.messageRow = this.messageRow + 1;
-		// }
+		}
 
 	}
 

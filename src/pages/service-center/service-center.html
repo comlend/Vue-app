@@ -21,7 +21,7 @@
 <ion-content>
   <div class="paddingtop">
   </div>
-  <ion-list>
+  <ion-list *ngIf="userType != 'admin'">
     <button ion-item (tap)="newRequest()">
       Report a Problem
     </button>

@@ -74,8 +74,10 @@
 			<ion-icon class="attachicon" ios="ios-camera-outline" md="md-camera"></ion-icon>
 		</ion-col>
 		<ion-col col-8>
+			<!-- <div contenteditable="true"></div> -->
 			<ion-item no-lines class="footer">
-				<textarea #chatMessage [rows]="messageRow" (keyup.enter)="resize()" type="text" [(ngModel)]="chat" placeholder="New Message" id = "myInput"></textarea>
+				
+				<textarea #chatMessage [rows]="messageRow" (keyup)="resize()" type="text" [(ngModel)]="chat" placeholder="New Message" id = "myInput"></textarea>
 			</ion-item>
 		</ion-col>
 		<ion-col col-2>
