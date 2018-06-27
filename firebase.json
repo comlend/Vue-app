@@ -1,10 +1,16 @@
 {
   "hosting": {
-    "public": "platforms/browser/www",
+    "public": "platfoms/browser/www/",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   }
 }

@@ -27,6 +27,9 @@
 			<ion-avatar item-start text-center (click)="editPhoto()">
 				<img [src]='profileurl' class="profileImg">
 				<span style="font-size: 11px;margin: 0px;color:blue">edit</span>
+				<form>
+					<input hidden id="avatar" name="file" type="file" (change)="upload()">
+				</form>
 			</ion-avatar>
 			<p item-end style="font-size: 12px;margin: 0px;margin-top: -10px;">Enter your name and add an optional profile picture</p>
 		</ion-item>

@@ -5,6 +5,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 import * as _ from 'lodash';
+import * as firebase from 'firebase'; 
 
 @Component({
 	selector: 'page-edit-profile',
@@ -173,31 +174,61 @@ export class EditProfilePage {
 		} */
 	}
 
-	editPhoto() {
+	// editPhoto() {
 
-		let actionSheet = this.actionSheetCtrl.create({
-			buttons: [
-				{
-					text: 'Take Photo',
-					handler: () => {
-						this.selectImage(0);
-					}
-				},
-				{
-					text: 'Choose from Library',
-					handler: () => {
-						this.selectImage(1);
-					}
-				},
-				{
-					text: 'Cancel',
-					role: 'cancel'
-				}
-			]
-		});
-		actionSheet.present();
+	// 	let actionSheet = this.actionSheetCtrl.create({
+	// 		buttons: [
+	// 			{
+	// 				text: 'Take Photo',
+	// 				handler: () => {
+	// 					this.selectImage(0);
+	// 				}
+	// 			},
+	// 			{
+	// 				text: 'Choose from Library',
+	// 				handler: () => {
+	// 					this.selectImage(1);
+	// 				}
+	// 			},
+	// 			{
+	// 				text: 'Cancel',
+	// 				role: 'cancel'
+	// 			}
+	// 		]
+	// 	});
+	// 	actionSheet.present();
+	// }
+	
+	editPhoto() {
+		document.getElementById('avatar').click();
 	}
 
+	upload() {
+
+		for (let selectedFile of [(<HTMLInputElement>document.getElementById('avatar')).files[0]]) {
+
+			var uid = this.globals.userId;
+			var filename = Date.now() + '.png';
+
+			var uploadTask = firebase.storage().ref('profile/' + filename).put(selectedFile)
+
+			uploadTask.on('state_changed', (snapshot: any) => {
+				// console.log(snapshot.downloadURL);
+			}, (err) => {
+				console.log(err);
+			}, () => {
+				uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+					console.log('File available at', downloadURL);
+					this.profileurl = downloadURL;
+					this.globals.userData.profileurl = this.profileurl;
+					firebase.database().ref('/users').child(uid).update({
+						profileurl: this.profileurl,
+					});
+				});
+
+			});
+		}
+	}
 	selectImage(type) {
 		let options: CameraOptions = {
 			quality: 90,
