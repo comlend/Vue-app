@@ -762,23 +762,30 @@ export class FirebaseProvider {
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		var dbref = firebase.database().ref('/news/').push();
+		var owner_newsdetails = {
+			uId: userData.uId,
+			firstName: userData.firstName,
+			lastName: userData.lastName,
+			profileurl: userData.profileurl,
+			timeofPost: moment().format(),
+			timestamp: firebase.database.ServerValue.TIMESTAMP,
+			date: date,
+			time: time,
+			news: news,
+			userType: userData.userType,
+			deviceToken: userData.deviceToken,
+			id: dbref.key,
+			newspic: picture
+		}
+		if (userData.userType != 'business') {
+			owner_newsdetails['unit'] = userData.unit;
+		} else if (userData.userType == 'business') {
+			owner_newsdetails['name'] = userData.name;
+		}
 		return new Promise((resolve, reject) => {
-			dbref.set({
-				uId: userData.uId,
-				firstName: userData.firstName,
-				lastName: userData.lastName,
-				profileurl: userData.profileurl,
-				timeofPost:moment().format(),
-				timestamp: firebase.database.ServerValue.TIMESTAMP,
-				date: date,
-				time: time,
-				news: news,
-				// unit: userData.unit,
-				userType: userData.userType,
-				deviceToken: userData.deviceToken,
-				id: dbref.key, 
-				newspic: picture
-			});
+			dbref.set(
+				owner_newsdetails
+			);
 			this.sendNewsNoti();
 			resolve();
 		});

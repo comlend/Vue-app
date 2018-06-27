@@ -27,7 +27,8 @@
             <ion-row>
               <ion-col col-9>
                 <h5>{{new.firstName}} {{new.lastName}}</h5>
-                <span class="newsspan">Unit {{new.unit}}</span>
+                <span *ngIf="new.userType !='business'" class="newsspan">Unit {{new.unit}}</span>
+                <span *ngIf="new.userType =='business'" class="newsspan">{{new.name}}</span>
 
               </ion-col>
               <ion-col col-3 style="text-align:right">

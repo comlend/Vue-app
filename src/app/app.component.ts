@@ -61,46 +61,31 @@ export class MyApp {
 	initializeFirebase() {
 		const unsubscribe = firebase.auth().onAuthStateChanged(user => {
 			if (!user) {
+				this.badge.clear();
 				this.splashScreen.hide();
 				this.rootPage = SignupPage;
-				this.badge.clear();
-				// unsubscribe();
 			} 
 			
 			else {
 				
 				this.global.userId = user.uid;
-
-				console.log('new user ->',this.global.userId);
-				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats(), this.getAllNews(), this.getAllLocals()];
+				console.log('this user ->',this.global.userId);
+				
+				
+				var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats(), this.getAllNews()/* , this.getAllLocals() */];
 				Promise.all(promises).then((values) => {
-					// this.extractNeighbourData();
-					// this.getAllNews();
-					// this.getAllLocals();
-					
-					console.log('all data loaded', values);
+					console.log('all data loaded');
 					this.extractNeighbourData();
-					this.firebaseProvider.getUpdatedBlockedByMeList();
-					this.firebaseProvider.getUpdatedBlockedMeList();
+					// this.firebaseProvider.getUpdatedBlockedByMeList();
+					// this.firebaseProvider.getUpdatedBlockedMeList();
+					
 					if (this.global.userData.unreadMessages) {
 						this.storage.set('unreadMessages', this.global.userData.unreadMessages);
 					}
 					
-					// this.fcm.subscribeToTopic("news").then(() => {
-					// 	console.log('subscribed to news');
-					// }).catch((error) => {
-					// 	console.log('topic subscription error',error);
-					// });
 					
-					// this.getUserData();
-					//    
-					// console.log('Promise.all resolved', this.global.FbLoginComplete);
 					if (this.global.FbLoginComplete) {
-						// this.navCtrl.setRoot(TabsPage,{tabIndex: 2});
-						// this.splashScreen.hide();
 						this.rootPage = TabsPage;
-						
-						// unsubscribe();
 					}
 					else if (!this.global.FbLoginComplete) { 
 						this.splashScreen.hide();
@@ -119,7 +104,7 @@ export class MyApp {
 	initializeFcmNotification() {
 		console.log('FCM Notification initialised');
 		this.fcm.onNotification().subscribe(data => {
-			console.log(data);
+			// console.log(data);
 			this.storage.get('unreadMessages').then((val) => {
 				// console.log('unread message is', val);
 				var unreadMessages = val + 1;
@@ -220,7 +205,7 @@ export class MyApp {
 				if (data.val() != 'default') {
 					userArr = data.val();
 					this.global.userData = userArr;
-					console.warn(' Component User Data ', this.global.userData);
+					// console.warn(' Component User Data ', this.global.userData);
 					resolve(userArr);
 				} else {
 					reject({ msg: 'No Users Found' });
@@ -245,7 +230,7 @@ export class MyApp {
 
 					this.utilities.filterBlockedMeUsers(this.global.userData.blockedMe);
 					this.utilities.filterBlockedByMeUsers(this.global.userData.blockedByMe);
-
+					console.log('filtered users list loaded');
 					resolve();
 					
 				} else {
@@ -270,7 +255,7 @@ export class MyApp {
 					chatObjTemp['messages'] = [];
 					if (chatObj.hasOwnProperty(chat)) {
 						let chatElement = chatObj[chat];
-						// console.log('Chat Eele ', chat, _.toArray(chatElement));
+						console.log('Chat Eele ', chat, _.toArray(chatElement));
 
 						chatObjTemp['messages'] = _.toArray(chatElement);						
 					}
@@ -330,7 +315,7 @@ export class MyApp {
 							var lastCommentKey = commentKeys[commentsNumber - 1];
 
 							var lastComment = news.comments[lastCommentKey];
-							// console.log('Last Comment ', lastComment)
+							console.log('Last Comment ', lastComment)
 							custNewsData['commentsNumber'] = commentsNumber;
 							custNewsData['lastComment'] = lastComment;	
 							news.custNewsData = custNewsData;						
@@ -358,7 +343,7 @@ export class MyApp {
 	}
 
 	extractNeighbourData() {
-		console.log(this.global.neighboursData, this.global.chats);
+		// console.log(this.global.neighboursData, this.global.chats);
 		
 		return new Promise((resolve, reject) => {
 			if (this.global.chats) {

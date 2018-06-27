@@ -7,6 +7,7 @@ import { GlobalsProvider } from '../../providers/globals/globals';
 import { FormBuilder, Validators } from '@angular/forms';
 import * as firebase from 'firebase';
 import * as _ from 'lodash';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class LoginPage {
 	loading: any;
 	showPassError: boolean= true;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, private firebase: FirebaseProvider, public globals: GlobalsProvider, public formBuilder: FormBuilder, public loadingCtrl: LoadingController, public event: Events) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, private firebase: FirebaseProvider, public globals: GlobalsProvider, public formBuilder: FormBuilder, public loadingCtrl: LoadingController, public event: Events, public utilities: UtilitiesProvider) {
 		this.initializeForm()
 	}
 
@@ -152,6 +153,10 @@ export class LoginPage {
 
 					// console.log('neighboursArray ', neighboursArr);
 					this.globals.neighboursData = neighboursArr;
+
+					this.utilities.filterBlockedMeUsers(this.globals.userData.blockedMe);
+					this.utilities.filterBlockedByMeUsers(this.globals.userData.blockedByMe);
+
 					resolve();
 
 				} else {

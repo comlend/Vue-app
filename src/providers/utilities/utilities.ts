@@ -17,6 +17,7 @@ export class UtilitiesProvider {
 
 		var neighbours = _.cloneDeep(this.globals.neighboursData);
 		var extracted = [];
+		console.log('blocked users utulities list loaded');
 
 		if (blockedMe != 'default') {
 			var blockedMeUsers = _.toArray(blockedMe);
@@ -38,7 +39,7 @@ export class UtilitiesProvider {
 
 		var neighbours = _.cloneDeep(this.globals.neighboursData);
 		var extracted = [];
-
+		console.log('blocked by me users utilities list loaded');
 		if (iBlocked != 'default') {
 			var iBlockedUsers = _.toArray(iBlocked);
 			// console.log('Run Blocked I', iBlockedUsers, this.globals.neighboursData);

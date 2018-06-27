@@ -33,7 +33,6 @@ export class TabsPage {
 		// 	});
 		// });
 		this.listenForEvents();	
-			
 		// Update Blocked List
 		// this.firebase.getUpdatedBlockedMeList();
 	}
