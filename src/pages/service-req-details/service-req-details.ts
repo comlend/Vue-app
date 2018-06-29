@@ -26,6 +26,7 @@ export class ServiceReqDetailsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, public events: Events, public zone: NgZone, public globals: GlobalsProvider) {
     this.serviceReqDetails = this.navParams.get('serviceRequest');
+    console.log(this.serviceReqDetails);  
     // newNoteAdded
     this.getAllNotes();
     this.userType = this.globals.userData.userType;

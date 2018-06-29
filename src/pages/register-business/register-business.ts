@@ -121,29 +121,29 @@ export class RegisterBusinessPage {
 		this.loading.present();
 	}
 
-	uploadImage() {
-		let actionSheet = this.actionSheetCtrl.create({
-			buttons: [
-				{
-					text: 'Take Photo',
-					handler: () => {
-						this.selectImage(0);
-					}
-				},
-				{
-					text: 'Choose from Library',
-					handler: () => {
-						this.selectImage(1);
-					}
-				},
-				{
-					text: 'Cancel',
-					role: 'cancel'
-				}
-			]
-		});
-		actionSheet.present();
-	}
+	// uploadImage() {
+	// 	let actionSheet = this.actionSheetCtrl.create({
+	// 		buttons: [
+	// 			{
+	// 				text: 'Take Photo',
+	// 				handler: () => {
+	// 					this.selectImage(0);
+	// 				}
+	// 			},
+	// 			{
+	// 				text: 'Choose from Library',
+	// 				handler: () => {
+	// 					this.selectImage(1);
+	// 				}
+	// 			},
+	// 			{
+	// 				text: 'Cancel',
+	// 				role: 'cancel'
+	// 			}
+	// 		]
+	// 	});
+	// 	actionSheet.present();
+	// }
 
 	selectImage(type) {
 		let options: CameraOptions = {
@@ -171,6 +171,29 @@ export class RegisterBusinessPage {
 			// });
 		});
 	}
+	
+	uploadImage() {
+		document.getElementById('avatar').click();
+	}
+
+	upload() {
+		for (let selectedFile of [(<HTMLInputElement>document.getElementById('avatar')).files[0]]) {
+
+			var reader = new FileReader();
+			var preview = <HTMLInputElement>document.getElementById('pImage');
+
+			reader.onload = (function (selectedFile) {
+				preview.src = reader.result;
+			});
+			if (selectedFile) {
+				reader.readAsDataURL(selectedFile);
+			}
+			this.profileurl = preview.src;
+			this.imageData = selectedFile;
+			this.picUploaded = true;
+		}
+	}
+	
 	clearErrors() {
 
 	}

@@ -290,7 +290,7 @@ export class FirebaseProvider {
 	}
 	updateUserPic(data,userId){
 		var filename = userId+ '.jpg';
-		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).put(data);
 		return new Promise((resolve, reject) => {
 			uploadTask.on('state_changed', (snapshot) => {
 
@@ -360,7 +360,8 @@ export class FirebaseProvider {
 
 	public uploadProfile(data,userId) {
 		var filename = userId + '.jpg';
-		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		let uploadTask = firebase.storage().ref('/photos/profile/' + filename).put(data);
+		// (data, 'base64', { contentType: 'image/jpeg' });
 		return new Promise((resolve, reject) => {
 			uploadTask.on('state_changed', (snapshot) => {
 
@@ -376,7 +377,7 @@ export class FirebaseProvider {
 	}
 	public uploadMessagePic(data) {
 		var filename = (new Date()).getTime() + '.jpg';
-		let uploadTask = firebase.storage().ref('/photos/messages/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		let uploadTask = firebase.storage().ref('/photos/messages/' + filename).put(data);
 		return new Promise((resolve, reject) => {
 			uploadTask.on('state_changed', (snapshot) => {
 
@@ -392,7 +393,7 @@ export class FirebaseProvider {
 	}
 	public uploadPicture(data) {
 		var filename = (new Date()).getTime() + '.jpg';
-		let uploadTask = firebase.storage().ref('/photos/news-pictures/' + filename).putString(data, 'base64', { contentType: 'image/jpeg' });
+		let uploadTask = firebase.storage().ref('/photos/news-pictures/' + filename).put(data);
 		return new Promise((resolve, reject) => {
 			uploadTask.on('state_changed', (snapshot) => {
 
@@ -625,7 +626,7 @@ export class FirebaseProvider {
 			var options = {
 				headers: new HttpHeaders({
 					'Content-Type': 'application/json',
-					'Authorization': 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8'
+					'Authorization': 'key=AAAAO_6rkac:APA91bEyJcns09BjtWfrr5f0iXu2WBlQN2kr_B7ksr6-g1hY28EA5dC9zxcQjPdRmLJfybVgxFYvSvQpkXrjfrCGsixM2A9eC_N5iH_cyQHcoKT9hMRXssTu9s7RaJhqt--aLF-RvDoZnaXDDbYO7acUWiW3dRv7IA'
 				})
 			};
 
@@ -668,7 +669,7 @@ export class FirebaseProvider {
 			var options = {
 				headers: new HttpHeaders({
 					'Content-Type': 'application/json',
-					'Authorization': 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8'
+					'Authorization': 'key=AAAAO_6rkac:APA91bEyJcns09BjtWfrr5f0iXu2WBlQN2kr_B7ksr6-g1hY28EA5dC9zxcQjPdRmLJfybVgxFYvSvQpkXrjfrCGsixM2A9eC_N5iH_cyQHcoKT9hMRXssTu9s7RaJhqt--aLF-RvDoZnaXDDbYO7acUWiW3dRv7IA'
 				})
 			};
 
@@ -800,7 +801,7 @@ export class FirebaseProvider {
 			var options = {
 				headers: new HttpHeaders({
 					'Content-Type': 'application/json',
-					'Authorization': 'key=AAAAiMHir-c:APA91bFvVxldmUVwhcHfv50Bidgj4d9Q1QtqmZ9umsn6Ntzs7qxpnic0Kp0QpMM5QVUtksBRXS0ybO-DTggVJDNc6IKimv2ofHC9Mr4CML1FU6eB2jphloU28FCtmMh8B_uONknaI9k8'
+					'Authorization': 'key=AAAAO_6rkac:APA91bEyJcns09BjtWfrr5f0iXu2WBlQN2kr_B7ksr6-g1hY28EA5dC9zxcQjPdRmLJfybVgxFYvSvQpkXrjfrCGsixM2A9eC_N5iH_cyQHcoKT9hMRXssTu9s7RaJhqt--aLF-RvDoZnaXDDbYO7acUWiW3dRv7IA'
 				})
 			};
 

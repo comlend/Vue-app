@@ -72,6 +72,9 @@
 	<ion-row align-items-center>
 		<ion-col col-2 style="text-align:center" (click)="uploadPic()">
 			<ion-icon class="attachicon" ios="ios-camera-outline" md="md-camera"></ion-icon>
+			<form>
+				<input hidden id="avatar" name="file" type="file" (change)="upload()">
+			</form>
 		</ion-col>
 		<ion-col col-8>
 			<!-- <div contenteditable="true"></div> -->

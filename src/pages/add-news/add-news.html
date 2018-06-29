@@ -39,6 +39,9 @@
         <ion-icon name="images"></ion-icon>
         Add Photo
       </button>
+      <form>
+        <input hidden id="avatar" name="file" type="file" (change)="upload()">
+      </form>
      </ion-col>
      <ion-col col-7>
           <button ion-button block small color="login" (click)="addNews()" [disabled]="hasNoContent">

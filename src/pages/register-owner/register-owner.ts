@@ -10,7 +10,7 @@ import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 
 import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
-
+import * as firebase from 'firebase';
 /**
  * Generated class for the RegisterOwnerPage page.
  *
@@ -132,29 +132,29 @@ export class RegisterOwnerPage {
 		this.loading.present();
 	}
 
-	uploadImage() {
-		let actionSheet = this.actionSheetCtrl.create({
-			buttons: [
-				{
-					text: 'Take Photo',
-					handler: () => {
-						this.selectImage(0);
-					}
-				},
-				{
-					text: 'Choose from Library',
-					handler: () => {
-						this.selectImage(1);
-					}
-				},
-				{
-					text: 'Cancel',
-					role: 'cancel'
-				}
-			]
-		});
-		actionSheet.present();
-	}
+	// uploadImage() {
+	// 	let actionSheet = this.actionSheetCtrl.create({
+	// 		buttons: [
+	// 			{
+	// 				text: 'Take Photo',
+	// 				handler: () => {
+	// 					this.selectImage(0);
+	// 				}
+	// 			},
+	// 			{
+	// 				text: 'Choose from Library',
+	// 				handler: () => {
+	// 					this.selectImage(1);
+	// 				}
+	// 			},
+	// 			{
+	// 				text: 'Cancel',
+	// 				role: 'cancel'
+	// 			}
+	// 		]
+	// 	});
+	// 	actionSheet.present();
+	// }
 
 	selectImage(type) {
 		let options: CameraOptions = {
@@ -172,16 +172,30 @@ export class RegisterOwnerPage {
 			this.imageData = imageData;
 			this.profileurl = 'data:image/png;base64,' + imageData;
 			this.picUploaded = true;
-			// this.profileurl = imageData;
-			// this.profileurl = imageData;
-			// this.firebase.uploadProfile(imageData).then((data) => {
-			// 	this.profileurl = data;
-
-			// })
-			// .catch((err) => {
-			// 	console.log('Camera Error ', err);
-			// });
 		});
+	}
+
+
+	uploadImage() {
+		document.getElementById('avatar').click();
+	}
+
+	upload() {
+		for (let selectedFile of [(<HTMLInputElement>document.getElementById('avatar')).files[0]]) {
+
+			var reader = new FileReader();
+			var preview = <HTMLInputElement>document.getElementById('pImage');
+
+			reader.onload = (function (selectedFile) {
+				preview.src = reader.result;
+			});
+			if (selectedFile) {
+				reader.readAsDataURL(selectedFile);
+			}
+			this.profileurl = preview.src;
+			this.imageData = selectedFile;
+			this.picUploaded = true;
+		}
 	}
 	
 }

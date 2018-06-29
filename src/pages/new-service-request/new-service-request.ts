@@ -42,30 +42,47 @@ export class NewServiceRequestPage {
       this.navCtrl.pop();
     });
   }
-
-  addPhotoRequest(){
-    let actionSheet = this.actionSheetCtrl.create({
-      buttons: [
-        {
-          text: 'Take Photo',
-          handler: () => {
-            this.selectImage(0);
-          }
-        },
-        {
-          text: 'Choose from Library',
-          handler: () => {
-            this.selectImage(1);
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        }
-      ]
-    });
-    actionSheet.present();
+  addPhotoRequest() {
+    document.getElementById('avatar').click();
   }
+
+  upload() {
+
+    for (let selectedFile of [(<HTMLInputElement>document.getElementById('avatar')).files[0]]) {
+
+      this.firebase.uploadPicture(selectedFile).then((data) => {
+        this.reqPicture = data;
+        this.picAdded = true;
+        var imageData = data;
+      }).catch((err) => {
+        console.log('Camera Error ', err);
+      });
+
+    }
+  }
+  // addPhotoRequest(){
+  //   let actionSheet = this.actionSheetCtrl.create({
+  //     buttons: [
+  //       {
+  //         text: 'Take Photo',
+  //         handler: () => {
+  //           this.selectImage(0);
+  //         }
+  //       },
+  //       {
+  //         text: 'Choose from Library',
+  //         handler: () => {
+  //           this.selectImage(1);
+  //         }
+  //       },
+  //       {
+  //         text: 'Cancel',
+  //         role: 'cancel'
+  //       }
+  //     ]
+  //   });
+  //   actionSheet.present();
+  // }
   selectImage(type) {
     let options: CameraOptions = {
       quality: 90,

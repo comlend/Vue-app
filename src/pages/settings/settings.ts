@@ -26,6 +26,10 @@ export class SettingsPage {
     console.log('ionViewDidLoad SettingsPage');
   }
 
+  ionViewWillEnter(){
+    this.profileurl = this.globals.userData.profileurl;
+  }
+
   back(){
     this.navCtrl.pop();
   }

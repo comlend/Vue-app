@@ -4,12 +4,12 @@ importScripts('https://www.gstatic.com/firebasejs/3.5.2/firebase-messaging.js');
 
 
 var config = {
-   apiKey: "AIzaSyCBSL955KUTWPvkJYNE-WzzFrN0UjidXMk",
-   authDomain: "aptapp-3b622.firebaseapp.com",
-   databaseURL: "https://aptapp-3b622.firebaseio.com",
-   projectId: "aptapp-3b622",
-   storageBucket: "aptapp-3b622.appspot.com",
-    messagingSenderId: "103953800507"
+    apiKey: "AIzaSyA4sBMDqCbQPeaCQ5L3xItosjDeW1Q4t28",
+    authDomain: "riseley-st.firebaseapp.com",
+    databaseURL: "https://riseley-st.firebaseio.com",
+    projectId: "riseley-st",
+    storageBucket: "riseley-st.appspot.com",
+    messagingSenderId: "257675727271"
 };
 firebase.initializeApp(config);
 

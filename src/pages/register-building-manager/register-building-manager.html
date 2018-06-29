@@ -26,8 +26,10 @@
         <ion-col col-4>
           <ion-item no-lines>
             <ion-avatar item-start (click)="uploadImage()">
-              <img [src]="profileurl">
-              <!-- <img [src]='profileurl'> -->
+              <img id="pImage" [src]="profileurl">
+              <form>
+                <input hidden id="avatar" name="file" type="file" accept="image/gif, image/jpeg, image/png" (change)="upload()">
+              </form>
             </ion-avatar>
           </ion-item>
         </ion-col>

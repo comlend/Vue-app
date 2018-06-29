@@ -41,7 +41,11 @@
     <button ion-button icon-left outline small color="secondary" (click)="addPhototoLocal()">
       <ion-icon name="images"></ion-icon>
       Add Photo
+      <form>
+        <input hidden id="avatar" name="file" type="file" (change)="upload()">
+      </form>
     </button>
+    
     <p *ngIf="!hasPhoto" class="newsspan">*adding picture is necessary to post</p>
   </div>
 

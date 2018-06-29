@@ -36,6 +36,9 @@
   <div class="div-padding">
     <button ion-button icon-only clear color="login" (tap)="addPhotoRequest()" *ngIf="!picAdded">
       <ion-icon class="service-pic" name="camera-outline"></ion-icon>
+      <form>
+        <input hidden id="avatar" name="file" type="file" (change)="upload()">
+      </form>
     </button>
     <div *ngIf="picAdded">
       <img [src]="reqPicture" />

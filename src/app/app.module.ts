@@ -61,6 +61,7 @@ import { Badge } from '@ionic-native/badge';
 import * as firebase from 'firebase';
 import { CreateEventPage } from '../pages/create-event/create-event';
 import { RegisterBuildingManagerPage } from '../pages/register-building-manager/register-building-manager';
+import { FirstPage } from '../pages/first/first';
 var config = {
   apiKey: "AIzaSyA4sBMDqCbQPeaCQ5L3xItosjDeW1Q4t28",
   authDomain: "riseley-st.firebaseapp.com",
@@ -107,7 +108,8 @@ firebase.initializeApp(config);
     ServiceReqDetailsPage,
     PrivacyPolicyPage,
     CreateEventPage,
-    RegisterBuildingManagerPage
+    RegisterBuildingManagerPage,
+    FirstPage
   ],
   imports: [
     BrowserModule,
@@ -153,7 +155,8 @@ firebase.initializeApp(config);
     ServiceReqDetailsPage,
     PrivacyPolicyPage,
     CreateEventPage,
-    RegisterBuildingManagerPage
+    RegisterBuildingManagerPage,
+    FirstPage
   ],
   providers: [
     StatusBar,

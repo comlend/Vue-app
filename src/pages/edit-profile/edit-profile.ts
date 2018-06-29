@@ -206,27 +206,24 @@ export class EditProfilePage {
 	upload() {
 
 		for (let selectedFile of [(<HTMLInputElement>document.getElementById('avatar')).files[0]]) {
+			var reader = new FileReader();
+			var preview = <HTMLInputElement>document.getElementById('pImage');
 
+			reader.onload = (function (selectedFile) {
+				preview.src = reader.result;
+			});
+			if (selectedFile) {
+				reader.readAsDataURL(selectedFile);
+			}
+			
 			var uid = this.globals.userId;
 			var filename = Date.now() + '.png';
 
-			var uploadTask = firebase.storage().ref('profile/' + filename).put(selectedFile)
+			this.firebase.updateUserPic(selectedFile, this.userData.uId).then((data) => {
+				this.profileurl = data;
+				this.globals.userData.profileurl = this.profileurl;
+			})
 
-			uploadTask.on('state_changed', (snapshot: any) => {
-				// console.log(snapshot.downloadURL);
-			}, (err) => {
-				console.log(err);
-			}, () => {
-				uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-					console.log('File available at', downloadURL);
-					this.profileurl = downloadURL;
-					this.globals.userData.profileurl = this.profileurl;
-					firebase.database().ref('/users').child(uid).update({
-						profileurl: this.profileurl,
-					});
-				});
-
-			});
 		}
 	}
 	selectImage(type) {

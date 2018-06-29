@@ -125,30 +125,48 @@ export class NewsDetailsPage {
 			this.noComments = true;
 		});
 	}
-
-	uploadPic() {
-		let actionSheet = this.actionSheetCtrl.create({
-			buttons: [
-				{
-					text: 'Take Photo',
-					handler: () => {
-						this.selectImage(0);
-					}
-				},
-				{
-					text: 'Choose from Library',
-					handler: () => {
-						this.selectImage(1);
-					}
-				},
-				{
-					text: 'Cancel',
-					role: 'cancel'
-				}
-			]
-		});
-		actionSheet.present();
+	uploadPic(){
+		document.getElementById('avatar').click();
 	}
+
+	upload() {
+
+		for (let selectedFile of [(<HTMLInputElement>document.getElementById('avatar')).files[0]]) {
+
+			this.firebase.uploadPicture(selectedFile).then((data) => {
+				this.commentPicUrl = data;
+				this.hasCommentPhoto = true;
+			}).catch((err) => {
+				console.log('Camera Error ', err);
+			});
+
+		}
+	}
+
+
+	// uploadPic() {
+	// 	let actionSheet = this.actionSheetCtrl.create({
+	// 		buttons: [
+	// 			{
+	// 				text: 'Take Photo',
+	// 				handler: () => {
+	// 					this.selectImage(0);
+	// 				}
+	// 			},
+	// 			{
+	// 				text: 'Choose from Library',
+	// 				handler: () => {
+	// 					this.selectImage(1);
+	// 				}
+	// 			},
+	// 			{
+	// 				text: 'Cancel',
+	// 				role: 'cancel'
+	// 			}
+	// 		]
+	// 	});
+	// 	actionSheet.present();
+	// }
 
 	selectImage(type) {
 		let options: CameraOptions = {

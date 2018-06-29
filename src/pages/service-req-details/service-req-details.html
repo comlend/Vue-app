@@ -58,6 +58,9 @@
     </p>
     <p style="white-space: normal">{{serviceReqDetails.details}}</p>
   </ion-item>
+  <ion-item *ngIf="serviceReqDetails.supportPic">
+    <img [src]="serviceReqDetails.supportPic" />
+  </ion-item>
 <ion-item no-lines>
   <p>
     <b>Assigned to</b>
