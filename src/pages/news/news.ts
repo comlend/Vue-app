@@ -28,6 +28,7 @@ export class NewsPage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone, public splashScreen: SplashScreen, public storage: Storage, public utilities: UtilitiesProvider) {
 		// this.initializeGobalsData();
+		this.news = this.global.news;
 
 		this.initializeData();
 
@@ -60,9 +61,9 @@ export class NewsPage {
 	initializeData() {
 		this.userId = this.global.userId;
 		this.news = this.global.news;
-		this.updatedProfilePicture();
+		// this.updatedProfilePicture();
 
-		this.handleAlreadyLikedPosts();
+		// this.handleAlreadyLikedPosts();
 
 	}
 

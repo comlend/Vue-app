@@ -48,7 +48,7 @@ export class FirstPage {
       }
 
       this.splashScreen.hide();
-      this.navCtrl.setRoot(NewsPage);
+      this.navCtrl.setRoot(TabsPage);
 
     }).catch((err) => {
       console.log('Promise.all ', err);
@@ -65,7 +65,7 @@ export class FirstPage {
         if (data.val() != 'default') {
           userArr = data.val();
           this.global.userData = userArr;
-          // console.warn(' Component User Data ', this.global.userData);
+          console.warn(' Component User Data ', this.global.userData);
           resolve(userArr);
         } else {
           reject({ msg: 'No Users Found' });
@@ -84,7 +84,7 @@ export class FirstPage {
           neighboursArr = _.toArray(data.val());
           _.remove(neighboursArr, { 'uId': userId });
 
-          // console.log('neighboursArray ', neighboursArr);
+          console.log('neighboursArray ', neighboursArr);
           this.global.neighboursData = neighboursArr;
           this.event.publish('neighboursUpdated');
 

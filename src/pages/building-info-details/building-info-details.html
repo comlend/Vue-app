@@ -12,15 +12,14 @@
       <ion-icon name="arrow-back" color="secondary"></ion-icon>
     </button>
   </ion-buttons>
-    <ion-title>DISHWASHER</ion-title>
+    <ion-title>{{details.name}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-<h3>Specifications</h3>
-<p>
-  Dummy text
-</p>
+<!-- <div *ngFor="let pdf of pdfList"> -->
+<iframe [src]='pdfList' width="100%" height="100%"></iframe>
+<!-- </div> -->
 </ion-content>

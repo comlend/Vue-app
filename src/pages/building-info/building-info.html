@@ -21,23 +21,8 @@
 <ion-content>
   <div class="paddingtop"></div>
   <ion-list>
-    <button ion-item>
-      Automatic door entry
-    </button>
-    <button ion-item (click)="dishwasher()">
-      Dishwasher
-    </button>
-    <button ion-item>
-      Heating
-    </button>
-    <button ion-item>
-      Keys
-    </button>
-    <button ion-item>
-      Paint
-    </button>
-    <button ion-item>
-      Rubbish
+    <button ion-item *ngFor="let info of buildingInfos" (tap)="details(info)">
+      {{info.name}}
     </button>
   </ion-list>
   

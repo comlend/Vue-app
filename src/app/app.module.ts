@@ -57,11 +57,12 @@ import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Badge } from '@ionic-native/badge';
 
-
 import * as firebase from 'firebase';
 import { CreateEventPage } from '../pages/create-event/create-event';
 import { RegisterBuildingManagerPage } from '../pages/register-building-manager/register-building-manager';
 import { FirstPage } from '../pages/first/first';
+import { ContactListPage } from '../pages/contact-list/contact-list';
+
 var config = {
   apiKey: "AIzaSyA4sBMDqCbQPeaCQ5L3xItosjDeW1Q4t28",
   authDomain: "riseley-st.firebaseapp.com",
@@ -109,7 +110,8 @@ firebase.initializeApp(config);
     PrivacyPolicyPage,
     CreateEventPage,
     RegisterBuildingManagerPage,
-    FirstPage
+    FirstPage,
+    ContactListPage
   ],
   imports: [
     BrowserModule,
@@ -156,7 +158,8 @@ firebase.initializeApp(config);
     PrivacyPolicyPage,
     CreateEventPage,
     RegisterBuildingManagerPage,
-    FirstPage
+    FirstPage,
+    ContactListPage
   ],
   providers: [
     StatusBar,

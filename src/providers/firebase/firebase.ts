@@ -1225,4 +1225,22 @@ export class FirebaseProvider {
 			unreadMessages: unreadMessageCount
 		});
 	}
+
+	getBuildingInfo(){
+		var dbRef = firebase.database().ref('/buildingInfo/');
+		var buildingInfo;
+		return new Promise((resolve, reject) => {
+			dbRef.once('value', (data) => {
+				
+
+				if (data.val() != 'default') {
+					buildingInfo = _.toArray(data.val());
+					resolve(buildingInfo);
+					} else {
+						reject({ msg: 'No info found' });
+					}	
+
+			});
+		});
+	}
 }

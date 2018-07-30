@@ -120,4 +120,5 @@
         <variable name="APP_NAME" value="164 Riseley St" />
         <variable name="ANDROID_SDK_VERSION" value="4.+" />
     </plugin>
+    <allow-navigation href="http://192.168.1.5:8100" />
 </widget>

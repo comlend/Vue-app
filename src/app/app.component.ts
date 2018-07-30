@@ -22,6 +22,8 @@ export class MyApp {
 	fbLoginComplete: boolean = true;
 
 	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, private global: GlobalsProvider, public event: Events, private fcm: FCM, public _zone: NgZone, public badge: Badge, public toastCtrl: ToastController, public storage: Storage) {
+		
+
 		this.initializeFirebase();
 		// this.fbLoginComplete = this.global.FbLoginComplete;
 
@@ -45,7 +47,7 @@ export class MyApp {
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.
 			statusBar.styleDefault();
-			
+			// this.rootPage = SignupPage;
 		});
 	}
 
@@ -54,14 +56,18 @@ export class MyApp {
 			if (!user) {
 				this.badge.clear();
 				this.splashScreen.hide();
+				console.log('this is if user is not logged in')
 				this.rootPage = SignupPage;
+				unsubscribe();
 			} 
 			
 			else {
 				this.global.userId = user.uid;
 				if (this.global.FbLoginComplete) {
-					// this.nav.setRoot(FirstPage);
-					this.rootPage = FirstPage;
+					this.nav.setRoot(FirstPage);
+					console.log('this is if user is logged in')
+					// this.rootPage = FirstPage;
+					unsubscribe();
 				}
 				else if (!this.global.FbLoginComplete) {
 					this.splashScreen.hide();

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { BuildingInfoDetailsPage } from '../building-info-details/building-info-details';
+import { ContactListPage } from '../contact-list/contact-list';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 /**
  * Generated class for the BuildingInfoPage page.
@@ -14,8 +16,12 @@ import { BuildingInfoDetailsPage } from '../building-info-details/building-info-
   templateUrl: 'building-info.html',
 })
 export class BuildingInfoPage {
+  buildingInfos: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.firebase.getBuildingInfo().then((data)=>{
+      this.buildingInfos = data;
+    })
   }
 
   ionViewDidLoad() {
@@ -24,8 +30,8 @@ export class BuildingInfoPage {
   back(){
     this.navCtrl.pop();
   }
-  dishwasher(){
-    this.navCtrl.push(BuildingInfoDetailsPage);
+  details(info){
+    this.navCtrl.push(BuildingInfoDetailsPage, {detail: info});
   }
 
 }
