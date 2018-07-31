@@ -62,6 +62,7 @@ import { CreateEventPage } from '../pages/create-event/create-event';
 import { RegisterBuildingManagerPage } from '../pages/register-building-manager/register-building-manager';
 import { FirstPage } from '../pages/first/first';
 import { ContactListPage } from '../pages/contact-list/contact-list';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 var config = {
   apiKey: "AIzaSyA4sBMDqCbQPeaCQ5L3xItosjDeW1Q4t28",
@@ -173,7 +174,8 @@ firebase.initializeApp(config);
     EventDispatcherProvider,
     UtilitiesProvider,
     Keyboard,
-    Badge
+    Badge,
+    InAppBrowser
   ]
 })
 export class AppModule {}
