@@ -78,7 +78,7 @@ export class MessagePage {
 	}
 
 	ionViewWillLeave() {
-		this.keyboard.disableScroll(false);
+		// this.keyboard.disableScroll(false);
 		this.keyboard.onKeyboardHide().subscribe(() => {
 			if (this.footerDiv && this.footerDiv.nativeElement)
 				this.footerDiv.nativeElement.style.bottom = "0px";
@@ -294,7 +294,7 @@ export class MessagePage {
 	}
 
 	openKeyboardSetFocus() {
-		this.keyboard.disableScroll(true);
+		// this.keyboard.disableScroll(true);
 		// this.scrollto();
 
 		setTimeout(() => {

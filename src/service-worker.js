@@ -5,8 +5,8 @@
 
 
 'use strict';
-/* importScripts('./build/sw-toolbox.js');
-importScripts('https://www.gstatic.com/firebasejs/3.5.2/firebase-app.js');
+importScripts('./build/sw-toolbox.js');
+/* importScripts('https://www.gstatic.com/firebasejs/3.5.2/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/3.5.2/firebase-messaging.js'); */
 
 self.toolbox.options.cache = {

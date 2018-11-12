@@ -57,7 +57,7 @@ export class NewsDetailsPage {
 	}
 
 	ionViewWillLeave() {
-		this.keyboard.disableScroll(false);		
+		// this.keyboard.disableScroll(false);		
 		this.keyboard.onKeyboardHide().subscribe(() => {
 			if (this.footerDiv && this.footerDiv.nativeElement)
 				this.footerDiv.nativeElement.style.bottom = "0px";
@@ -219,8 +219,8 @@ export class NewsDetailsPage {
 
 
 	openKeyBoardSetFocus() {
-		this.keyboard.disableScroll(true);
-		this.keyboard.hideKeyboardAccessoryBar(true);
+		// this.keyboard.disableScroll(true);
+		// this.keyboard.hideKeyboardAccessoryBar(true);
 
 		setTimeout(() => {
 			// Set Focus

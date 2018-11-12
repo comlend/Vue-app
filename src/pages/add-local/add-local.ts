@@ -40,7 +40,7 @@ export class AddLocalPage {
   }
 
   ionViewWillLeave() {
-    this.keyboard.disableScroll(false);
+    // this.keyboard.disableScroll(false);
   }
 
   addContent() {
@@ -127,7 +127,7 @@ export class AddLocalPage {
   }
 
   openKeyboardSetFocus() {
-    this.keyboard.disableScroll(true);
+    // this.keyboard.disableScroll(true);
 
     setTimeout(() => {
       // Set Focus
