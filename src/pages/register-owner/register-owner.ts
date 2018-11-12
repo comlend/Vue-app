@@ -11,6 +11,7 @@ import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 import * as firebase from 'firebase';
+import { FirstPage } from '../first/first';
 /**
  * Generated class for the RegisterOwnerPage page.
  *
@@ -104,15 +105,7 @@ export class RegisterOwnerPage {
 			this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.userType, this.signupForm.value.unit, this.imageData, this.signupForm.value.mobile)
 			.then((data) => {
 				console.log('test', data);
-				this.fcm.subscribeToTopic("news").then(() => {
-					console.log('subscribed to news');
-					this.storage.set('subscribedToNews', true);
-					this.loading.dismiss();
-					// this.navCtrl.setRoot(TabsPage);
-				}).catch((error) => {
-					console.log('topic subscription error', error);
-					this.loading.dismiss();
-				});
+				this.loading.dismiss();
 
 				/* this.loading.dismiss().then(() => {
 
@@ -156,24 +149,24 @@ export class RegisterOwnerPage {
 	// 	actionSheet.present();
 	// }
 
-	selectImage(type) {
-		let options: CameraOptions = {
-			quality: 90,
-			targetWidth: 100,
-			targetHeight: 100,
-			allowEdit: true,
-			destinationType: this.camera.DestinationType.DATA_URL,
-			encodingType: this.camera.EncodingType.JPEG,
-			mediaType: this.camera.MediaType.PICTURE,
-			sourceType: (type == 0) ? this.camera.PictureSourceType.CAMERA : this.camera.PictureSourceType.PHOTOLIBRARY
-		};
+	// selectImage(type) {
+	// 	let options: CameraOptions = {
+	// 		quality: 90,
+	// 		targetWidth: 100,
+	// 		targetHeight: 100,
+	// 		allowEdit: true,
+	// 		destinationType: this.camera.DestinationType.DATA_URL,
+	// 		encodingType: this.camera.EncodingType.JPEG,
+	// 		mediaType: this.camera.MediaType.PICTURE,
+	// 		sourceType: (type == 0) ? this.camera.PictureSourceType.CAMERA : this.camera.PictureSourceType.PHOTOLIBRARY
+	// 	};
 
-		this.camera.getPicture(options).then((imageData) => {
-			this.imageData = imageData;
-			this.profileurl = 'data:image/png;base64,' + imageData;
-			this.picUploaded = true;
-		});
-	}
+	// 	this.camera.getPicture(options).then((imageData) => {
+	// 		this.imageData = imageData;
+	// 		this.profileurl = 'data:image/png;base64,' + imageData;
+	// 		this.picUploaded = true;
+	// 	});
+	// }
 
 
 	uploadImage() {

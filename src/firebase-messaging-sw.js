@@ -4,12 +4,12 @@ importScripts('https://www.gstatic.com/firebasejs/3.5.2/firebase-messaging.js');
 
 
 var config = {
-    apiKey: "AIzaSyA4sBMDqCbQPeaCQ5L3xItosjDeW1Q4t28",
-    authDomain: "riseley-st.firebaseapp.com",
-    databaseURL: "https://riseley-st.firebaseio.com",
-    projectId: "riseley-st",
-    storageBucket: "riseley-st.appspot.com",
-    messagingSenderId: "257675727271"
+    apiKey: "AIzaSyAG4SM1ihvr7fPqU5C6mG2B2TZyVZImDkU",
+    authDomain: "vue-admin-85ef1.firebaseapp.com",
+    databaseURL: "https://vue-admin-85ef1.firebaseio.com",
+    projectId: "vue-admin-85ef1",
+    storageBucket: "vue-admin-85ef1.appspot.com",
+    messagingSenderId: "167187753572"
 };
 firebase.initializeApp(config);
 
@@ -20,15 +20,20 @@ firebase.initializeApp(config);
 }); */
 
 const messaging = firebase.messaging();
+messaging.onMessage((data) => {
+    console.log('data from push notifiction', data);
+});
 
-messaging.setBackgroundMessageHandler(function (payload) {
-   console.log('[firebase-messaging-sw.js] Received background message ', payload);
-   // Customize notification here
-   const notificationTitle = 'Background Message Title';
-   const notificationOptions = {
-      body: 'Background Message body.',
-      icon: 'assets/imgs/icon.png'
-   };
+messaging.setBackgroundMessageHandler((payload) => {
+    console.log('[firebase-messaging-sw.js] Received background message ', payload);
 
-   return self.registration.showNotification(notificationTitle, notificationOptions);
+    console.log('data from payload', payload);
+    // Customize notification here
+    const notificationTitle = 'Background Message Title';
+    const notificationOptions = {
+        body: 'Background Message body.',
+        icon: 'assets/imgs/icon.png'
+    };
+
+    return self.registration.showNotification(notificationTitle, notificationOptions);
 });

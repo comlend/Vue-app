@@ -48,7 +48,7 @@ export class RegisterBusinessPage {
 	}
 
 	ionViewDidLoad() {
-		console.log('ionViewDidLoad RegisterOwnerPage');
+		console.log('ionViewDidLoad RegisterBusinessage');
 	}
 	back() {
 		this.navCtrl.pop();
@@ -94,15 +94,8 @@ export class RegisterBusinessPage {
 		} else {
 			this.firebase.signupBizUser(this.signupFormBiz.value.email, this.signupFormBiz.value.password, this.signupFormBiz.value.firstName, this.signupFormBiz.value.lastName, createdAt, this.profileurl, this.signupFormBiz.value.name, this.userType, this.signupFormBiz.value.details, this.imageData, this.signupFormBiz.value.mobile)
 				.then((data) => {
-					console.log('test', data);
-					this.fcm.subscribeToTopic("news").then(() => {
-						console.log('subscribed to news');
-						this.storage.set('subscribedToNews', true);
-						this.loading.dismiss();
-					}).catch((error) => {
-						console.log('topic subscription error', error);
-						this.loading.dismiss();
-					});
+					console.log('user signed up', data);
+					this.loading.dismiss();
 					// .then(() => {
 
 					// 	this.navCtrl.setRoot(TabsPage);

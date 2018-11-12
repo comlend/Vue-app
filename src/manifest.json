@@ -1,6 +1,6 @@
 {
-  "name": "Aptcom",
-  "short_name": "Aptcom",
+  "name": "Vue Tower",
+  "short_name": "VueTower",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{

@@ -17,10 +17,11 @@ import { Keyboard } from '@ionic-native/keyboard';
   templateUrl: 'new-service-request.html',
 })
 export class NewServiceRequestPage {
+  loading: boolean;
   title: any;
   details: any;
   picAdded: boolean = false;
-  reqPicture: any = 'Default';
+  reqPicture: any = [];
   userData: any;
   allRequests: any =[];
 
@@ -49,16 +50,25 @@ export class NewServiceRequestPage {
   upload() {
 
     for (let selectedFile of [(<HTMLInputElement>document.getElementById('avatar')).files[0]]) {
-
+      this.loading = true;
+      this.picAdded = true;
       this.firebase.uploadPicture(selectedFile).then((data) => {
-        this.reqPicture = data;
-        this.picAdded = true;
+        // this.reqPicture = data;
+        this.reqPicture.push(data); 
+        // this.picAdded = true;
+        this.loading = false;
         var imageData = data;
       }).catch((err) => {
         console.log('Camera Error ', err);
       });
-
+      console.log("image array", this.reqPicture);
     }
+    
+  }
+  deleteImage(index, photo) {
+    this.reqPicture.splice(index, 1);
+    // console.log('IMAGE FILE => ', photo.image);
+    this.firebase.delete(photo.image);
   }
   // addPhotoRequest(){
   //   let actionSheet = this.actionSheetCtrl.create({

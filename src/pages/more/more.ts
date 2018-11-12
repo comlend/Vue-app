@@ -5,6 +5,7 @@ import { BuildingInfoPage } from '../building-info/building-info';
 import { LiveLocalPage } from '../live-local/live-local';
 import { SettingsPage } from '../settings/settings';
 import { CreateEventPage } from '../create-event/create-event';
+import { HouseRulePage } from '../house-rule/house-rule';
 
 /**
  * Generated class for the MorePage page.
@@ -21,8 +22,7 @@ export class MorePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-  BuildingInfoPage
-  ServiceCenterPage
+ 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MorePage');
   }
@@ -40,6 +40,9 @@ export class MorePage {
   }
   createEvent(){
     this.navCtrl.push(CreateEventPage);
+  }
+  houseRules(){
+    this.navCtrl.push(HouseRulePage);
   }
 
 }

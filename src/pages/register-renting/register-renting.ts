@@ -21,11 +21,12 @@ export class RegisterRentingPage {
 	formData: any;
 	loading: any;
 	errormessage: any;
-	returnInvalid: boolean;
+	returnInvalid: boolean = false;
 	profileurl: any = '';
+
 	imageData: any;
 	userType: string = "renting";
-	liveInProperty: boolean = false;
+	liveInProperty: boolean;
 	showPassError: boolean = true;
 	picUploaded: boolean = false;
 
@@ -44,7 +45,6 @@ export class RegisterRentingPage {
 			mobile: ['', Validators.compose([Validators.required])]
 
 		});
-
 	}
 
 	checkVal() {
@@ -92,16 +92,9 @@ export class RegisterRentingPage {
 		} else {
 			this.firebase.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.firstName, this.signupForm.value.lastName, createdAt, this.userType, this.signupForm.value.unit, this.imageData, this.signupForm.value.mobile)
 				.then((data) => {
-					console.log('test', data);
-					this.fcm.subscribeToTopic("news").then(() => {
-						console.log('subscribed to news');
-						this.storage.set('subscribedToNews', true);
-						this.loading.dismiss();
-						// this.navCtrl.setRoot(TabsPage);
-					}).catch((error) => {
-						console.log('topic subscription error', error);
-						this.loading.dismiss();
-					});
+					console.log('Renting user signed up', data);
+					this.loading.dismiss();
+					
 				}, (error) => {
 					this.loading.dismiss().then(() => {
 						this.errormessage = error.message;
@@ -189,14 +182,6 @@ export class RegisterRentingPage {
 			this.imageData = selectedFile;
 			this.picUploaded = true;
 		}
-	}
-
-	clearErrors() {
-
-	}
-
-	register() {
-
 	}
 
 }

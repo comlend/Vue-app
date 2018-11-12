@@ -1,5 +1,5 @@
 {
-  "name": "Aptcom",
+  "name": "Vue Tower",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
@@ -23,8 +23,8 @@
     "@ionic-native/badge": "^4.7.0",
     "@ionic-native/camera": "^4.5.3",
     "@ionic-native/core": "4.4.0",
-    "@ionic-native/facebook": "^4.5.3",
-    "@ionic-native/fcm": "^4.7.0",
+    "@ionic-native/facebook": "^4.15.0",
+    "@ionic-native/fcm": "^4.17.0",
     "@ionic-native/in-app-browser": "^4.11.0",
     "@ionic-native/keyboard": "^4.6.0",
     "@ionic-native/splash-screen": "4.4.0",
@@ -47,6 +47,7 @@
     "cordova-sqlite-storage": "^2.3.3",
     "dns": "^0.2.2",
     "firebase": "^4.11.0",
+    "ionic": "^3.20.1",
     "ionic-angular": "3.9.2",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
@@ -59,6 +60,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.1.8",
+    "@ionic/lab": "1.0.12",
     "ionic": "^3.20.0",
     "typescript": "2.4.2"
   },
@@ -76,8 +78,8 @@
       "cordova-plugin-badge": {},
       "cordova-plugin-fcm": {},
       "cordova-plugin-facebook4": {
-        "APP_ID": "2014937035488157",
-        "APP_NAME": "164 Riseley St",
+        "APP_ID": "344727222938423",
+        "APP_NAME": "Vue Tower",
         "ANDROID_SDK_VERSION": "4.+"
       },
       "cordova-plugin-inappbrowser": {}

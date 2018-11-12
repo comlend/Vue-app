@@ -1,8 +1,8 @@
-import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, Events, LoadingController } from 'ionic-angular';
-import { NewServiceRequestPage } from '../new-service-request/new-service-request';
+import { Component } from '@angular/core';
+import { NavController, NavParams, App} from 'ionic-angular';
+import { ServiceCenter2Page } from '../service-center2/service-center2';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
-import { ServiceReqDetailsPage } from '../service-req-details/service-req-details';
+import { MessagePage } from '../message/message';
 import { GlobalsProvider } from '../../providers/globals/globals';
 
 /**
@@ -17,6 +17,7 @@ import { GlobalsProvider } from '../../providers/globals/globals';
   templateUrl: 'service-center.html',
 })
 export class ServiceCenterPage {
+  users: any;
   allRequests: any;
   inProgressReqs: any = [];
   completedReqs: any = [];
@@ -28,88 +29,100 @@ export class ServiceCenterPage {
   userType: any;
   noServReq: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public firebase: FirebaseProvider, public events: Events, public zone: NgZone, public loadingCtrl: LoadingController, public globals: GlobalsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebase: FirebaseProvider, private app: App, private globals: GlobalsProvider) {
+    this.users = this.globals.neighboursData;
+    console.error(this.users);
     // this.getAllReq();
-    this.loading = this.loadingCtrl.create({ content: 'Loading all service requests..' });
-    this.userType = this.globals.userData.userType;
-    console.log('this user is - ',this.userType)
+    // this.loading = this.loadingCtrl.create({ content: 'Loading all service requests..' });
+    // this.userType = this.globals.userData.userType;
+    // console.log('this user is - ',this.userType)
   }
 
   ionViewDidLoad() {
+    // this.getAllNeighbours();
     console.log('ionViewDidLoad ServiceCenterPage');
-  }
-  ionViewWillEnter(){
-    
-    if (this.userType != 'admin') {
-      this.getAllReq();
-    }
-    else if (this.userType == 'admin') {
-      this.getAllServiceReq();
-    }
   }
   back(){
     this.navCtrl.pop();
   }
   newRequest(){
-    this.navCtrl.push(NewServiceRequestPage);
+    this.navCtrl.push(ServiceCenter2Page);
+    // this.navCtrl.push(NewServiceRequestPage);
   } 
-  serviceReqDetail(serviceRequest){
-    this.navCtrl.push(ServiceReqDetailsPage, {'serviceRequest':serviceRequest});
+
+  getAllNeighbours() {
+    this.firebase.getNeighbours().then((userData) => {
+      this.users = userData;
+
+      console.warn(this.users);
+    }, error => {
+      console.error(error);
+    });
   }
-  getAllReq() {
-    this.firebase.getAllSupportReq().then((data) => {
-      this.allRequests = data;
-      this.inProgressReqs = [];
-      this.completedReqs = [];
-      for (let i = 0; i < this.allRequests.length; i++) {
-        if (this.allRequests[i].status == "inProgress") {
-          this.inProgressReqs.push(this.allRequests[i]);
-        }
-        else if (this.allRequests[i].status == "completed") {
-          this.completedReqs.push(this.allRequests[i]);
-        }
+
+  goToNeighbour(neighbour) {
+    this.app.getRootNav().push(MessagePage, { 'neighbour': neighbour });
+    // this.navCtrl.push();
+  }
+  
+  // serviceReqDetail(serviceRequest){
+  //   this.navCtrl.push(ServiceReqDetailsPage, {'serviceRequest':serviceRequest});
+  // }
+  // getAllReq() {
+    
+
+  //   this.firebase.getAllSupportReq().then((data) => {
+  //     this.allRequests = data;
+  //     this.inProgressReqs = [];
+  //     this.completedReqs = [];
+  //     for (let i = 0; i < this.allRequests.length; i++) {
+  //       if (this.allRequests[i].status == "inProgress") {
+  //         this.inProgressReqs.push(this.allRequests[i]);
+  //       }
+  //       else if (this.allRequests[i].status == "completed") {
+  //         this.completedReqs.push(this.allRequests[i]);
+  //       }
         
-      }
-      // console.log(this.allRequests);
-    });
-  }
+  //     }
+  //   });
+  // }
 
-  fullCompletedReqArray(){
-    this.completedArrayLength = this.completedReqs.length;
-    this.allCompletedReqsShown = true;
-  }
-  fullInProgressReqArray() {
-    this.inProgArrayLength = this.inProgressReqs.length;
-    this.allInProgressReqsShown = true;
-  }
+  // fullCompletedReqArray(){
+  //   this.completedArrayLength = this.completedReqs.length;
+  //   this.allCompletedReqsShown = true;
+  // }
+  // fullInProgressReqArray() {
+  //   this.inProgArrayLength = this.inProgressReqs.length;
+  //   this.allInProgressReqsShown = true;
+  // }
 
-  getAllServiceReq() {
-    this.loading.present();
-    this.firebase.loadAllAdminSupportReqs().then((data) => {
-      this.allRequests = data;
-      console.log('all service reqs',this.allRequests);
-      this.loading.dismiss();
-      this.filterReq();
-    }, (error) => {
-      this.noServReq = true;
-      this.loading.dismiss();
-    });
-  }
-  filterReq() {
-    this.inProgressReqs = [];
-    this.completedReqs = [];
+  // getAllServiceReq() {
+  //   this.loading.present();
+  //   this.firebase.loadAllAdminSupportReqs().then((data) => {
+  //     this.allRequests = data;
+  //     console.log('all service reqs',this.allRequests);
+  //     this.loading.dismiss();
+  //     this.filterReq();
+  //   }, (error) => {
+  //     this.noServReq = true;
+  //     this.loading.dismiss();
+  //   });
+  // }
+  // filterReq() {
+  //   this.inProgressReqs = [];
+  //   this.completedReqs = [];
 
-    for (let i = 0; i < this.allRequests.length; i++) {
-      if (this.allRequests[i].status == "inProgress") {
-        this.inProgressReqs.push(this.allRequests[i]);
-      }
-      else if (this.allRequests[i].status == "completed") {
-        this.completedReqs.push(this.allRequests[i]);
-      }
+  //   for (let i = 0; i < this.allRequests.length; i++) {
+  //     if (this.allRequests[i].status == "inProgress") {
+  //       this.inProgressReqs.push(this.allRequests[i]);
+  //     }
+  //     else if (this.allRequests[i].status == "completed") {
+  //       this.completedReqs.push(this.allRequests[i]);
+  //     }
 
-    }
-    console.log(this.inProgressReqs);
-  }
+  //   }
+  //   console.log(this.inProgressReqs);
+  // }
   // fullCompletedReqArrayAdmin() {
   //   this.completedArrayLength = this.completedReqs.length;
   //   this.allCompletedReqsShown = true;

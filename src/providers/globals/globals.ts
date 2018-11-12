@@ -33,6 +33,10 @@ export class GlobalsProvider {
 		this.locals = undefined;
 		this.blockedMe = undefined;
 		this.blockedByMe = undefined;
+		this.FbLoginComplete = undefined;
+		this.fcmToken = undefined;
+		this.cordovaPlatform = undefined;
+		this.pwaDeviceToken = undefined;
 	}
 
 	reinitializeGlobals() {
@@ -46,6 +50,9 @@ export class GlobalsProvider {
 		this.locals = [];
 		this.blockedMe = [];
 		this.blockedByMe = [];
+		this.FbLoginComplete = true;
+		this.fcmToken = '';
+		this.pwaDeviceToken = '';
 	}
 
 }

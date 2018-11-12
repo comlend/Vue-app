@@ -13,11 +13,11 @@
       </button>
     </ion-buttons>
     <ion-title>Post</ion-title>
-    <!-- <ion-buttons end>
+    <ion-buttons end>
       <button ion-button icon-only color="secondary" (click)="addNews()" [disabled]="hasNoContent">
         Post
       </button>
-    </ion-buttons> -->
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -27,7 +27,7 @@
   <div class="paddingtop">
   </div>
   <ion-item no-lines>
-    <textarea type="text" [(ngModel)]="news" rows="10" placeholder="Add new news feed" style="width:100%;border:none" (input)="addContent()"></textarea>
+    <textarea type="text" #newsInput [(ngModel)]="news" [rows]="newsRow" (keyup)="resize()" placeholder="Add new news feed" style="width:100%;border:none" id="newsText" (input)="addContent()"></textarea>
   </ion-item>
   <ion-item *ngIf="hasPhoto">
     <img [src]=newsPicUrl />

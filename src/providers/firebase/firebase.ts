@@ -26,11 +26,21 @@ export class FirebaseProvider {
 	}
 
 	signupBizUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, profileurl: any, name: string, userType: string, details: string, imageData: any, phone: any) {
-		console.log('Image Data => ', imageData);
+		// console.log('Image Data => ', imageData);
 		
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
 			var pwaDeviceToken = this.globals.pwaDeviceToken;
+			var deviceToken;
+
+			if (fcmToken != '') {
+				deviceToken = fcmToken;
+			} else if (pwaDeviceToken != '') {
+				deviceToken = pwaDeviceToken;
+			}
+			else {
+				deviceToken = 'default'
+			}
 
 			var userData = {
 				email: email,
@@ -40,7 +50,7 @@ export class FirebaseProvider {
 				userType: userType,
 				name: name,
 				details: details,
-				deviceToken: '',
+				deviceToken: deviceToken,
 				phone: phone,
 				hideProfile: false,
 				blockedByMe: 'default',
@@ -48,39 +58,39 @@ export class FirebaseProvider {
 				pushSound: 'default',
 				showMessageNotification: true,
 				showMessagePreview: true,
-				subscribedNews: true
+				subscribedNews: true,
+				profileurl: 'assets/imgs/imgPlaceholder.png'
 			};
 
-			if (fcmToken != '') {
-				userData.deviceToken = fcmToken;
-			} else if (pwaDeviceToken != '') {
-				userData.deviceToken = pwaDeviceToken;
-			}
-		
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
+				console.log("new user",newUser.uid);
 				userData['uId'] = newUser.uid;
-
-				userData['profileurl'] = 'default';
+				this.globals.userData = userData;
 
 				firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
+					
 					var userRef = firebase.database().ref('/users').child(newUser.uid);
-					if (imageData == 'assets/imgs/imgPlaceholder.png') {
-						this.globals.userData.profileurl = imageData;
-						userRef.update({
-							profileurl: imageData
-						});
-						resolve(newUser);
-					} else {
-						this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
-							this.globals.userData.profileurl = imageUrl;
-							userRef.update({
-								profileurl: imageUrl
-							});
+						if (imageData == 'assets/imgs/imgPlaceholder.png') {
+							this.globals.userData.profileurl = 'assets/imgs/imgPlaceholder.png';
+							// userRef.update({
+							// 	profileurl: imageData
+							// });
 							resolve(newUser);
-						});
-					}
+						} else {
+							this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
+								this.globals.userData.profileurl = imageUrl;
+								userRef.update({
+									profileurl: imageUrl
+								});
+								resolve(newUser);
+							});
+						}
 
+				}).catch((error) => {
+					console.log('error at the time of image update',error);
+					// reject(error);
 				});
+				// }););
 				/* if (imageData == 'assets/imgs/imgPlaceholder.png') {
 					console.log('if => ', imageData);
 					userData['profileurl'] = imageData;
@@ -109,7 +119,7 @@ export class FirebaseProvider {
 					});
 				} */
 			}).catch((error) => {
-				console.log('Error getting location', error);
+				console.log('error at signup', error);
 				reject(error);
 				// });
 			});
@@ -117,18 +127,27 @@ export class FirebaseProvider {
 		});
 	}
 	signupUser(email: string, password: string, firstName: string, lastName: string, createdAt: string, userType: string, unit: string, imageData: any, phone: any) {
-		// console.log('Image Data => ', imageData);
+		// console.log('device token Data => ', this.globals.pwaDeviceToken);
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
 			var pwaDeviceToken = this.globals.pwaDeviceToken;
-			
+			var deviceToken;
+
+			if (fcmToken != '') {
+				deviceToken = fcmToken;
+			} else if (pwaDeviceToken != '') {
+				deviceToken = pwaDeviceToken;
+			}
+			else {
+				deviceToken = 'default'
+			}
 			var userData = {
 				email: email,
 				firstName: firstName,
 				lastName: lastName,
 				createdAt: createdAt,
 				userType: userType,
-				deviceToken: '',
+				deviceToken: deviceToken,
 				phone: phone,
 				unit: unit,
 				hideProfile: false,
@@ -137,28 +156,22 @@ export class FirebaseProvider {
 				pushSound: 'default',
 				showMessageNotification: true,
 				showMessagePreview: true,
-				subscribedNews: true
+				subscribedNews: true,
+				profileurl: 'assets/imgs/imgPlaceholder.png'
 			};
 
-			if (fcmToken != '') {
-				userData.deviceToken = fcmToken;
-			} else if (pwaDeviceToken != '') {
-				userData.deviceToken = pwaDeviceToken;
-			}
-
-			// console.log('User Data => ', userData);
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
+				console.log("new user", newUser.uid);
 				userData['uId'] = newUser.uid;
-
-				userData['profileurl'] = 'default';
+				this.globals.userData = userData;
 
 				firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
 					var userRef = firebase.database().ref('/users').child(newUser.uid);
 					if (imageData == 'assets/imgs/imgPlaceholder.png') {
-						this.globals.userData.profileurl = imageData;
-						userRef.update({
-							profileurl: imageData
-						});
+						this.globals.userData.profileurl = 'assets/imgs/imgPlaceholder.png';
+						// userRef.update({
+						// 	profileurl: imageData
+						// });
 						resolve(newUser);
 					} else {
 						this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
@@ -170,13 +183,16 @@ export class FirebaseProvider {
 						});
 					}
 					
+				}).catch((error) => {
+					console.log('error at the time of image update', error);
+					// reject(error);
 				});
 				/* if (imageData == 'assets/imgs/imgPlaceholder.png') {
 					// console.log('if => ', imageData);
 					userData['profileurl'] = imageData;
 					firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
 
-						// this.fcm.subscribeToTopic("news").then(() => {
+						// this.fcm.("news").then(() => {
 						// 	console.log('subscribed to news');
 						// 	this.storage.set('subscribedToNews', true);
 						// 	firebase.database().ref('/users/').child(newUser.uid).update({
@@ -198,7 +214,7 @@ export class FirebaseProvider {
 					});
 				} */
 			}).catch((error) => {
-				console.log('Error getting location', error);
+				console.log('singup error', error);
 				reject(error);
 				// });
 			});
@@ -208,14 +224,24 @@ export class FirebaseProvider {
 	signupManager(email: string, password: string, firstName: string, lastName: string, createdAt: string, userType: string, imageData: any, phone: any) {
 		return new Promise((resolve, reject) => {
 			var fcmToken = this.globals.fcmToken;
+			var pwaDeviceToken = this.globals.pwaDeviceToken;
+			var deviceToken;
 
+			if (fcmToken != '') {
+				deviceToken = fcmToken;
+			} else if (pwaDeviceToken != '') {
+				deviceToken = pwaDeviceToken;
+			}
+			else {
+				deviceToken = 'default'
+			}
 			var userData = {
 				email: email,
 				firstName: firstName,
 				lastName: lastName,
 				createdAt: createdAt,
 				userType: userType,
-				deviceToken: fcmToken,
+				deviceToken: deviceToken,
 				phone: phone,
 				hideProfile: false,
 				blockedByMe: 'default',
@@ -223,20 +249,22 @@ export class FirebaseProvider {
 				pushSound: 'default',
 				showMessageNotification: true,
 				showMessagePreview: true,
-				subscribedNews: true
+				subscribedNews: true,
+				profileurl: 'assets/imgs/imgPlaceholder.png'
 			};
 			firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
+				// console.log("new user", newUser.uid);
 				userData['uId'] = newUser.uid;
-
-				userData['profileurl'] = 'default';
+				// userData['profileurl'] = imageData;
+				this.globals.userData = userData;
 
 				firebase.database().ref('/users').child(newUser.uid).set(userData).then(() => {
 					var userRef = firebase.database().ref('/users').child(newUser.uid);
 					if (imageData == 'assets/imgs/imgPlaceholder.png') {
-						this.globals.userData.profileurl = imageData;
-						userRef.update({
-							profileurl: imageData
-						});
+						this.globals.userData.profileurl = 'assets/imgs/imgPlaceholder.png';
+						// userRef.update({
+						// 	profileurl: imageData
+						// });
 						resolve(newUser);
 					} else {
 						this.uploadProfile(imageData, newUser.uid).then((imageUrl) => {
@@ -248,6 +276,9 @@ export class FirebaseProvider {
 						});
 					}
 
+				}).catch((error) => {
+					console.log('error at the time of image update', error);
+					// reject(error);
 				});
 			}).catch((error) => {
 				console.log('Error getting location', error);
@@ -347,11 +378,7 @@ export class FirebaseProvider {
 				this.storage.clear();
 				this.globals.clear();
 				this.badge.clear();
-				// console.log('Auth DATA ', authdata);
-				// console.log(firebase.auth().onAuthStateChanged((user) => {
-				// 	console.log(user)
-				// }));
-				
+				this.globals.reinitializeGlobals();
 			});
 		})
 		
@@ -617,7 +644,8 @@ export class FirebaseProvider {
 				sound: neighbourData.pushSound,
 				// badge: badgeCount,
 				click_action: "FCM_PLUGIN_ACTIVITY",
-				icon: "fcm_push_icon"
+				icon: "fcm_push_icon",
+				body: msg
 			};
 			if (neighbourData.showMessagePreview) {
 				notificationPayload['body'] = msg;
@@ -626,7 +654,7 @@ export class FirebaseProvider {
 			var options = {
 				headers: new HttpHeaders({
 					'Content-Type': 'application/json',
-					'Authorization': 'key=AAAAO_6rkac:APA91bEyJcns09BjtWfrr5f0iXu2WBlQN2kr_B7ksr6-g1hY28EA5dC9zxcQjPdRmLJfybVgxFYvSvQpkXrjfrCGsixM2A9eC_N5iH_cyQHcoKT9hMRXssTu9s7RaJhqt--aLF-RvDoZnaXDDbYO7acUWiW3dRv7IA'
+					'Authorization': 'key=AAAAJu0qqmQ:APA91bHHLPuJYNj_pQo_XCo75Fbxyr9lVvh5x47rMzLZIpvehWTcbUzLZR_oRbUjlLYcmyQquP3GHxIHI-4FmjNNj9xt4Of4HFbKp4gLiwX3XdAxYorFqLiAKIEcFkk_USTtAkmKirAP'
 				})
 			};
 
@@ -669,7 +697,7 @@ export class FirebaseProvider {
 			var options = {
 				headers: new HttpHeaders({
 					'Content-Type': 'application/json',
-					'Authorization': 'key=AAAAO_6rkac:APA91bEyJcns09BjtWfrr5f0iXu2WBlQN2kr_B7ksr6-g1hY28EA5dC9zxcQjPdRmLJfybVgxFYvSvQpkXrjfrCGsixM2A9eC_N5iH_cyQHcoKT9hMRXssTu9s7RaJhqt--aLF-RvDoZnaXDDbYO7acUWiW3dRv7IA'
+					'Authorization': 'key=AAAAJu0qqmQ:APA91bHHLPuJYNj_pQo_XCo75Fbxyr9lVvh5x47rMzLZIpvehWTcbUzLZR_oRbUjlLYcmyQquP3GHxIHI-4FmjNNj9xt4Of4HFbKp4gLiwX3XdAxYorFqLiAKIEcFkk_USTtAkmKirAP'
 				})
 			};
 
@@ -801,7 +829,7 @@ export class FirebaseProvider {
 			var options = {
 				headers: new HttpHeaders({
 					'Content-Type': 'application/json',
-					'Authorization': 'key=AAAAO_6rkac:APA91bEyJcns09BjtWfrr5f0iXu2WBlQN2kr_B7ksr6-g1hY28EA5dC9zxcQjPdRmLJfybVgxFYvSvQpkXrjfrCGsixM2A9eC_N5iH_cyQHcoKT9hMRXssTu9s7RaJhqt--aLF-RvDoZnaXDDbYO7acUWiW3dRv7IA'
+					'Authorization': 'key=AAAAJu0qqmQ:APA91bHHLPuJYNj_pQo_XCo75Fbxyr9lVvh5x47rMzLZIpvehWTcbUzLZR_oRbUjlLYcmyQquP3GHxIHI-4FmjNNj9xt4Of4HFbKp4gLiwX3XdAxYorFqLiAKIEcFkk_USTtAkmKirAP'
 				})
 			};
 
@@ -1242,5 +1270,44 @@ export class FirebaseProvider {
 
 			});
 		});
+	}
+	getHouseRules(){
+		var dbRef = firebase.database().ref('/houseRules/');
+		var buildingInfo;
+		return new Promise((resolve, reject) => {
+			dbRef.once('value', (data) => {
+
+
+				if (data.val() != 'default') {
+					buildingInfo = _.toArray(data.val());
+					resolve(buildingInfo);
+				} else {
+					reject({ msg: 'No info found' });
+				}
+
+			});
+		});
+	}
+
+	delete(file) {
+		return new Promise((resolve, reject) => {
+			let imgUrl = firebase.storage().refFromURL(file);
+			// console.log('Image Url Reference => ', imgUrl.fullPath);
+
+			firebase.storage().ref(imgUrl.fullPath).delete().then((data) => {
+				console.log('File deleted successfully');
+				resolve();
+			}).catch((error) => {
+				reject();
+				// Uh-oh, an error occurred!
+			});
+			/* OLD firebase.storage().ref(file).delete().then((data) => {
+				console.log('File deleted successfully');
+				resolve();
+			}).catch((error) => {
+				reject();
+				// Uh-oh, an error occurred!
+			}); */
+		})
 	}
 }

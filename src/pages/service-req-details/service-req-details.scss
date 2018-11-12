@@ -24,4 +24,14 @@ page-service-req-details {
         height: 20px;
         position: initial;
     }
+    .swiper-wrapper {
+        padding-bottom: 30px;
+        height: 15em !important;
+    }
+    .reqImages {
+        height: 14em !important;
+        overflow: hidden;
+        size: cover;
+        position: center;
+    }
 }

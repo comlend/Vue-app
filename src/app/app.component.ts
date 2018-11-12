@@ -21,7 +21,7 @@ export class MyApp {
 	rootPage: any = '';
 	fbLoginComplete: boolean = true;
 
-	constructor(platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, private global: GlobalsProvider, public event: Events, private fcm: FCM, public _zone: NgZone, public badge: Badge, public toastCtrl: ToastController, public storage: Storage) {
+	constructor(private platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, private global: GlobalsProvider, public event: Events, private fcm: FCM, public _zone: NgZone, public badge: Badge, public toastCtrl: ToastController, public storage: Storage) {
 		
 
 		this.initializeFirebase();
@@ -52,22 +52,25 @@ export class MyApp {
 	}
 
 	initializeFirebase() {
-		const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+		firebase.auth().onAuthStateChanged(user => {
 			if (!user) {
 				this.badge.clear();
 				this.splashScreen.hide();
 				console.log('this is if user is not logged in')
 				this.rootPage = SignupPage;
-				unsubscribe();
+				// unsubscribe();
 			} 
 			
 			else {
 				this.global.userId = user.uid;
 				if (this.global.FbLoginComplete) {
+
+					// if (this.platform.is('core') || this.platform.is('mobileweb')) {
+					// 	this.setupOnTokenRefresh();
+					// }
 					this.nav.setRoot(FirstPage);
-					console.log('this is if user is logged in')
-					// this.rootPage = FirstPage;
-					unsubscribe();
+					console.log('this is if user is logged in');
+					
 				}
 				else if (!this.global.FbLoginComplete) {
 					this.splashScreen.hide();
@@ -78,11 +81,11 @@ export class MyApp {
 	
 		});
 	}
-
+	// this is for ios and android apps
 	initializeFcmNotification() {
 		console.log('FCM Notification initialised');
 		this.fcm.onNotification().subscribe(data => {
-			// console.log(data);
+			console.log(data);
 			this.storage.get('unreadMessages').then((val) => {
 				// console.log('unread message is', val);
 				var unreadMessages = val + 1;
@@ -90,15 +93,6 @@ export class MyApp {
 				this.storage.set('unreadMessages', unreadMessages);
 			});
 
-			let toast = this.toastCtrl.create({
-				message: data.aps.alert.title,
-				duration: 3000,
-				position: 'top'
-			});
-
-			if (this.nav.getActive().name != 'TabsPage') {
-				toast.present();
-			}
 			
 			// alert(data.aps.alert.title);
 			if (data.wasTapped) {
@@ -106,6 +100,13 @@ export class MyApp {
 				console.log("Received in background");
 			} else {
 				console.log("Received in foreground");
+
+				let toast = this.toastCtrl.create({
+					message: data["notification"].title,
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
 			};
 		});
 
@@ -124,27 +125,45 @@ export class MyApp {
 
 		
 	}
-
+	// this is for browser 
 	initializePwaNotification(){
 		var messaging = firebase.messaging();
 		messaging.requestPermission().then(() => {
 			console.log('Permission granted');
-			messaging.getToken().then((token) => {
-				console.log('PWA Token => ', token);
-				this.global.pwaDeviceToken = token;
+			
+			messaging.onTokenRefresh(() => {
+				this.updateToken();
+				console.log("Token refreshed");
+				// 	dbRef.update({
+				// 		deviceToken: ''
+				// 	}).then(() => {  });
+			});
+			messaging.onMessage((payload) => {
+				console.log('Message received. ', payload);
+				let toast = this.toastCtrl.create({
+					message: payload["notification"].title,
+					duration: 3000,
+					position: 'top'
+				});
 
+				// if (this.nav.getActive().name != 'TabsPage') {
+				toast.present();
+				// ...
 			});
 			// token might change - we need to listen for changes to it and update it
-			/* this.setupOnTokenRefresh();
-			return this.updateToken(); */
+			// this.setupOnTokenRefresh();
+			// return this.updateToken();
 		});
+		
 	}
-	private updateToken() {
+	updateToken() {
 		var messaging = firebase.messaging();
 		var userId = this.global.userId;
 		var dbRef = firebase.database().ref('/users').child(userId);
 
 		return messaging.getToken().then((currentToken) => {
+			this.global.pwaDeviceToken = currentToken;
+			
 			if (currentToken) {
 				// we've got the token from Firebase, now let's store it in the database
 					dbRef.update({
@@ -160,17 +179,15 @@ export class MyApp {
 			}
 		});
 	}
-	private setupOnTokenRefresh(): void {
+	setupOnTokenRefresh(){
 		var userId = this.global.userId;
 		var dbRef = firebase.database().ref('/users').child(userId);
 		var messaging = firebase.messaging();
 
 
-		var unsubscribeOnTokenRefresh = messaging.onTokenRefresh(() => {
+		messaging.onTokenRefresh(() => {
+			this.updateToken();
 			console.log("Token refreshed");
-				dbRef.update({
-					deviceToken: ''
-				}).then(() => { this.updateToken(); });
 		});
 	}
 	

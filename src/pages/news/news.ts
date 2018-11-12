@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, App, Events } from 'ionic-angular';
+import { NavController, NavParams, App, Events, Platform } from 'ionic-angular';
 import { AddNewsPage } from '../add-news/add-news';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
@@ -12,6 +12,7 @@ import * as firebase from 'firebase';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
+import { FCM } from '@ionic-native/fcm';
 
 @Component({
 	selector: 'page-news',
@@ -26,7 +27,7 @@ export class NewsPage {
 	commentsLength: any;
 	commentsArr = [];
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone, public splashScreen: SplashScreen, public storage: Storage, public utilities: UtilitiesProvider) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public app: App, public firebase: FirebaseProvider, public global: GlobalsProvider, public events: Events, public zone: NgZone, public splashScreen: SplashScreen, public storage: Storage, public utilities: UtilitiesProvider, private fcm: FCM, private platform: Platform) {
 		// this.initializeGobalsData();
 		this.news = this.global.news;
 
@@ -41,7 +42,18 @@ export class NewsPage {
 		});
 
 		// FOR UNREAD MESSAGES TAB BADGE UPDATE
-		this.unreadMessagesMet();				
+		this.unreadMessagesMet();	
+		
+		//for subscribing to news related updates
+		if (this.platform.is('ios') || this.platform.is('android')) {
+			this.fcm.subscribeToTopic("news").then(() => {
+				console.log('subscribed to news');
+				this.storage.set('subscribedToNews', true);
+			}).catch((error) => {
+				console.log('topic subscription error', error);
+			});
+		}
+		
 	}
 
 	ionViewDidLoad() {

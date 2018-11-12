@@ -59,7 +59,11 @@
     <p style="white-space: normal">{{serviceReqDetails.details}}</p>
   </ion-item>
   <ion-item *ngIf="serviceReqDetails.supportPic">
-    <img [src]="serviceReqDetails.supportPic" />
+    <ion-slides pager="true">
+      <ion-slide *ngFor="let image of serviceReqDetails.supportPic">
+        <img [src]="image" class="reqImages"/>
+      </ion-slide>
+    </ion-slides>
   </ion-item>
 <ion-item no-lines>
   <p>

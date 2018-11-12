@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
@@ -35,7 +35,7 @@ export class EditProfilePage {
 
 	hideProfile: boolean;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public alertCtrl: AlertController) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
 		this.userData = _.cloneDeep(this.globals.userData);
 		console.log(this.userData);
 		this.profileurl = this.globals.userData.profileurl;
@@ -219,10 +219,27 @@ export class EditProfilePage {
 			var uid = this.globals.userId;
 			var filename = Date.now() + '.png';
 
+			let loading = this.loadingCtrl.create({
+				content: 'Please wait...'
+			});
+
+			loading.present();
+			
 			this.firebase.updateUserPic(selectedFile, this.userData.uId).then((data) => {
 				this.profileurl = data;
 				this.globals.userData.profileurl = this.profileurl;
-			})
+				loading.dismiss();
+			}).catch((error)=>{
+				loading.dismiss();
+				
+				let toast = this.toastCtrl.create({
+					message: 'Some unexpected error occured, please try again later',
+					duration: 5000,
+					position: 'bottom'
+				});
+				toast.present();
+
+			});
 
 		}
 	}

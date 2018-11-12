@@ -63,14 +63,17 @@ import { RegisterBuildingManagerPage } from '../pages/register-building-manager/
 import { FirstPage } from '../pages/first/first';
 import { ContactListPage } from '../pages/contact-list/contact-list';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { ServiceCenter2Page } from '../pages/service-center2/service-center2';
+import { HouseRulePage } from '../pages/house-rule/house-rule';
+import { HouseRuleDetailsPage } from '../pages/house-rule-details/house-rule-details';
 
 var config = {
-  apiKey: "AIzaSyA4sBMDqCbQPeaCQ5L3xItosjDeW1Q4t28",
-  authDomain: "riseley-st.firebaseapp.com",
-  databaseURL: "https://riseley-st.firebaseio.com",
-  projectId: "riseley-st",
-  storageBucket: "riseley-st.appspot.com",
-  messagingSenderId: "257675727271"
+  apiKey: "AIzaSyAG4SM1ihvr7fPqU5C6mG2B2TZyVZImDkU",
+  authDomain: "vue-admin-85ef1.firebaseapp.com",
+  databaseURL: "https://vue-admin-85ef1.firebaseio.com",
+  projectId: "vue-admin-85ef1",
+  storageBucket: "vue-admin-85ef1.appspot.com",
+  messagingSenderId: "167187753572"
 };
 firebase.initializeApp(config);
 
@@ -112,7 +115,10 @@ firebase.initializeApp(config);
     CreateEventPage,
     RegisterBuildingManagerPage,
     FirstPage,
-    ContactListPage
+    ContactListPage,
+    ServiceCenter2Page,
+    HouseRulePage,
+    HouseRuleDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -160,7 +166,10 @@ firebase.initializeApp(config);
     CreateEventPage,
     RegisterBuildingManagerPage,
     FirstPage,
-    ContactListPage
+    ContactListPage,
+    ServiceCenter2Page,
+    HouseRulePage,
+    HouseRuleDetailsPage
   ],
   providers: [
     StatusBar,

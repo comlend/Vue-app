@@ -46,8 +46,19 @@ export class FbprofilePage {
 	signupUser() {
 		var createdAt = moment().format();
 		var fcmToken = this.globals.fcmToken;
+		var pwaDeviceToken = this.globals.pwaDeviceToken;
+		var deviceToken;
 
-		firebase.database().ref('/users').child(this.fbData.uid).set({
+		if (fcmToken != '') {
+			deviceToken = fcmToken;
+		} else if (pwaDeviceToken != '') {
+			deviceToken = pwaDeviceToken;
+		}
+		else {
+			deviceToken = 'default'
+		}
+
+		var userData = {
 			email: this.fbData.email,
 			firstName: this.firstName,
 			lastName: this.lastName,
@@ -57,7 +68,7 @@ export class FbprofilePage {
 			uId: this.fbData.uid,
 			userType: this.userType,
 			unit: this.unit,
-			deviceToken: fcmToken,
+			deviceToken: deviceToken,
 			hideProfile: false,
 			blockedByMe: 'default',
 			blockedMe: 'default',
@@ -65,14 +76,17 @@ export class FbprofilePage {
 			showMessageNotification: true,
 			showMessagePreview: true,
 			subscribedNews: true
+		};
 
-		}, () => {
+		firebase.database().ref('/users').child(this.fbData.uid).set(userData).then(() => {
 			console.log('Success');
 			this.loading.dismiss().then(() => {
 
 				console.log('Dismiss Work');
 				// this.storage.set('FbLoginComplete', true);
 				// this.event.publish('fbloggedin',true);
+				this.globals.userData = userData;
+				
 				this.fcm.subscribeToTopic("news").then(() => {
 					console.log('subscribed to news');
 					this.storage.set('subscribedToNews', true);
@@ -80,10 +94,14 @@ export class FbprofilePage {
 					this.navCtrl.setRoot(TabsPage);
 				}).catch((error) => {
 					console.log('topic subscription error', error);
+					this.loading.dismiss();
 				});
 				
 			});
 
+		}).catch((error) => {
+			console.log('firebase error');
+			this.loading.dismiss();
 		});
 
 		this.loading = this.loadingCtrl.create({ content: 'Updating Profile' });

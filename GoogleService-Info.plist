@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>257675727271-1qa2al0np2e5u2qh03h9rcd0dtkfo4d8.apps.googleusercontent.com</string>
+	<string>167187753572-22707hip0ahnlnpjtm5crbi6nlvff143.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.257675727271-1qa2al0np2e5u2qh03h9rcd0dtkfo4d8</string>
+	<string>com.googleusercontent.apps.167187753572-22707hip0ahnlnpjtm5crbi6nlvff143</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBVKJokraygruZAD-ZdI47xQvKuxT8Q5m8</string>
+	<string>AIzaSyAXAsdaQ63DD8F6r-UiViCMhD0z3Ah5z_w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>257675727271</string>
+	<string>167187753572</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.apt.risleyst</string>
+	<string>com.apt.vuetower</string>
 	<key>PROJECT_ID</key>
-	<string>riseley-st</string>
+	<string>vue-admin-85ef1</string>
 	<key>STORAGE_BUCKET</key>
-	<string>riseley-st.appspot.com</string>
+	<string>vue-admin-85ef1.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:257675727271:ios:2fbc200b17d69e68</string>
+	<string>1:167187753572:ios:66046e43fec5e403</string>
 	<key>DATABASE_URL</key>
-	<string>https://riseley-st.firebaseio.com</string>
+	<string>https://vue-admin-85ef1.firebaseio.com</string>
 </dict>
 </plist>

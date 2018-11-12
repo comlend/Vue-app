@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { TabsPage } from '../tabs/tabs';
 import { Storage } from '@ionic/storage';
@@ -18,13 +18,12 @@ import { NewsPage } from '../news/news';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-first',
   templateUrl: 'first.html',
 })
 export class FirstPage {
-
+  loading: boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams, public global: GlobalsProvider, public splashScreen: SplashScreen, public storage: Storage, public utilities: UtilitiesProvider, public event: Events) {
     
     
@@ -35,9 +34,10 @@ export class FirstPage {
     console.log('ionViewDidLoad FirstPage');
     console.log('this user ->', this.global.userId);
 
-
-    var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats(), this.extractNeighbourData()];
+    this.loading = true;
+    var promises = [this.getUserData(), this.getNeighbours(), this.getAllChats()];
     Promise.all(promises).then((values) => {
+      this.extractNeighbourData();
       this.getAllNews();
       this.getAllLocals();
       // this.firebaseProvider.getUpdatedBlockedByMeList();
@@ -46,11 +46,21 @@ export class FirstPage {
       if (this.global.userData.unreadMessages) {
         this.storage.set('unreadMessages', this.global.userData.unreadMessages);
       }
-
-      this.splashScreen.hide();
+      if (this.splashScreen) {
+        this.splashScreen.hide();
+      }
+      
+      this.loading = false;
       this.navCtrl.setRoot(TabsPage);
 
     }).catch((err) => {
+      if (this.splashScreen) {
+        this.splashScreen.hide();
+      }
+
+      this.loading = false;
+      this.navCtrl.setRoot(TabsPage);
+      
       console.log('Promise.all ', err);
     });
   }
@@ -71,6 +81,8 @@ export class FirstPage {
           reject({ msg: 'No Users Found' });
         }
       });
+    }).catch((err) => {
+      console.log('userdata error', err);
     });
   }
   getNeighbours() {
@@ -97,7 +109,9 @@ export class FirstPage {
           reject({ msg: 'No Users Found' });
         }
       });
-    });
+    }).catch((err) => {
+      console.log('neighbours error', err);
+    });;
   }
 
   getAllChats() {
@@ -125,12 +139,16 @@ export class FirstPage {
 
         this.global.chats = chatArr;
         // this.event.publish('new-message');
-        resolve();
-        // console.log('Chat Arr ', chatArr);
+        console.log('Chat Arr ', chatArr);
+        resolve(chatArr);
+        
       }).catch((err) => {
+        console.log('chat error', err);
         reject(err);
       });
-    });
+    }).catch((err) => {
+      console.log('chat error', err);
+    });;
   }
 
   getAllLocals() {
@@ -150,7 +168,9 @@ export class FirstPage {
           reject();
         }
       });
-    });
+    }).catch((err) => {
+      console.log('locals error', err);
+    });;
   }
 
   getAllNews() {
@@ -199,7 +219,9 @@ export class FirstPage {
           reject();
         }
       });
-    });
+    }).catch((err) => {
+      console.log('news error', err);
+    });;
   }
 
   extractNeighbourData() {
@@ -223,7 +245,9 @@ export class FirstPage {
         }
         resolve();
       }
-    });
+    }).catch((err) => {
+      console.log('neighbour chat error', err);
+    });;
 
     // console.log('All Chats Modified ', this.global.chats);
 

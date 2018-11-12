@@ -1,5 +1,5 @@
-import { Component, Renderer, ElementRef } from '@angular/core';
-import { NavController, NavParams, App, ActionSheetController } from 'ionic-angular';
+import { Component, ViewChild, Renderer, ElementRef } from '@angular/core';
+import { NavController, Content, NavParams, App, ActionSheetController, LoadingController } from 'ionic-angular';
 import { GlobalsProvider } from '../../providers/globals/globals';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -10,13 +10,15 @@ import { Keyboard } from '@ionic-native/keyboard';
   templateUrl: 'add-news.html',
 })
 export class AddNewsPage {
+  @ViewChild('newsInput') newsText: ElementRef;
   userData: any;
   news: any;
   newsPicUrl: any = 'Default';
   hasPhoto: boolean = false;
   hasNoContent: boolean = true;
+  newsRow: number = 2;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider, public app: App, private camera: Camera, public actionSheetCtrl: ActionSheetController, public keyboard: Keyboard, private renderer: Renderer, private elementRef: ElementRef) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: GlobalsProvider, public firebase: FirebaseProvider, public app: App, private camera: Camera, public actionSheetCtrl: ActionSheetController, public keyboard: Keyboard, private renderer: Renderer, private elementRef: ElementRef, public loadingCtrl: LoadingController) {
     this.userData = this.globals.userData;
     console.log(this.userData);
   }
@@ -60,10 +62,15 @@ export class AddNewsPage {
   upload() {
 
     for (let selectedFile of [(<HTMLInputElement>document.getElementById('avatar')).files[0]]) {
+      let loading = this.loadingCtrl.create({
+        content: 'Please wait...'
+      });
 
+      loading.present();
       this.firebase.uploadPicture(selectedFile).then((data) => {
         this.newsPicUrl = data;
         this.hasPhoto = true;
+        loading.dismiss();
       })
 
     }
@@ -131,6 +138,18 @@ export class AddNewsPage {
       // Open Keyboard
       this.keyboard.show();
     }, 150);
+  }
+
+  resize() {
+    // console.log(this.myInput.nativeElement.style.height);
+    // console.log(this.myInput.nativeElement.style.height) 
+    if (this.newsText.nativeElement.scrollHeight < 115) {
+      this.newsText.nativeElement.style.height = this.newsText.nativeElement.scrollHeight + 'px';
+    }
+
+    // this.messageRow = this.messageRow + 1;
+    // }
+
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
   selector: 'page-building-info-details',
@@ -11,17 +12,9 @@ export class BuildingInfoDetailsPage {
   pdfList:any =[];
   pdfUrl = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private sanitize: DomSanitizer) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private sanitize: DomSanitizer, public iab: InAppBrowser) {
 
     this.details = this.navParams.get('detail');
-    
-    // this.pdfList = this.sanitize.bypassSecurityTrustResourceUrl(this.details.pdf[0].pdf);
-
-    // for (let i = 0; i < this.details.pdf.length; i++) {
-    //   let pdf = this.sanitize.bypassSecurityTrustResourceUrl(this.details.pdf[i].pdf)
-    //   this.pdfList.push(pdf);
-    // }
-    console.log(this.pdfList)
   }
 
   ionViewDidLoad() {
@@ -29,5 +22,9 @@ export class BuildingInfoDetailsPage {
   }
   back(){
     this.navCtrl.pop(); 
+  }
+  openPdf(pdfUrl) {
+    // window.open(pdfUrl, '_blank', 'EnableViewPortScale=yes');
+    const browser = this.iab.create(pdfUrl, '', 'transitionstyle=crossdissolve,location=no,presentationstyle=pagesheet,enableViewportScale=yes,zoom=yes');
   }
 }

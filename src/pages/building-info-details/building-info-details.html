@@ -13,5 +13,14 @@
 
 
 <ion-content padding>
-{{detail.text}}
+<p>{{details.text}}</p>
+<hr>
+<div *ngIf="details.pdf">
+  <!-- <button ion-button (click)> </button> -->
+  <ion-item no-padding no-lines *ngFor="let pdf of details.pdf; let i = index">
+    <button ion-button small outline (click)="openPdf(pdf.pdf)">View Manual {{i+1}}</button>
+  </ion-item>
+</div>
+
+
 </ion-content>

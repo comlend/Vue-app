@@ -1,6 +1,6 @@
 import { TabsPage } from './../tabs/tabs';
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, Events } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Events, ToastController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { GlobalsProvider } from '../../providers/globals/globals';
 
@@ -21,7 +21,7 @@ export class LoginPage {
 	loading: any;
 	showPassError: boolean= true;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, private firebase: FirebaseProvider, public globals: GlobalsProvider, public formBuilder: FormBuilder, public loadingCtrl: LoadingController, public event: Events, public utilities: UtilitiesProvider) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, private firebase: FirebaseProvider, public globals: GlobalsProvider, public formBuilder: FormBuilder, public loadingCtrl: LoadingController, public event: Events, public utilities: UtilitiesProvider, private toastCtrl: ToastController) {
 		this.initializeForm()
 	}
 
@@ -101,13 +101,37 @@ export class LoginPage {
 		console.log("pass reset", this.loginForm.value.email)
 		var auth = firebase.auth();
 		var emailAddress = this.loginForm.value.email;
+		if (emailAddress == '') {
+			let toast = this.toastCtrl.create({
+				message: 'Please input your email and then press Reset Password link',
+				duration: 5000,
+				position: 'bottom'
+			});
+			toast.present();
+		}
+		else {
+		
+			auth.sendPasswordResetEmail(this.loginForm.value.email).then(() => {
+				// this.presentLoadingDefault();
+				let toast = this.toastCtrl.create({
+					message: 'Please check your email for password reset instructions',
+					duration: 5000,
+					position: 'bottom'
+				});
+				toast.present();
+				// Email sent.
+			}).catch(function (error) {
+				// An error happened.
+				console.log(error);
+				let toast = this.toastCtrl.create({
+					message: 'Some error occured. Please try again',
+					duration: 5000,
+					position: 'bottom'
+				});
+				toast.present();
+			});
 
-		auth.sendPasswordResetEmail(emailAddress).then(() => {
-			this.presentLoadingDefault()
-			// Email sent.
-		}).catch(function (error) {
-			// An error happened.
-		});
+		}
 	}
 
 	presentLoadingDefault() {

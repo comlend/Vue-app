@@ -25,10 +25,14 @@ export class BuildingInfoPage {
     this.navCtrl.pop();
   }
   details(info){
-    if (info.pdf) {
-      let pdfUrl = info.pdf[0].pdf;
-      this.openPdf(pdfUrl);
-    } else {
+    // if (info.pdf) {
+    //   let pdfUrl = info.pdf[0].pdf;
+    //   this.openPdf(pdfUrl);
+    // } 
+    if (info.pdf && info.text) {
+      this.navCtrl.push(BuildingInfoDetailsPage, { detail: info });
+    }
+    else {
       this.navCtrl.push(BuildingInfoDetailsPage, { detail: info });
     }
   }
