@@ -33,7 +33,7 @@ export class AddNewsPage {
 
   
   ionViewWillLeave() {
-    this.keyboard.disableScroll(false);
+    // this.keyboard.disableScroll(false);
   }
   back(){
     this.app.getRootNav().pop();
@@ -128,7 +128,7 @@ export class AddNewsPage {
   }
 
   openKeyboardSetFocus() {
-    this.keyboard.disableScroll(true);
+    // this.keyboard.disableScroll(true);
 
     setTimeout(() => {
       // Set Focus

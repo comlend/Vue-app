@@ -28,7 +28,7 @@ export class NewServiceRequestPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public camera: Camera, public firebase: FirebaseProvider, public globals: GlobalsProvider, public keyboard: Keyboard) {
     this.userData = this.globals.userData;
     console.log(this.userData);
-    this.keyboard.disableScroll(true);
+    // this.keyboard.disableScroll(true);
   }
 
   ionViewDidLoad() {
