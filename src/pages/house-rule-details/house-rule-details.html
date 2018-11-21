@@ -13,8 +13,9 @@
 </ion-header>
 
 
-<ion-content>
-  <p>{{details.text}}</p>
+<ion-content padding>
+  <div [innerHtml]="details.text"></div>
+  <!-- <p>{{details.text}}</p> -->
   <hr>
   <div *ngIf="details.pdf">
     <!-- <button ion-button (click)> </button> -->
