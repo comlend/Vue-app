@@ -220,7 +220,7 @@ export class NewsDetailsPage {
 
 	openKeyBoardSetFocus() {
 		// this.keyboard.disableScroll(true);
-		// this.keyboard.hideKeyboardAccessoryBar(true);
+		this.keyboard.hideFormAccessoryBar(true);
 
 		setTimeout(() => {
 			// Set Focus

@@ -10,7 +10,6 @@ import { HouseRuleDetailsPage } from '../house-rule-details/house-rule-details';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-house-rule',
   templateUrl: 'house-rule.html',

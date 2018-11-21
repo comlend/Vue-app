@@ -10,7 +10,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-house-rule-details',
   templateUrl: 'house-rule-details.html',

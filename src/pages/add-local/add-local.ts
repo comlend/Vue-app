@@ -40,7 +40,7 @@ export class AddLocalPage {
   }
 
   ionViewWillLeave() {
-    // this.keyboard.disableScroll(false);
+    // this.keyboard. disableScroll(false);
   }
 
   addContent() {
