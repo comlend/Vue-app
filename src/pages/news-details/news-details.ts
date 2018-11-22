@@ -110,7 +110,7 @@ export class NewsDetailsPage {
 		console.log('Remove Like ');
 		this.newsDetails.postLiked = false;
 		var userId = this.globals.userId;
-		var like = _.find(this.newsDetails.likes, { 'uId': userId });
+		var like: any = _.find(this.newsDetails.likes, { 'uId': userId });
 		console.log('Remove Like ', like.id);
 		this.firebase.removeLikesFromNews(this.newsDetails, like).then();
 	}

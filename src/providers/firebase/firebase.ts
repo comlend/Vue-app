@@ -1121,7 +1121,7 @@ export class FirebaseProvider {
 		let time = this.formatAMPM(new Date());
 		let date = this.formatDate(new Date());
 		var neighboursArr = this.globals.neighboursData;
-		var admin = _.find(neighboursArr, {'userType': 'admin'});
+		var admin: any = _.find(neighboursArr, {'userType': 'admin'});
 		var dbref = firebase.database().ref('/serviceRequests/').push();
 		return new Promise((resolve, reject) => {
 			dbref.set({
