@@ -66,7 +66,11 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { ServiceCenter2Page } from '../pages/service-center2/service-center2';
 import { HouseRulePage } from '../pages/house-rule/house-rule';
 import { HouseRuleDetailsPage } from '../pages/house-rule-details/house-rule-details';
-
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { DocumentViewer } from '@ionic-native/document-viewer';
+import { PdfPage } from '../pages/pdf/pdf';
+import { FileOpener } from '@ionic-native/file-opener';
 var config = {
   apiKey: "AIzaSyAG4SM1ihvr7fPqU5C6mG2B2TZyVZImDkU",
   authDomain: "vue-admin-85ef1.firebaseapp.com",
@@ -118,7 +122,8 @@ firebase.initializeApp(config);
     ContactListPage,
     ServiceCenter2Page,
     HouseRulePage,
-    HouseRuleDetailsPage
+    HouseRuleDetailsPage,
+    PdfPage
   ],
   imports: [
     BrowserModule,
@@ -169,7 +174,8 @@ firebase.initializeApp(config);
     ContactListPage,
     ServiceCenter2Page,
     HouseRulePage,
-    HouseRuleDetailsPage
+    HouseRuleDetailsPage,
+    PdfPage
   ],
   providers: [
     StatusBar,
@@ -184,7 +190,11 @@ firebase.initializeApp(config);
     UtilitiesProvider,
     Keyboard,
     Badge,
-    InAppBrowser
+    InAppBrowser,
+    FileTransfer,
+    File,
+    DocumentViewer,
+    FileOpener
   ]
 })
 export class AppModule {}

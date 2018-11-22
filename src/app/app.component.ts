@@ -96,11 +96,11 @@ export class MyApp {
 			
 			// alert(data.aps.alert.title);
 			if (data.wasTapped) {
-				
+				this.badge.increase(1);
 				console.log("Received in background");
 			} else {
 				console.log("Received in foreground");
-
+				this.badge.clear();
 				let toast = this.toastCtrl.create({
 					message: data["notification"].title,
 					duration: 3000,
