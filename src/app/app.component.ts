@@ -1,5 +1,5 @@
 import { Component, NgZone, ViewChild } from '@angular/core';
-import { Platform, ModalController, Events, LoadingController, ToastController, NavController} from 'ionic-angular';
+import { Platform, ModalController, Events, LoadingController, ToastController, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SignupPage } from '../pages/signup/signup';
@@ -22,7 +22,7 @@ export class MyApp {
 	fbLoginComplete: boolean = true;
 
 	constructor(private platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, private global: GlobalsProvider, public event: Events, private fcm: FCM, public _zone: NgZone, public badge: Badge, public toastCtrl: ToastController, public storage: Storage) {
-		
+
 
 		this.initializeFirebase();
 		// this.fbLoginComplete = this.global.FbLoginComplete;
@@ -36,7 +36,7 @@ export class MyApp {
 
 			if (platform.is('ios')) {
 				this.global.cordovaPlatform = true;
-				this.initializeFcmNotification();	
+				this.initializeFcmNotification();
 			}
 
 			else if (platform.is('android')) {
@@ -57,11 +57,10 @@ export class MyApp {
 				this.badge.clear();
 				this.splashScreen.hide();
 				console.log('this is if user is not logged in')
-				this.rootPage = SignupPage;
+				// this.rootPage = SignupPage;
+				this.nav.setRoot(SignupPage);
 				// unsubscribe();
-			} 
-			
-			else {
+			} else {
 				this.global.userId = user.uid;
 				if (this.global.FbLoginComplete) {
 
@@ -70,15 +69,15 @@ export class MyApp {
 					// }
 					this.nav.setRoot(FirstPage);
 					console.log('this is if user is logged in');
-					
+
 				}
 				else if (!this.global.FbLoginComplete) {
 					this.splashScreen.hide();
 					return;
 				}
-				
-		}
-	
+
+			}
+
 		});
 	}
 	// this is for ios and android apps
@@ -93,10 +92,10 @@ export class MyApp {
 				this.storage.set('unreadMessages', unreadMessages);
 			});
 
-			
+
 			// alert(data.aps.alert.title);
 			if (data.wasTapped) {
-				
+
 				console.log("Received in background");
 			} else {
 				console.log("Received in foreground");
@@ -111,7 +110,7 @@ export class MyApp {
 		});
 
 		this.fcm.onTokenRefresh().subscribe((token) => {
-			var userId = this.global.userId;			
+			var userId = this.global.userId;
 			var dbRef = firebase.database().ref('/users').child(userId);
 
 			dbRef.update({
@@ -119,18 +118,18 @@ export class MyApp {
 			}).then(() => {
 				console.log('Device Token Updated Successfully');
 			}).catch(() => {
-				console.log('Device Token Update Error');				
+				console.log('Device Token Update Error');
 			});
 		});
 
-		
+
 	}
 	// this is for browser 
-	initializePwaNotification(){
+	initializePwaNotification() {
 		var messaging = firebase.messaging();
 		messaging.requestPermission().then(() => {
 			console.log('Permission granted');
-			
+
 			messaging.onTokenRefresh(() => {
 				this.updateToken();
 				console.log("Token refreshed");
@@ -154,7 +153,7 @@ export class MyApp {
 			// this.setupOnTokenRefresh();
 			// return this.updateToken();
 		});
-		
+
 	}
 	updateToken() {
 		var messaging = firebase.messaging();
@@ -163,23 +162,23 @@ export class MyApp {
 
 		return messaging.getToken().then((currentToken) => {
 			this.global.pwaDeviceToken = currentToken;
-			
+
 			if (currentToken) {
 				// we've got the token from Firebase, now let's store it in the database
-					dbRef.update({
-						deviceToken: currentToken
-					}).then(() => {
-						console.log('Device Token Updated Successfully');
-					}).catch(() => {
-						console.log('Device Token Update Error');
-					});
+				dbRef.update({
+					deviceToken: currentToken
+				}).then(() => {
+					console.log('Device Token Updated Successfully');
+				}).catch(() => {
+					console.log('Device Token Update Error');
+				});
 				return;
 			} else {
 				console.log('No Instance ID token available. Request permission to generate one.');
 			}
 		});
 	}
-	setupOnTokenRefresh(){
+	setupOnTokenRefresh() {
 		var userId = this.global.userId;
 		var dbRef = firebase.database().ref('/users').child(userId);
 		var messaging = firebase.messaging();
@@ -190,5 +189,5 @@ export class MyApp {
 			console.log("Token refreshed");
 		});
 	}
-	
+
 }
