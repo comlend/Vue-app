@@ -24,6 +24,7 @@
     </platform>
     <platform name="android">
         <allow-intent href="market:*" />
+        <preference name="AndroidPersistentFileLocation" value="Compatibility" />
         <preference name="AutoHideSplashScreen" value="false" />
         <preference name="SplashScreenDelay" value="10000" />
         <preference name="FadeSplashScreenDuration" value="1000" />
@@ -113,8 +114,8 @@
     <plugin name="cordova-plugin-file-transfer" spec="1.7.1" />
     <plugin name="cordova-plugin-document-viewer" spec="0.9.10" />
     <plugin name="cordova-plugin-file-opener2" spec="2.0.19" />
-    <engine name="ios" spec="~4.5.4" />
-    <engine name="browser" spec="5.0.4" />
-    <engine name="android" spec="~6.4.0" />
     <allow-navigation href="http://192.168.43.183:8100" />
+    <engine name="ios" spec="~4.5.4" />
+    <engine name="android" spec="6.4.0" />
+    <engine name="browser" spec="5.0.4" />
 </widget>

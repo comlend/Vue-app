@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-<div class="ws">{{details.text}}</div>
+<div class="ws" [innerHtml]="details.text"></div>
   <!-- <p>{{details.text}}</p> -->
   <hr>
   <div *ngIf="details.pdf">

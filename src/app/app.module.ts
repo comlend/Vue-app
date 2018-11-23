@@ -69,7 +69,6 @@ import { HouseRuleDetailsPage } from '../pages/house-rule-details/house-rule-det
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { DocumentViewer } from '@ionic-native/document-viewer';
-import { PdfPage } from '../pages/pdf/pdf';
 import { FileOpener } from '@ionic-native/file-opener';
 var config = {
   apiKey: "AIzaSyAG4SM1ihvr7fPqU5C6mG2B2TZyVZImDkU",
@@ -122,8 +121,7 @@ firebase.initializeApp(config);
     ContactListPage,
     ServiceCenter2Page,
     HouseRulePage,
-    HouseRuleDetailsPage,
-    PdfPage
+    HouseRuleDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -174,8 +172,7 @@ firebase.initializeApp(config);
     ContactListPage,
     ServiceCenter2Page,
     HouseRulePage,
-    HouseRuleDetailsPage,
-    PdfPage
+    HouseRuleDetailsPage
   ],
   providers: [
     StatusBar,
